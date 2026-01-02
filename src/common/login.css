@@ -1,0 +1,136 @@
+
+
+/* Input: floating label base */
+.login-page .input {
+  width: 100%;
+  padding: 14px 14px 14px 44px; /* room for icon (optional) */
+  border-radius: 10px;
+  border: 1px solid rgba(120, 200, 255, 0.35);
+  background: rgba(15, 30, 50, 0.55);
+  color: #eaf4ff;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease, transform 160ms ease;
+  box-shadow:
+    inset 0 0 0 1px rgba(120, 200, 255, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* Placeholder to trigger floating label space (visually hidden) */
+.login-page .input::placeholder { color: transparent; }
+
+/* Label sits over input and floats on focus/filled */
+.login-page .label {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9cc5ff;
+  font-size: 14px;
+  pointer-events: none;
+  transition: all 160ms ease;
+  background: linear-gradient(90deg, rgba(10,20,35,0.0), rgba(10,20,35,0.55) 12px, rgba(10,20,35,0.55));
+  padding: 0 6px;
+}
+
+/* Float label when input has content or focus */
+.login-page .input:focus + .label,
+.login-page .input:not(:placeholder-shown) + .label {
+  top: -9px;
+  font-size: 11px;
+  color: #bfe3ff;
+}
+
+/* Neon focus ring */
+.login-page .input:focus {
+  border-color: #5ab3ff;
+  box-shadow:
+    0 0 0 3px rgba(90, 179, 255, 0.25),
+    0 12px 24px rgba(0, 0, 0, 0.4);
+  background: rgba(18, 35, 60, 0.7);
+  transform: translateY(-1px);
+}
+
+/* Error state */
+.login-page .field.has-error .input {
+  border-color: #ff4d6d;
+  box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.18);
+}
+
+.login-page .field.has-error .label {
+  color: #ffb3c0;
+}
+
+/* Email icon (envelope) via SVG data URI */
+.login-page .icon-email {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%239cc5ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16v16H4z'/%3E%3Cpolyline points='22,6 12,13 2,6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 22px;
+}
+
+/* Lock icon for password */
+ .login-page .icon-lock {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%239cc5ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 22px;
+}
+
+/* Eye toggle button (right-side) */
+.login-page .icon-btn.eye-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #9cc5ff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.error-text {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #ff4d6d;
+}
+
+/* Button */
+.login-page .btn-primary {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(120, 200, 255, 0.35);
+  background: linear-gradient(180deg, #5ab3ff, #3878ff);
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease;
+  box-shadow:
+    0 10px 24px rgba(56, 120, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.login-page .btn-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.login-page .btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Optional: input icons (add <span class="icon">…) */
+.login-page .field .icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7ec2ff;
+  font-size: 18px;
+  pointer-events: none;
+}
+.login-page .lp-headline { font-size: clamp(32px, 6vw, 56px); line-height: 1.05; font-weight: 800; margin: 0 0 12px; }
+.login-page .lp-subhead { font-size: 18px; color: #cfcfe8; margin: 0 0 20px; }
+.login-page .lp-form { margin-top: 8px; }

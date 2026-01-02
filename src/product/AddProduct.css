@@ -1,0 +1,178 @@
+
+:root {
+  --bg: #0f0f12;
+  --card: #141418;
+  --card-2: #16161c;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-2: rgba(255, 255, 255, 0.14);
+  --text: #eaeaf0;
+  --muted: #b8bac6;
+  --accent: #ff9f43; /* warm orange */
+  --accent-soft: rgba(255, 159, 67, 0.20);
+  --error: #ff6b6b;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --shadow-2: 0 16px 38px rgba(0, 0, 0, 0.55);
+}
+
+
+.ap-container {
+  display: flex;
+  justify-content: center; /* horizontally center */
+  align-items: flex-start; /* or center if you want vertical centering */
+  min-height: 100vh; /* full viewport height */
+  background: var(--bg);
+  padding: 40px 16px;
+}
+
+.ap-form {
+  width: 900px; /* fixed width */
+  max-width: 100%; /* responsive fallback */
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+    
+
+.ap-heading {
+  color: var(--text);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+
+
+.ap-field {
+  margin-bottom: 18px;
+}
+
+.ap-field label {
+  color: var(--text);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.ap-input,
+.ap-select {
+  width: 100%;
+  background: var(--card-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ap-input:focus,
+.ap-select:focus {
+  border-color: var(--border-2);
+  box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.18);
+}
+
+.ap-error {
+  margin-top: 6px;
+  color: var(--error);
+  font-size: 0.9rem;
+}
+
+/* Dropzone */
+.ap-dropzone {
+  position: relative;
+  background: var(--card-2);
+  border: 1.5px dashed var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  color: var(--muted);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.ap-dropzone:hover {
+  border-color: var(--border-2);
+  box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.14);
+}
+
+/* Invisible file input overlay to capture clicks */
+.ap-file {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Previews grid */
+.ap-previews {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.ap-preview {
+  position: relative;
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ap-preview img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.ap-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: var(--accent);
+  color: #0f0f12;
+  border: none;
+  border-radius: 999px;
+  width: 28px;
+  height: 28px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 12px var(--accent-soft);
+}
+
+.ap-hint {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Actions */
+.ap-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.ap-btn {
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--border);
+}
+
+.ap-btn-primary {
+  background: var(--accent);
+  color: #0f0f12;
+  box-shadow: 0 6px 12px var(--accent-soft);
+}
+
+.ap-btn-ghost {
+  background: transparent;
+  color: var(--text);
+}

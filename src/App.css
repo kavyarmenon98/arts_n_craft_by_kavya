@@ -1,0 +1,102 @@
+.hover-box:hover {
+  color: blue;
+}
+div{ 
+
+  font-family: 'Great Vibes', cursive;
+
+}
+
+:root{ 
+  --hero-padding-x: clamp(16px, 5vw, 64px);
+  --hero-padding-y: clamp(48px, 10vh, 120px);
+
+  /* Colors */
+  --wall-blend: 255,255,255;                /* base wall tint for overlay */
+  --overlay-dark: 20,24,28;                 /* subtle dark for text contrast */
+  --brand-green: #2f7d3f;
+  --brand-gold: #cfa24a;
+  --text-primary: #172025;
+  --text-secondary: #4b5b67;
+  padding: 5px;
+}
+
+body{
+  background-color: 'black';
+  color: #fff;
+}
+.navbar {
+  position: sticky;
+  top: 0;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  z-index: 100;        /* ensure it's above content */
+}
+.elegant-quote {
+  font-family: 'Playfair Display', serif; /* Elegant serif font */
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  text-align: center; 
+  max-width: 800px;
+  padding: 0 10px;
+}
+
+.logout-btn {
+  background: transparent;
+  border: none;
+  color: #fff; /* or your theme color */
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.logout-btn:hover {
+  color: #ff2a7c; /* hover accent */
+}
+
+/* Base pill button for nav (keeps your look) */
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;           /* space between icon & text */
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  font-weight: 600;   /* slightly bold text */
+  line-height: 1;
+  background: #333;   /* default (overridden by variants) */
+  cursor: pointer;
+  transition: filter 140ms ease, transform 140ms ease, box-shadow 140ms ease;
+}
+
+.nav-btn__text { display: inline-block; }
+
+/* Variants to match your screenshot */
+.nav-btn--blue  { background: #1366ff; }
+.nav-btn--green { background: #12b76a; }
+
+.nav-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+.nav-btn:active { transform: translateY(0); }
+
+/* Optional: icon-only style for compact headers */
+.nav-btn.icon-only {
+  padding: 8px 10px;
+}
+.nav-btn.icon-only .nav-btn__text {
+  position: absolute;
+  width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); /* keeps text accessible to screen readers */
+}
+
