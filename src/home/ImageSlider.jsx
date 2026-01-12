@@ -5,6 +5,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const ImageSlider = (props) => { 
+  console.log(props,"prop");
+  
   const settings = {
     dots: true,              // Show navigation dots
     infinite: true,          // Loop slides

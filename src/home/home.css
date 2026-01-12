@@ -259,3 +259,115 @@
   max-width: 1100px;
   margin: 0 auto;
 }
+
+/* Dark Theme Offer Product Page */
+
+.offer-products-page {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  color: #eee;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #121212;
+}
+
+.page-header {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #ff9f43;
+  font-weight: 700;
+}
+
+.offer-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Product Card */
+.offer-product-card {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.offer-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+}
+
+/* Product Image */
+.product-img-wrapper {
+  position: relative;
+}
+
+.product-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* Discount Ribbon */
+.discount-ribbon {
+  position: absolute;
+  top: 10px;
+  left: -5px;
+  background-color: #ff9f43;
+  color: #121212;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.6rem;
+  transform: rotate(-15deg);
+  border-radius: 4px;
+}
+
+/* Product Info */
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ff9f43;
+}
+
+.price-section {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.discounted-price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.original-price {
+  font-size: 0.9rem;
+  color: #aaa;
+  text-decoration: line-through;
+}
+
+/* No offers message */
+.no-offers {
+  text-align: center;
+  margin-top: 5rem;
+  color: #ccc;
+}
+
+.card {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}

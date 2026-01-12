@@ -1,15 +1,18 @@
-import { getAllProductAPI } from "../services/service";
+import { getAllProductByCategoryAPI } from "../services/service";
 import { useQuery } from "@tanstack/react-query";
-import ProductCard from './ProductCard';
 import PageLoader from "../common/PageLoader";
+import { useParams } from "react-router-dom";
+import ProductCard from "../product/ProductCard";
 
-export default function ProductList(){
- 
+export default function Category(){
+  const { id } = useParams(); 
 
   const { data ,isLoading  } = useQuery({
-    queryKey: ["products"],
-    queryFn: () => getAllProductAPI(),
+    queryKey: ["products",id],
+    queryFn: () => getAllProductByCategoryAPI( id),
+    enabled: !!id,
   }); 
+  console.log(isLoading,"isLoading");
   
     return(
         <>

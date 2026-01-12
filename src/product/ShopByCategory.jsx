@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export default function ShopByCategory({
   title,
   imageUrl,
-  link, 
+  link,
   clickableArea = 'card', // 'card' -> click anywhere; 'button' -> only CTA navigates
 }) {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function ShopByCategory({
     <div
       className={`flip-card ${clickableArea === 'card' ? 'clickable' : ''}`}
       tabIndex={0}
-        onClick={() => navigate("/login")}
+      onClick={() => navigate("/category/" + link)}
       onKeyDown={onKeyDown}
       aria-label={title}
       role="button"

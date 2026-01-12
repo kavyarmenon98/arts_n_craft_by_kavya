@@ -25,15 +25,15 @@ export default function WhyShopWithUs() {
         <div className="features-grid" role="list" aria-label="Key benefits">
           <FeatureCard
             icon="src/assets/discount1.png"
-            title="Free Shipping Everywhere in India"
-            description="Enjoy free delivery to all destinations across India within 2 days of shipment."
+            title="Free Shipping Everywhere in India "
+            description="Enjoy free delivery anywhere in India on orders above ₹1000. Your order will arrive within one week of shipment."
           />
 
           <FeatureCard
             icon="src/assets/discount2.png"
 
             title="Exclusive Offers and Deals"
-            description="Enjoy discounts up to 70% on more than 30,000 select merchandise. Shop now!"
+            description="Enjoy discounts up to 30% on more than 5 Products. Shop now!"
           />
 
           <FeatureCard

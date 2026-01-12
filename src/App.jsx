@@ -9,6 +9,11 @@ import AddProduct from './product/AddProduct';
 import Register from './common/Register';
 import ProductList from './product/ProductList';
 import ViewProduct from './product/ViewProduct';
+import EditProduct from './product/EditProduct';
+import Category from './category/Category';
+import Cart from './category/Cart';
+import OrdersList from './admin/OrdersList';
+import MyOrders from './common/MyOrder';
 
 function App() { 
 
@@ -60,6 +65,16 @@ function App() {
         /> 
 
         <Route path="/viewProduct/:id" element={<ViewProduct />} />
+        <Route path="/editProduct/:id" element={<EditProduct />} />
+        <Route path="/category/:id" element={<Category />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/order" element={<OrdersList />} />
+        <Route path="/myorder" element={<MyOrders />} />
+
+
+
+
+
 
         <Route path="/not-authorized" element={<h1>🚫 Not Authorized</h1>} />
       </Routes>

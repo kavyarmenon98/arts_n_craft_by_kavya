@@ -5,11 +5,11 @@ import "slick-carousel/slick/slick-theme.css";
 function HomePage1(){
 
     const image=[
-    //  "src/assets/home_image2.jpg",
+     "src/assets/home_image2.jpg",
      "src/assets/home_image1.png",
-    //  "src/assets/image15.jpg",
-    //  "src/assets/image6.jpg",
-    //  "src/assets/image3.jpg",
+     "src/assets/image15.jpg",
+     "src/assets/image6.jpg",
+     "src/assets/image3.jpg",
 
 
     ]
@@ -34,7 +34,7 @@ function HomePage1(){
   };
     return(
         <>
-      <div  style={{height:'600px',  backgroundColor: '#141414',  color: '#fff'}}>
+      <div  style={{height:'600px' , backgroundColor: '#141414',  color: '#fff',padding:"10px"}}>
       <Slider {...settings}>
         {image.map((src, index) => (
           <div key={index}>

@@ -1,24 +1,26 @@
-
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { addProductAPI } from "../services/service";
 import { useMutation } from "@tanstack/react-query";
-import "./AddProduct.css"; // <- add the CSS from the next section
+import "./AddProduct.css";
 import { useNavigate } from "react-router-dom";
 
-// ✅ Allowed types & size constraints
+/* ---------------- CONSTANTS ---------------- */
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
-const MAX_MB = 2;
-const MAX_FILES = 6; // adjust to your needs
+const VIDEO_TYPES = ["video/mp4", "video/webm"];
+const MAX_FILES = 6;
 
-// ✅ Validation for multiple files
+/* ---------------- VALIDATION ---------------- */
 const validationSchema = Yup.object({
   name: Yup.string().required("Product Name is required"),
   price: Yup.number()
     .typeError("Price must be a number")
     .positive("Price must be positive")
     .required("Price is required"),
+  discount: Yup.number()
+    .nullable()
+    .lessThan(Yup.ref("price"), "Discount must be less than price"),
   category: Yup.string()
     .required("Please select a Category")
     .notOneOf([""], "Please select a Category"),
@@ -28,77 +30,79 @@ const validationSchema = Yup.object({
     .min(1, "At least one image is required")
     .max(MAX_FILES, `You can upload up to ${MAX_FILES} images`)
     .of(
-      Yup.mixed()
-        .test("fileType", "Only JPEG/PNG/WebP images are allowed", (file) =>
-          file ? ALLOWED_TYPES.includes(file.type) : false
-        )
+      Yup.mixed().test(
+        "fileType",
+        "Only JPEG/PNG/WebP images are allowed",
+        (file) => (file ? ALLOWED_TYPES.includes(file.type) : false)
+      )
     ),
 });
 
+/* ---------------- COMPONENT ---------------- */
 function AddProduct() {
-  const [previews, setPreviews] = useState([]); // array of object URLs
+  const [previews, setPreviews] = useState([]);
   const navigate = useNavigate();
 
   const addProductMutation = useMutation({
-    mutationFn: addProductAPI, // should accept FormData
+    mutationFn: addProductAPI,
   });
 
   const formik = useFormik({
     initialValues: {
       name: "",
       price: "",
+      discount: "",
       category: "",
-      images: [], // ✅ store files array
+      description: "",
+      instock: "",
+      images: [],
+      video: null,
     },
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
         const formData = new FormData();
-        // ✅ Match your backend field names
-        formData.append("pname", values.name);
-        formData.append("price", String(values.price));
-        formData.append("category", values.category); 
-        formData.append("description", values.description);
-        formData.append("instock",values.instock);
 
-        // ✅ Append multiple files (backend reads as array or multiple parts named 'images')
+        formData.append("pname", values.name);
+        formData.append("price", values.price);
+        formData.append("discount", values.discount || "");
+        formData.append("category", values.category);
+        formData.append("description", values.description);
+        formData.append("instock", values.instock);
+
         values.images.forEach((file) => {
-          // Option A: same field name for each file
           formData.append("images", file, file.name);
-          // Option B: indexed names (if your backend expects images[0], images[1], …)
-          // formData.append(`images[${idx}]`, file, file.name);
         });
 
+        if (values.video) {
+          formData.append("video", values.video);
+        }
+
         await addProductMutation.mutateAsync(formData);
+
         resetForm();
         setPreviews([]);
         navigate("/listProduct");
-
-
-
       } catch (error) {
         alert(error?.response?.data?.message ?? "Product Add Failed");
       }
     },
   });
 
-  // ✅ Build preview URLs when images change
+  /* ---------------- IMAGE PREVIEWS ---------------- */
   useEffect(() => {
-    const urls = (formik.values.images || []).map((f) => URL.createObjectURL(f));
+    const files = formik.values.images || [];
+    const urls = files.map((f) => URL.createObjectURL(f));
     setPreviews(urls);
+
     return () => urls.forEach((u) => URL.revokeObjectURL(u));
   }, [formik.values.images]);
 
+  /* ---------------- HANDLERS ---------------- */
   const onFilesSelected = (e) => {
     const files = Array.from(e.currentTarget.files || []);
-    if (!files.length) return;
-
-    // Merge with existing (optional), or replace—pick your UX
     const merged = [...formik.values.images, ...files];
-
-    // Enforce MAX_FILES
-    const limited = merged.slice(0, MAX_FILES);
-    formik.setFieldValue("images", limited);
+    formik.setFieldValue("images", merged.slice(0, MAX_FILES));
   };
 
   const removeImageAt = (index) => {
@@ -107,159 +111,104 @@ function AddProduct() {
     formik.setFieldValue("images", next);
   };
 
-  const dropHandler = (e) => {
-    e.preventDefault();
-    const files = Array.from(e.dataTransfer.files || []);
-    const imagesOnly = files.filter((f) => ALLOWED_TYPES.includes(f.type));
-    const merged = [...formik.values.images, ...imagesOnly];
-    const limited = merged.slice(0, MAX_FILES);
-    formik.setFieldValue("images", limited);
+  const onVideoSelected = (e) => {
+    const file = e.target.files?.[0];
+    if (file && VIDEO_TYPES.includes(file.type)) {
+      formik.setFieldValue("video", file);
+    }
   };
 
-  const dragOverHandler = (e) => e.preventDefault();
-
+  /* ---------------- UI ---------------- */
   return (
     <div className="ap-container">
-
       <form className="ap-form" onSubmit={formik.handleSubmit} noValidate>
-      <h2 className="ap-heading">Add Product</h2>
+        <h2 className="ap-heading">Add Product</h2>
 
-        {/* Name */}
+        {/* NAME */}
         <div className="ap-field">
-          <label htmlFor="name">Product Name</label>
+          <label>Product Name</label>
+          <input className="ap-input" {...formik.getFieldProps("name")} />
+        </div>
+
+        {/* PRICE */}
+        <div className="ap-field">
+          <label>Price</label>
           <input
-            id="name"
-            name="name"
-            type="text"
-            className="ap-input"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            placeholder="e.g., Kerala Mural Painting"
-          />
-          {formik.touched.name && formik.errors.name && (
-            <div className="ap-error">{formik.errors.name}</div>
-          )}
-        </div>
-
-        {/* Price */}
-        <div className="ap-field">
-          <label htmlFor="price">Price</label>
-          <input
-            id="price"
-            name="price"
-            type="text"
-            className="ap-input"
-            value={formik.values.price}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            placeholder="e.g., 2499"
-          />
-          {formik.touched.price && formik.errors.price && (
-            <div className="ap-error">{formik.errors.price}</div>
-          )}
-        </div>
-
-        {/* Category */}
-        <div className="ap-field">
-          <label htmlFor="category">Category</label>
-          <select
-            id="category"
-            name="category"
-            className="ap-select"
-            value={formik.values.category}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          >
-            <option value="">Select a category...</option>
-            <option value="Mural Painting">Mural Painting</option>
-            <option value="Craft Item">Craft Item</option>
-            <option value="Nettipattam">Nettipattam</option>
-            <option value="Resin Products">Resin Products</option>
-          </select>
-          {formik.touched.category && formik.errors.category && (
-            <div className="ap-error">{formik.errors.category}</div>
-          )}
-        </div>
-        <div className="ap-field">
-          
-          <label htmlFor="description">Description</label>
-                <textarea
-                  id="description"
-                  name="description"
-                  className="ap-input"
-                  value={formik.values.description}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  placeholder="Enter your description here..."
-                  rows="5"
-                  cols="40"
-                />
-
-        </div>
-  {/* Price */}
-        <div className="ap-field">
-          <label htmlFor="instock">In Stock</label>
-          <input
-            id="instock"
-            name="instock"
             type="number"
             className="ap-input"
-            value={formik.values.instock}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            placeholder=" "
+            {...formik.getFieldProps("price")}
           />
-          {formik.touched.instock && formik.errors.instock && (
-            <div className="ap-error">{formik.errors.instock}</div>
+        </div>
+
+        {/* DISCOUNT */}
+        <div className="ap-field">
+          <label>Discount Price</label>
+          <input
+            type="number"
+            className="ap-input"
+            {...formik.getFieldProps("discount")}
+            placeholder="Optional"
+          />
+          {formik.errors.discount && (
+            <div className="ap-error">{formik.errors.discount}</div>
           )}
         </div>
 
-        {/* Images (Multiple) */}
+        {/* CATEGORY */}
+        <div className="ap-field">
+          <label>Category</label>
+          <select className="ap-select" {...formik.getFieldProps("category")}>
+            <option value="">Select</option>
+            <option value="Painting">Painting</option>
+            <option value="Craft">Craft Item</option>
+            <option value="Nettipattam">Nettipattam</option>
+            <option value="Resin">Resin Products</option>
+          </select>
+        </div>
+
+        {/* DESCRIPTION */}
+        <div className="ap-field">
+          <label>Description</label>
+          <textarea
+            rows="4"
+            className="ap-input"
+            {...formik.getFieldProps("description")}
+          />
+        </div>
+
+        {/* STOCK */}
+        <div className="ap-field">
+          <label>In Stock</label>
+          <input
+            type="number"
+            className="ap-input"
+            {...formik.getFieldProps("instock")}
+          />
+        </div>
+
+        {/* IMAGES */}
         <div className="ap-field">
           <label>Product Images</label>
-
-          {/* Drag & Drop area (optional) */}
-          <div
-            className="ap-dropzone"
-            onDrop={dropHandler}
-            onDragOver={dragOverHandler}
-          >
-            <div className="ap-dropzone-text">
-              Drag & drop images here, or click to select
-            </div>
+          <div className="ap-dropzone">
+            Click or drag images
             <input
               type="file"
-              name="images"
               multiple
               accept={ALLOWED_TYPES.join(",")}
               className="ap-file"
               onChange={onFilesSelected}
-              onBlur={formik.handleBlur}
             />
           </div>
 
-          {/* Validation error for images */}
-          {formik.touched.images && formik.errors.images && (
-            <div className="ap-error">
-              {typeof formik.errors.images === "string"
-                ? formik.errors.images
-                : // if Yup returns array of per-file errors, show first
-                  formik.errors.images?.[0] ?? "Please check your images."}
-            </div>
-          )}
-
-          {/* Previews grid */}
           {previews.length > 0 && (
             <div className="ap-previews">
-              {previews.map((src, idx) => (
-                <div className="ap-preview" key={src}>
-                  <img src={src} alt={`Preview ${idx + 1}`} />
+              {previews.map((src, i) => (
+                <div className="ap-preview" key={i}>
+                  <img src={src} alt="" />
                   <button
                     type="button"
                     className="ap-remove"
-                    onClick={() => removeImageAt(idx)}
-                    aria-label={`Remove image ${idx + 1}`}
+                    onClick={() => removeImageAt(i)}
                   >
                     ✕
                   </button>
@@ -267,21 +216,42 @@ function AddProduct() {
               ))}
             </div>
           )}
-
-          {/* Helper note */}
-          <div className="ap-hint">
-            Allowed: JPG/PNG/WebP • Max {MAX_MB} MB per image • Up to {MAX_FILES} images
-          </div>
         </div>
 
-        {/* Actions */}
+        {/* VIDEO */}
+        <div className="ap-field">
+          <label>Product Video (optional)</label>
+          <input
+            type="file"
+            accept={VIDEO_TYPES.join(",")}
+            className="ap-input"
+            onChange={onVideoSelected}
+          />
+
+          {formik.values.video && (
+            <div className="ap-previews">
+              <div className="ap-preview">
+                <video
+                  controls
+                  src={URL.createObjectURL(formik.values.video)}
+                  className="ap-video-preview"
+                />
+                <button
+                  type="button"
+                  className="ap-remove"
+                  onClick={() => formik.setFieldValue("video", null)}
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* ACTIONS */}
         <div className="ap-actions">
-          <button
-            type="submit"
-            className="ap-btn ap-btn-primary"
-            disabled={addProductMutation.isPending}
-          >
-            {addProductMutation.isPending ? "Submitting..." : "Submit"}
+          <button className="ap-btn ap-btn-primary" type="submit">
+            Submit
           </button>
           <button
             type="button"

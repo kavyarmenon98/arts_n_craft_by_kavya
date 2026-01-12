@@ -3,12 +3,15 @@ import { PiHandbagFill } from "react-icons/pi";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { logoutAction } from "../redux/authSlice";
+import './nav.css'
+
 import { FiLogIn, FiLogOut, FiUserPlus } from "react-icons/fi";
 function Nav(){
     // let total = '0.00'
   const { user } = useSelector((state) => state.auth); // ✅ fixed
   const dispatch = useDispatch();
   const navigate = useNavigate();
+console.log(user,"user");
 
   const handleLogout = () => {
     dispatch(logoutAction());
@@ -22,14 +25,48 @@ function Nav(){
             <div className="flex"  style={{width : '140px'}}>
                 <img src=" \src\assets\logo3.png" />
             </div>
-                <div className="flex  justify-between items-center mt-2 text-lg " style={{width : '760px'}}>
+            {user?.role=='admin' ? (
+
+                <div className="flex  justify-between items-center mt-2 text-lg " style={{width : '960px'}}>
                     <div className="hover-box" ><Link to="/home" >Home</Link> </div>
                     <div className="hover-box">  <Link to="/addProduct" >Add Products</Link> </div>
-                    <div className="hover-box">  <Link to="/listProduct" >Our Products</Link> </div>
-                    <div className="hover-box"> Craft Items </div>
-                    <div className="hover-box">About</div> 
+                    <div className="hover-box">  <Link to="/listProduct" >List Products</Link> </div>
+                    <div className="hover-box">  <Link to="/myorder" >Orders</Link> </div>
+
+                   <div className="dropdown">
+                        <span className="dropdown-title">Our Products</span>
+
+                        <div className="dropdown-menu">
+                            <Link to="/category/Nettipattam">Nettipattam</Link>
+                            <Link to="/category/Resin">Resin Products</Link>
+                            <Link to="/category/Painting">Paintings</Link>
+                            <Link to="/category/Craft">Craft Items</Link>
+                        </div>
+                    </div> 
+                    <div className="hover-box" ><Link to="/cart" >Cart</Link> </div>
+
+                <div className="hover-box">About</div> 
 
                 </div>
+            ) : (
+                <div className="flex  justify-between items-center mt-2 text-lg " style={{width:  '900px'}}>
+                    <div className="hover-box" ><Link to="/home" >Home</Link> </div>
+                  <div className="dropdown">
+                        <span className="dropdown-title">Our Products</span>
+
+                        <div className="dropdown-menu">
+                            <Link to="/category/Nettipattam">Nettipattam</Link>
+                            <Link to="/category/Resin">Resin Products</Link>
+                            <Link to="/category/Painting">Paintings</Link>
+                            <Link to="/category/Craft">Craft Items</Link>
+                        </div>
+                    </div>
+                    <div className="hover-box" ><Link to="/cart" >Cart</Link> </div>
+                    <div className="hover-box">  <Link to="/order" >Orders</Link> </div>
+
+                    <div className="hover-box">About</div> 
+                </div>
+            )} 
                 <nav>
                 {user ? (
                     
