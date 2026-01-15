@@ -1,18 +1,18 @@
 
 // CategoryCard.jsx
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 export default function ShopByCategory({
   title,
   imageUrl,
   link,
-  clickableArea = 'card', // 'card' -> click anywhere; 'button' -> only CTA navigates
+  clickableArea = 'card',
 }) {
   const navigate = useNavigate();
 
   const onNavigate = () => {
-    if (link) navigate(link);
+    if (link) navigate("/category/" + link);
   };
 
   const onKeyDown = (e) => {
@@ -22,19 +22,24 @@ export default function ShopByCategory({
     }
   };
 
+  // Ensure we have at least 2 images for the flip effect, or fallback to using the same one
+  const frontImage = imageUrl?.[0] || '';
+  const backImage = imageUrl?.[1] || frontImage;
+
   return (
     <div
       className={`flip-card ${clickableArea === 'card' ? 'clickable' : ''}`}
       tabIndex={0}
-      onClick={() => navigate("/category/" + link)}
+      onClick={onNavigate}
       onKeyDown={onKeyDown}
       aria-label={title}
       role="button"
+      style={{ width: '100%' }} // Let grid control width
     >
-      <div className="flip-card-inner mt-5" >
+      <div className="flip-card-inner">
         {/* Front */}
         <div className="flip-card-front">
-          <img src={imageUrl[0]} alt={title} loading="lazy"/>
+          <img src={frontImage} alt={title} loading="lazy" />
           <div className="overlay">
             <h3 className="title">{title}</h3>
           </div>
@@ -42,15 +47,12 @@ export default function ShopByCategory({
 
         {/* Back */}
         <div className="flip-card-back">
-         <div className="flip-card-front">
-          <img src={imageUrl[1]} alt={title} loading="lazy" />
+          <img src={backImage} alt={`${title} alternate`} loading="lazy" />
           <div className="overlay">
             <h3 className="title">{title}</h3>
           </div>
-        </div>
         </div>
       </div>
     </div>
   );
 }
- 

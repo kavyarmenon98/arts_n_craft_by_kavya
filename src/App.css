@@ -1,123 +1,107 @@
-.hover-box:hover {
-  color: blue;
+/* =========================================
+   PREMIUM DARK THEME - DESIGN TOKENS
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+  /* BACKGROUNDS */
+  --bg-page: #050505;
+  /* Deepest black for main background */
+  --bg-card: #0f1219;
+  /* Slightly lighter for cards */
+  --bg-card-hover: #161b26;
+  /* Hover state for cards */
+  --bg-overlay: rgba(5, 5, 5, 0.85);
+
+  /* BRAND COLORS */
+  --color-primary: #ff9f43;
+  /* Warm Orange (Accent) */
+  --color-secondary: #cfa24a;
+  /* Gold */
+  --color-success: #00d26a;
+  --color-danger: #ff5c5c;
+
+  /* TEXT */
+  --text-main: #ffffff;
+  --text-muted: #a1a1aa;
+  --text-dark: #000000;
+
+  /* GLASSMORPHISM */
+  --glass-bg: rgba(20, 25, 34, 0.7);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+  /* SPACING & LAYOUT */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --max-width: 1200px;
+
+  /* TYPOGRAPHY */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', serif;
 }
-div{ 
 
-  font-family: 'Great Vibes', cursive;
-
+/* RESET & BASE */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-:root{ 
-  --hero-padding-x: clamp(16px, 5vw, 64px);
-  --hero-padding-y: clamp(48px, 10vh, 120px);
-
-  /* Colors */
-  --wall-blend: 255,255,255;                /* base wall tint for overlay */
-  --overlay-dark: 20,24,28;                 /* subtle dark for text contrast */
-  --brand-green: #2f7d3f;
-  --brand-gold: #cfa24a;
-  --text-primary: #172025;
-  --text-secondary: #4b5b67;
-  padding: 5px;
-}
-
-body{
-  background-color: black;
-  color: #fff;
-}
-
-.navbar {
-  position: sticky;
-  top: 0;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  background: #fff;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-  z-index: 100;        /* ensure it's above content */
-}
-.elegant-quote {
-  font-family: 'Playfair Display', serif; /* Elegant serif font */
-  font-size: 1.25rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
+body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: var(--font-sans);
   line-height: 1.6;
-  text-align: center; 
-  max-width: 800px;
-  padding: 0 10px;
+  -webkit-font-smoothing: antialiased;
 }
 
-.logout-btn {
-  background: transparent;
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-page);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* UTILITIES */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.premium-btn {
+  background: linear-gradient(135deg, var(--color-primary), #ff6f00);
+  color: var(--text-dark);
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 30px;
   border: none;
-  color: #fff; /* or your theme color */
   cursor: pointer;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.logout-btn:hover {
-  color: #ff2a7c; /* hover accent */
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Base pill button for nav (keeps your look) */
-.nav-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;           /* space between icon & text */
-  padding: 8px 14px;
-  border-radius: 10px;
-  border: none;
-  color: #fff;
-  font-weight: 600;   /* slightly bold text */
-  line-height: 1;
-  background: #333;   /* default (overridden by variants) */
-  cursor: pointer;
-  transition: filter 140ms ease, transform 140ms ease, box-shadow 140ms ease;
+.premium-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(255, 159, 67, 0.4);
 }
 
-.nav-btn__text { display: inline-block; }
-
-/* Variants to match your screenshot */
-.nav-btn--blue  { background: #1366ff; }
-.nav-btn--green { background: #12b76a; }
-
-.nav-btn:hover {
-  filter: brightness(1.05);
-  transform: translateY(-1px);
-}
-.nav-btn:active { transform: translateY(0); }
-
-/* Optional: icon-only style for compact headers */
-.nav-btn.icon-only {
-  padding: 8px 10px;
-}
-.nav-btn.icon-only .nav-btn__text {
-  position: absolute;
-  width: 1px; height: 1px; overflow: hidden;
-  clip-path: inset(50%); /* keeps text accessible to screen readers */
-}
-
-/* ===============================
-   FORCE REMOVE SLICK DOT NUMBER
-   =============================== */
-
-/* Kill slick dot pseudo content */
-.slick-dots li button::before {
-  content: none !important;
-  display: none !important;
-}
-
-/* Prevent any counter text */
-.slick-dots {
-  counter-reset: none !important;
-  font-size: 0 !important;
-}
-
-/* Extra nuclear option */
-.slick-dots li {
-  display: none !important;
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
 }

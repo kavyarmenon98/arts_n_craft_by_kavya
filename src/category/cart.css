@@ -31,7 +31,7 @@
   border-radius: 18px;
   margin-bottom: 16px;
   align-items: center;
-  box-shadow: 0 12px 30px rgba(0,0,0,.6);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .6);
 }
 
 .cart-item img {
@@ -201,6 +201,7 @@
     opacity: 0;
     margin-top: 12px;
   }
+
   to {
     opacity: 1;
     margin-top: 0;
@@ -215,13 +216,28 @@
   border-radius: 12px;
 }
 
-.skeleton.title { width: 220px; height: 22px; margin-bottom: 20px; }
-.skeleton.card { height: 140px; }
-.skeleton.summary { height: 260px; }
+.skeleton.title {
+  width: 220px;
+  height: 22px;
+  margin-bottom: 20px;
+}
+
+.skeleton.card {
+  height: 140px;
+}
+
+.skeleton.summary {
+  height: 260px;
+}
 
 @keyframes shimmer {
-  0% { background-position: -200px 0; }
-  100% { background-position: 200px 0; }
+  0% {
+    background-position: -200px 0;
+  }
+
+  100% {
+    background-position: 200px 0;
+  }
 }
 
 /* ===== MODAL ===== */
@@ -232,7 +248,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10000;           /* increased a bit – usually enough */
+  z-index: 10000;
+  /* increased a bit – usually enough */
   /* Optional: helps in some stacking-context edge cases */
   isolation: isolate;
 }
@@ -246,8 +263,10 @@
   box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.7);
   color: #ffffff;
   position: relative;
-  z-index: 1;               /* relative to backdrop */
-  min-height: 180px;        /* prevents collapse if content is small */
+  z-index: 1;
+  /* relative to backdrop */
+  min-height: 180px;
+  /* prevents collapse if content is small */
 }
 
 /* Make sure text is visible */
@@ -304,8 +323,96 @@
     transform: scale(0.9);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
   }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .cart-page {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .cart-right {
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+    margin: 0 -16px -32px -16px;
+    /* edge-to-edge on mobile */
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    background: rgba(20, 25, 34, 0.95);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .cart-wrapper {
+    padding-bottom: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cart-item img {
+    width: 100%;
+    height: 200px;
+  }
+
+  .remove-icon-btn {
+    top: 16px;
+    right: 16px;
+    padding: 8px;
+    background: rgba(42, 18, 20, 0.9);
+  }
+}
+
+/* ===== PREMIUM MODAL STYLES ===== */
+.address-modal-backdrop {
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.75);
+  transition: all 0.3s ease;
+}
+
+.address-modal-content {
+  background: linear-gradient(145deg, #161b26, #0f1219);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.address-modal-content textarea {
+  background: #0b0e13;
+  border: 1px solid #2a2f3a;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.address-modal-content textarea:focus {
+  outline: none;
+  border-color: #ff9f43;
+  box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.15);
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #ff9f43, #ff6f00);
+  box-shadow: 0 4px 15px rgba(255, 111, 0, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.save-btn:active {
+  transform: scale(0.96);
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #999;
 }

@@ -105,12 +105,13 @@ function Nav() {
         {/* AUTH */}
         <div className="auth-section">
           {user ? (
-            <button className="logout-btn" onClick={handleLogout}>
+            <button className="logout-btn" onClick={handleLogout} title="Logout">
               <FiLogOut size={20} />
             </button>
           ) : (
             <button
-              className="nav-icon-btn nav-icon-btn--green"
+              className="nav-icon-btn"
+              title="Login"
               onClick={() => {
                 closeAllMenus();
                 navigate("/login");

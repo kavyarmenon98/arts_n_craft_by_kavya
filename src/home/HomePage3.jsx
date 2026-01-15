@@ -1,4 +1,5 @@
 import ShopByCategory from "../product/ShopByCategory";
+import "./home.css";
 
 function HomePage3() {
   const categories = [
@@ -25,15 +26,15 @@ function HomePage3() {
   ];
 
   return (
-    <section className="px-4 sm:px-6 lg:px-16 mt-10">
-      <h2 className="text-center text-2xl sm:text-3xl font-extrabold">
-        Shop by Category
+    <section className="category-section">
+      <h2 className="section-title">
+        Shop by <span>Category</span>
       </h2>
-      <p className="text-center text-gray-500 mt-2 mb-8">
-        Our Product Category
+      <p className="subtitle text-center mb-10">
+        Explore our curated collections
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="category-grid">
         {categories.map((c) => (
           <ShopByCategory
             key={c.title}
