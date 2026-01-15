@@ -273,3 +273,13 @@
   height: 100%;
   object-fit: cover;
 }
+/* 🔥 REMOVE SLICK DOT NUMBER (0 ISSUE) */
+.slick-dots li button::before {
+  content: "" !important;
+  display: none !important;
+}
+
+/* EXTRA SAFETY */
+.slick-dots {
+  font-size: 0 !important;
+}

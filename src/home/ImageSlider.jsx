@@ -1,44 +1,47 @@
 // ImageSlider.jsx
 import React from "react";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const ImageSlider = (props) => { 
-  console.log(props,"prop");
-  
+const ImageSlider = ({ image = [] }) => {
   const settings = {
-    dots: true,              // Show navigation dots
-    infinite: true,          // Loop slides
-    speed: 500,              // Transition speed (ms)
-    slidesToShow: 1,         // Show one slide at a time
-    slidesToScroll: 1,       // Scroll one slide at a time
-    autoplay: true,          // Auto slide
-    autoplaySpeed: 3000,     // Delay between slides
-    arrows: true,            // Show prev/next arrows
+    dots: false, // ❌ TURN OFF DOTS COMPLETELY
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: true,
+    adaptiveHeight: true,
     responsive: [
       {
-        breakpoint: 768,     // Mobile view
+        breakpoint: 768,
         settings: {
-          arrows: false,     // Hide arrows on mobile
-          dots: true
-        }
-      }
-    ]
+          arrows: false,
+        },
+      },
+    ],
   };
 
   return (
-    <div style={{ width: '400px',  margin: "auto",  }}>
+    <div className="w-full">
       <Slider {...settings}>
-        {props.image.map((src, index) => (
-          <div key={index}>
+        {image.map((src, index) => (
+          <div key={index} className="px-1">
             <img
               src={src}
-              alt={`Slide ${index + 1}`}
-              style={{
-                width: "600px",height:'300px',
-                borderRadius: "8px"
-              }}
+              alt={`Product ${index + 1}`}
+              className="
+                w-full
+                h-[220px]
+                sm:h-[280px]
+                md:h-[320px]
+                lg:h-[360px]
+                object-contain
+                rounded-lg
+              "
             />
           </div>
         ))}

@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import "./cart.css";
 import {
@@ -8,14 +9,88 @@ import {
   verifyPaymentAPI,
   deleteCartItemAPI,
 } from "../services/service";
-import PageLoader from "../common/PageLoader";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { useState } from "react";
+
+/* ---------- Skeleton Loader ---------- */
+function CartSkeleton() {
+  return (
+    <div className="cart-page">
+      <div className="cart-left">
+        <div className="skeleton title" />
+        <div className="skeleton card" />
+      </div>
+      <div className="cart-right">
+        <div className="skeleton summary" />
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Address Modal ---------- */
+
+function AddressModal({ isOpen, onClose, onSave, input, setInput }) {
+  if (!isOpen) return null;
+
+  const handleBackdropClick = (e) => {
+    // Only close if clicked directly on the backdrop element itself
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  return createPortal(
+    <div
+      className="address-modal-backdrop"
+      onClick={handleBackdropClick}
+    >
+      <div
+        className="address-modal-content"
+        onClick={(e) => e.stopPropagation()} // optional safety layer
+      >
+        <h3>Edit Shipping Address</h3>
+        <textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Enter your address"
+          rows={4}
+        />
+        <div className="address-modal-actions">
+          <button className="cancel-btn" onClick={onClose}>
+            Cancel
+          </button>
+          <button
+            className="save-btn"
+            onClick={() => {
+              onSave(input);
+              onClose();
+            }}
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+}
+
 
 export default function CartPage() {
   const queryClient = useQueryClient();
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+
+  const [loadingItemId, setLoadingItemId] = useState(null);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [clearLoading, setClearLoading] = useState(false);
+  const [address, setAddress] = useState(
+    "123, Sample Street, City, State, Pincode"
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalInput, setModalInput] = useState(address);
 
   const { data, isLoading } = useQuery({
     queryKey: ["cart"],
@@ -24,173 +99,236 @@ export default function CartPage() {
 
   const updateCartQtyMutation = useMutation({
     mutationFn: updateCartQtyAPI,
-    onSuccess: () => queryClient.invalidateQueries(["cart"]),
+    onMutate: ({ id }) => setLoadingItemId(id),
+    onSettled: () => {
+      setLoadingItemId(null);
+      queryClient.invalidateQueries(["cart"]);
+    },
   });
 
   const deleteCartItemMutation = useMutation({
     mutationFn: deleteCartItemAPI,
-    onSuccess: () => queryClient.invalidateQueries(["cart"]),
+    onMutate: (id) => setLoadingItemId(id),
+    onSettled: () => {
+      setLoadingItemId(null);
+      queryClient.invalidateQueries(["cart"]);
+    },
   });
 
   const clearCartMutation = useMutation({
     mutationFn: clearCartAPI,
-    onSuccess: () => queryClient.invalidateQueries(["cart"]),
+    onMutate: () => setClearLoading(true),
+    onSettled: () => {
+      setClearLoading(false);
+      queryClient.invalidateQueries(["cart"]);
+    },
   });
 
   const createOrderMutation = useMutation({
     mutationFn: createOrderAPI,
   });
 
-  const handleCheckout = async (data) => {
-    const cartDetails = { cartItems: data.cart, userId: user.id };
+  const calculateTotal = () =>
+    data?.cart?.reduce((sum, item) => sum + item.price * item.quantity, 0) ||
+    0;
 
+  const changeQty = (item, delta) => {
+    updateCartQtyMutation.mutate({
+      id: item._id,
+      action: delta === 1 ? "increase" : "decrease",
+    });
+  };
+
+  const handleCheckout = async () => {
     try {
-      const { order } = await createOrderMutation.mutateAsync(cartDetails);
+      setCheckoutLoading(true);
+      const { order } = await createOrderMutation.mutateAsync({
+        cartItems: data.cart,
+        userId: user.id,
+      });
 
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
         name: "Arts & Craft By Kavya",
-        description: "Artwork Purchase",
         order_id: order.id,
-        handler: async function (response) {
-          await verifyPaymentAPI({
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-          });
-
-          alert("Payment Successful!");
+        handler: async (res) => {
+          await verifyPaymentAPI(res);
           navigate("/myorder");
-        },
-        prefill: {
-          name: "Customer Name",
-          email: "customer@email.com",
-          contact: "9999999999",
         },
         theme: { color: "#ff9f43" },
       };
 
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } catch (err) {
+      new window.Razorpay(options).open();
+    } catch {
       alert("Checkout failed");
-      console.log(err);
+    } finally {
+      setCheckoutLoading(false);
     }
   };
 
-  const calculateTotal = () =>
-    data?.cart?.reduce((sum, item) => sum + item.price * item.quantity, 0) || 0;
+  if (isLoading) return <CartSkeleton />;
 
-  const changeQty = async (item, delta) => {
-    await updateCartQtyMutation.mutateAsync({
-      id: item._id,
-      action: delta === 1 ? "increase" : "decrease",
-    });
+  const openModal = () => {
+    setModalInput(address);
+    setIsModalOpen(true);
   };
-
-  const handleRemoveClick = async (itemId) => {
-    await deleteCartItemMutation.mutateAsync(itemId);
-  };
-
-  if (isLoading) {
-    return (
-      <div className="loader-wrap">
-        <PageLoader />
-      </div>
-    );
-  }
 
   return (
-    <div className="cart-page">
-      {/* LEFT - Cart Items */}
-      <div className="cart-left">
-        <h2 className="cart-header">Your Shopping Cart</h2>
+    <div className="cart-wrapper">
+      <div className="cart-page">
+        {/* LEFT */}
+        <div className="cart-left">
+          <h2 className="page-title">Your Shopping Cart</h2>
 
-        {!data?.cart?.length ? (
-          <div className="empty-cart">
-            <h3>Your cart is empty</h3>
-            <p>Add artworks to your cart to see them here.</p>
-          </div>
-        ) : (
-          <div className="cart-items">
-            {data.cart.map((item) => (
-              <div key={item._id} className="cart-item card">
-                <img src={item.image} alt={item.name} className="cart-img" />
+          {!data?.cart?.length ? (
+            <div className="empty-cart">
+              <h3>Your cart is empty</h3>
+              <p>Add artworks you love ✨</p>
+            </div>
+          ) : (
+            data.cart.map((item) => {
+              const discount = item.isDiscounted
+                ? Math.round(
+                  ((item.originalPrice - item.price) / item.originalPrice) *
+                  100
+                )
+                : 0;
 
-                <div className="cart-details">
-                  <h3 className="cart-title">{item.name}</h3>
-                  <p className="cart-subtitle">
-                    ₹{item.price} <span className="tax-note">Inclusive of all taxes</span>
-                  </p>
+              const isItemLoading = loadingItemId === item._id;
 
-                  <div className="qty-box">
-                    <button onClick={() => changeQty(item, -1)}>
-                      {item.quantity === 1 ? "🗑" : "-"}
-                    </button>
-                    <span>{item.quantity}</span>
-                    <button onClick={() => changeQty(item, 1)}>+</button>
+              return (
+                <div key={item._id} className="cart-item animate-in">
+                  {item.isDiscounted && (
+                    <span className="discount-badge">{discount}% OFF</span>
+                  )}
+
+                  <button
+                    className="remove-icon-btn"
+                    disabled={isItemLoading}
+                    onClick={() => deleteCartItemMutation.mutate(item._id)}
+                  >
+                    {isItemLoading ? "..." : <RiDeleteBin6Line />}
+                  </button>
+
+                  <img src={item.image} alt={item.name} />
+
+                  <div className="cart-details">
+                    <h3>{item.name}</h3>
+
+                    <div className="price-row">
+                      <span className="selling-price">₹{item.price}</span>
+                      {item.isDiscounted && (
+                        <span className="original-price">
+                          ₹{item.originalPrice}
+                        </span>
+                      )}
+                    </div>
+
+                    {item.isDiscounted && (
+                      <p className="save-text">
+                        You save ₹{item.originalPrice - item.price}
+                      </p>
+                    )}
+
+                    <div className="qty-box">
+                      <button
+                        disabled={isItemLoading}
+                        onClick={() => changeQty(item, -1)}
+                      >
+                        {isItemLoading
+                          ? "…"
+                          : item.quantity === 1
+                            ? "🗑"
+                            : "-"}
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button
+                        disabled={isItemLoading}
+                        onClick={() => changeQty(item, 1)}
+                      >
+                        {isItemLoading ? "…" : "+"}
+                      </button>
+                    </div>
                   </div>
+
+                  <div className="item-total">₹{item.price * item.quantity}</div>
                 </div>
+              );
+            })
+          )}
 
-                <div className="cart-item-total">₹{item.price * item.quantity}</div>
-                <button
-                  className="remove-item-btn"
-                  onClick={() => handleRemoveClick(item._id)}
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
+          {data?.cart?.length > 0 && (
+            <button
+              className="clear-cart-btn"
+              disabled={clearLoading}
+              onClick={() => clearCartMutation.mutate()}
+            >
+              {clearLoading ? "Clearing..." : "Clear Cart"}
+            </button>
+          )}
+        </div>
 
-            {data?.cart?.length > 0 && (
-              <button
-                className="clear-cart-btn"
-                onClick={() => clearCartMutation.mutateAsync()}
-                disabled={clearCartMutation.isPending}
-              >
-                Clear Cart
-              </button>
-            )}
+        {/* RIGHT */}
+        <div className="cart-right animate-in">
+          <h3>Order Summary</h3>
+
+          <div className="summary-row">
+            <span>Subtotal</span>
+            <span>₹{calculateTotal()}</span>
           </div>
-        )}
+
+          <div className="summary-row">
+            <span>Shipping</span>
+            <span className="free">Free</span>
+          </div>
+
+          {/* Address Section */}
+          <div className="summary-row address-row">
+            <span>Shipping Address</span>
+            <span className="address-text">
+              {address}
+              <button className="edit-address-btn" onClick={openModal}>
+                Edit
+              </button>
+            </span>
+          </div>
+
+          <div className="divider" />
+
+          <div className="summary-row total">
+            <span>Total</span>
+            <span>₹{calculateTotal()}</span>
+          </div>
+
+          <button
+            className="checkout-btn"
+            disabled={checkoutLoading}
+            onClick={handleCheckout}
+          >
+            {checkoutLoading ? "Processing..." : "Proceed to Checkout"}
+          </button>
+
+          <a
+            className="whatsapp-help"
+            href="https://wa.me/919037009645"
+            target="_blank"
+            rel="noreferrer"
+          >
+            💬 Need help? Chat on WhatsApp
+          </a>
+        </div>
       </div>
 
-      {/* RIGHT - Order Summary */}
-      <div className="cart-right card">
-        <h3>Order Summary</h3>
-
-        <div className="row">
-          <span>Subtotal</span>
-          <span>₹ {calculateTotal()}</span>
-        </div>
-
-        <div className="row">
-          <span>Shipping</span>
-          <span className="free">Free</span>
-        </div>
-
-        <hr />
-
-        <div className="row total">
-          <span>Total</span>
-          <span>₹ {calculateTotal()}</span>
-        </div>
-
-        <button className="checkout-btn" onClick={() => handleCheckout(data)}>
-          Proceed to Checkout
-        </button>
-
-        <a
-          className="whatsapp-help"
-          href="https://wa.me/919037009645"
-          target="_blank"
-          rel="noreferrer"
-        >
-          💬 Need help? Chat on WhatsApp
-        </a>
-      </div>
+      {/* Address Modal */}
+      <AddressModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={setAddress}
+        input={modalInput}
+        setInput={setModalInput}
+      />
     </div>
   );
 }

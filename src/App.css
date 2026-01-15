@@ -22,7 +22,7 @@ div{
 }
 
 body{
-  background-color: 'black';
+  background-color: black;
   color: #fff;
 }
 
@@ -101,3 +101,23 @@ body{
   clip-path: inset(50%); /* keeps text accessible to screen readers */
 }
 
+/* ===============================
+   FORCE REMOVE SLICK DOT NUMBER
+   =============================== */
+
+/* Kill slick dot pseudo content */
+.slick-dots li button::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Prevent any counter text */
+.slick-dots {
+  counter-reset: none !important;
+  font-size: 0 !important;
+}
+
+/* Extra nuclear option */
+.slick-dots li {
+  display: none !important;
+}

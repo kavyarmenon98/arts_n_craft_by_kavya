@@ -114,10 +114,20 @@ export const getCartAPI = async () => {
 }
 
 export const addToCartAPI = async (productData) => {
-    console.log("check,",productData);
     
+  // 🔁 transform pname → name
+  const payload = {
+    ...productData,
+    name: productData.pname,
+    productId: productData.id,
 
-  const { data } = await axios.post(`${API_URL}/cart/addcart`,productData,{
+  };
+
+  delete payload.pname;
+  
+
+
+  const { data } = await axios.post(`${API_URL}/cart/addcart`, payload, {
       headers: {
         Authorization: `Bearer ${token}`, // Add token here
       },

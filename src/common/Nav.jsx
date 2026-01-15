@@ -1,114 +1,128 @@
-    import { FaUser } from "react-icons/fa";
-import { PiHandbagFill } from "react-icons/pi";
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 import { logoutAction } from "../redux/authSlice";
-import './nav.css'
+import { FiLogOut, FiUserPlus, FiMenu, FiX } from "react-icons/fi";
+import { useState } from "react";
+import "./nav.css";
 
-import { FiLogIn, FiLogOut, FiUserPlus } from "react-icons/fi";
-function Nav(){
-    // let total = '0.00'
-  const { user } = useSelector((state) => state.auth); // ✅ fixed
+function Nav() {
+  const { user } = useSelector((state) => state.auth);
+  const cartItems = useSelector((state) => state.cart?.items || []);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-console.log(user,"user");
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [productOpen, setProductOpen] = useState(false);
+
+  const closeAllMenus = () => {
+    setMenuOpen(false);
+    setProductOpen(false);
+  };
 
   const handleLogout = () => {
     dispatch(logoutAction());
-    navigate('/');
+    closeAllMenus();
+    navigate("/");
   };
 
+  return (
+    <header className="navbar">
+      {/* LOGO */}
+      <div className="logo">
+        <img src="/src/assets/logo3.png" alt="Logo" />
+      </div>
 
-    return(
-        <>
-        <div className="navbar flex justify-between p-2 " style={{backgroundColor:'#141414',color:'white'}}>
-            <div className="flex"  style={{width : '140px'}}>
-                <img src=" \src\assets\logo3.png" />
+      {/* HAMBURGER */}
+      <div
+        className="menu-icon"
+        onClick={() => {
+          setMenuOpen(!menuOpen);
+          setProductOpen(false);
+        }}
+      >
+        {menuOpen ? <FiX size={26} /> : <FiMenu size={26} />}
+      </div>
+
+      {/* NAV LINKS */}
+      <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+        {user?.role === "admin" ? (
+          <>
+            <Link to="/home" onClick={closeAllMenus}>Home</Link>
+            <Link to="/addProduct" onClick={closeAllMenus}>Add Products</Link>
+            <Link to="/listProduct" onClick={closeAllMenus}>List Products</Link>
+            <Link to="/order" onClick={closeAllMenus}>Orders</Link>
+            <Link to="/offer" onClick={closeAllMenus}>Offers</Link>
+            <span>About</span>
+          </>
+        ) : (
+          <>
+            <Link to="/home" onClick={closeAllMenus}>Home</Link>
+
+            {/* PRODUCTS DROPDOWN */}
+            <div className="dropdown">
+              <span
+                className="dropdown-title"
+                onClick={() => setProductOpen((prev) => !prev)}
+              >
+                Our Products
+              </span>
+
+              {productOpen && (
+                <div className="dropdown-menu show">
+                  <Link to="/listProduct" onClick={closeAllMenus}>
+                    All Products
+                  </Link>
+                  <Link to="/category/Nettipattam" onClick={closeAllMenus}>
+                    Nettipattam
+                  </Link>
+                  <Link to="/category/Resin" onClick={closeAllMenus}>
+                    Resin Products
+                  </Link>
+                  <Link to="/category/Painting" onClick={closeAllMenus}>
+                    Paintings
+                  </Link>
+                  <Link to="/category/Craft" onClick={closeAllMenus}>
+                    Craft Items
+                  </Link>
+                </div>
+              )}
             </div>
-            {user?.role=='admin' ? (
 
-                <div className="flex  justify-between items-center mt-2 text-lg " style={{width : '960px'}}>
-                    <div className="hover-box" ><Link to="/home" >Home</Link> </div>
-                    <div className="hover-box">  <Link to="/addProduct" >Add Products</Link> </div>
-                    <div className="hover-box">  <Link to="/listProduct" >List Products</Link> </div>
-                    <div className="hover-box">  <Link to="/myorder" >Orders</Link> </div>
+            {/* CART */}
+            <Link to="/cart" className="cart-link" onClick={closeAllMenus}>
+              Cart
+              {cartItems.length > 0 && (
+                <span className="cart-badge">{cartItems.length}</span>
+              )}
+            </Link>
 
-                   <div className="dropdown">
-                        <span className="dropdown-title">Our Products</span>
+            <Link to="/myorder" onClick={closeAllMenus}>Orders</Link>
+            <Link to="/offer" onClick={closeAllMenus}>Offers</Link>
+            <span>About</span>
+          </>
+        )}
 
-                        <div className="dropdown-menu">
-                            <Link to="/category/Nettipattam">Nettipattam</Link>
-                            <Link to="/category/Resin">Resin Products</Link>
-                            <Link to="/category/Painting">Paintings</Link>
-                            <Link to="/category/Craft">Craft Items</Link>
-                        </div>
-                    </div> 
-                    <div className="hover-box" ><Link to="/cart" >Cart</Link> </div>
-
-                <div className="hover-box">About</div> 
-
-                </div>
-            ) : (
-                <div className="flex  justify-between items-center mt-2 text-lg " style={{width:  '900px'}}>
-                    <div className="hover-box" ><Link to="/home" >Home</Link> </div>
-                  <div className="dropdown">
-                        <span className="dropdown-title">Our Products</span>
-
-                        <div className="dropdown-menu">
-                            <Link to="/category/Nettipattam">Nettipattam</Link>
-                            <Link to="/category/Resin">Resin Products</Link>
-                            <Link to="/category/Painting">Paintings</Link>
-                            <Link to="/category/Craft">Craft Items</Link>
-                        </div>
-                    </div>
-                    <div className="hover-box" ><Link to="/cart" >Cart</Link> </div>
-                    <div className="hover-box">  <Link to="/order" >Orders</Link> </div>
-
-                    <div className="hover-box">About</div> 
-                </div>
-            )} 
-                <nav>
-                {user ? (
-                    
-                <button className="logout-btn  mr-5" onClick={handleLogout}>
-                <FiLogOut size={20} /> {/* Icon */}
-                </button>
-
-                ) : (
-                    <div className="flex gap-4">
-                 
-             
-                    {/* <button
-                        className="nav-icon-btn nav-icon-btn--blue"
-                        onClick={() => navigate("/login")}
-                        aria-label="Login"
-                        title="Login"     // shows browser tooltip on hover
-                    >
-                        <FiLogIn size={19} aria-hidden="true" />
-                    </button>
-
-                    Register: icon-only */}
-                    <button
-                        className="nav-icon-btn nav-icon-btn--green mr-7"
-                        onClick={() => navigate("/login")}
-                        aria-label="Login"
-                        title="Login"
-                    >
-                        <FiUserPlus size={21} aria-hidden="true" />
-                    </button>
-
-                    </div>
-                )}
-                </nav>
-                {/* <div className="flex mt-2 justify-between items-center "  style={{width : '120px'}}>
-                    <FaUser className="mt-1" />
-                    <div className="font-bold">$ {total}</div>
-                    <PiHandbagFill className="mt-1" />
-                </div> */}
-
-             
+        {/* AUTH */}
+        <div className="auth-section">
+          {user ? (
+            <button className="logout-btn" onClick={handleLogout}>
+              <FiLogOut size={20} />
+            </button>
+          ) : (
+            <button
+              className="nav-icon-btn nav-icon-btn--green"
+              onClick={() => {
+                closeAllMenus();
+                navigate("/login");
+              }}
+            >
+              <FiUserPlus size={22} />
+            </button>
+          )}
         </div>
-        </>
-    )
+      </div>
+    </header>
+  );
 }
-export default Nav
+
+export default Nav;

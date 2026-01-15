@@ -26,7 +26,7 @@ export default function WhyShopWithUs() {
           <FeatureCard
             icon="src/assets/discount1.png"
             title="Free Shipping Everywhere in India "
-            description="Enjoy free delivery anywhere in India on orders above ₹1000. Your order will arrive within one week of shipment."
+            description="Free shipping to everyone across India. In-stock items will be delivered within one week of shipment. We also customize every product based on your requirements."
           />
 
           <FeatureCard

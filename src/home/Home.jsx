@@ -13,7 +13,6 @@ function Home()
          <HomePage1/>
          <HomePage2/>
          <HomePage3 />
-         <OfferProductPage />
          <HomePage4 />
 
         

@@ -14,6 +14,7 @@ import Category from './category/Category';
 import Cart from './category/Cart';
 import OrdersList from './admin/OrdersList';
 import MyOrders from './common/MyOrder';
+import OfferProductPage from './home/OfferProductPage';
 
 function App() { 
 
@@ -70,6 +71,8 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<OrdersList />} />
         <Route path="/myorder" element={<MyOrders />} />
+        <Route path="/offer" element={<OfferProductPage />} />
+
 
 
 
