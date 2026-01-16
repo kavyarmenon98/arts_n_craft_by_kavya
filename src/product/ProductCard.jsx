@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { addToCartAPI, deleteProductByIdAPI } from "../services/service";
 import { useSelector } from "react-redux";
-import "./AddProduct.css";
 
 function ProductCard({ details }) {
   const navigate = useNavigate();
@@ -42,95 +41,99 @@ function ProductCard({ details }) {
         return (
           <div
             key={item._id}
-            className="w-full bg-[#121212] text-white rounded-xl shadow-lg flex flex-col"
+            className="w-full bg-[#121212] border border-white/5 text-white rounded-2xl shadow-xl flex flex-col group transition-all duration-300 hover:border-white/10 hover:shadow-2xl overflow-hidden"
           >
             {/* IMAGE */}
             <div
-              className="relative w-full aspect-square p-6 cursor-pointer"
+              className="relative w-full aspect-square p-4 md:p-6 cursor-pointer overflow-hidden"
               onClick={() => navigate(`/viewProduct/${item._id}`)}
             >
-              <ImageSlider
-                image={item.images}
-                styleForImage={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  borderRadius: "12px",
-                }}
-              />
+              <div className="w-full h-full rounded-xl overflow-hidden shadow-inner">
+                <ImageSlider
+                  image={item.images}
+                  styleForImage={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
 
               {/* DISCOUNT BADGE */}
               {hasDiscount && (
-                <span className="absolute top-4 left-4 bg-indigo-600 px-3 py-1 text-xs rounded-full font-semibold">
+                <span className="absolute top-6 left-6 bg-indigo-600/90 backdrop-blur-md px-3 py-1 text-[10px] rounded-full font-bold uppercase tracking-wider z-10 shadow-lg">
                   {item.discountPercentage}% OFF
                 </span>
               )}
 
-              {/* STOCK / CUSTOM MADE BADGE (SAME PLACE) */}
+              {/* STOCK / CUSTOM MADE BADGE */}
               <span
-                className={`absolute top-4 right-4 ${stockBadgeColor} px-3 py-1 text-xs rounded-full font-semibold`}
+                className={`absolute top-6 right-6 ${stockBadgeColor}/90 backdrop-blur-md px-3 py-1 text-[10px] rounded-full font-bold uppercase tracking-wider z-10 shadow-lg`}
               >
                 {stockLabel}
               </span>
             </div>
 
             {/* CONTENT */}
-            <div className="flex flex-col flex-1 px-4 pb-4 gap-3">
+            <div className="flex flex-col flex-1 px-5 pb-5 gap-4">
               {/* TITLE + PRICE */}
-              <div className="flex justify-between gap-3">
-                <h3 className="font-semibold text-sm md:text-base line-clamp-2">
+              <div className="flex justify-between items-start gap-4">
+                <h3 className="font-semibold text-base md:text-lg line-clamp-2 leading-tight flex-1">
                   {item.pname}
                 </h3>
 
                 <div className="text-right shrink-0">
                   {hasDiscount ? (
-                    <>
-                      <div className="text-xs text-gray-400 line-through">
+                    <div className="flex flex-col items-end">
+                      <span className="text-xs text-gray-500 line-through">
                         ₹{item.price}
-                      </div>
-                      <div className="text-green-400 font-semibold">
+                      </span>
+                      <span className="text-[var(--color-primary)] font-bold text-lg">
                         ₹{item.discount}
-                      </div>
-                    </>
+                      </span>
+                    </div>
                   ) : (
-                    <div className="font-semibold">₹{item.price}</div>
+                    <div className="font-bold text-lg">₹{item.price}</div>
                   )}
                 </div>
               </div>
 
               {/* DESCRIPTION */}
-              <p className="text-sm text-gray-300">
-                {truncate(item.description)}
+              <p className="text-sm text-gray-400 leading-relaxed min-h-[40px] line-clamp-2">
+                {truncate(item.description, 80)}
               </p>
 
               {/* CATEGORY + ICONS */}
-              <div className="flex justify-between items-center">
-                <span className="text-xs uppercase text-gray-400">
+              <div className="flex justify-between items-center py-2 border-y border-white/5">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">
                   {item.category}
                 </span>
 
-                <div className="flex gap-4 text-lg">
-                  <FaEye
-                    className="cursor-pointer hover:text-blue-400"
-                    onClick={() =>
-                      navigate(`/viewProduct/${item._id}`)
-                    }
-                  />
+                <div className="flex gap-4 text-gray-400">
+                  <button
+                    title="Quick View"
+                    className="p-1.5 hover:text-blue-400 transition-colors"
+                    onClick={() => navigate(`/viewProduct/${item._id}`)}
+                  >
+                    <FaEye size={18} />
+                  </button>
 
                   {isAdmin && (
                     <>
-                      <GrEdit
-                        className="cursor-pointer hover:text-yellow-400"
-                        onClick={() =>
-                          navigate(`/editProduct/${item._id}`)
-                        }
-                      />
-                      <RiDeleteBinFill
-                        className="cursor-pointer hover:text-red-500"
-                        onClick={() =>
-                          deleteProductMutation.mutateAsync(item._id)
-                        }
-                      />
+                      <button
+                        title="Edit"
+                        className="p-1.5 hover:text-yellow-400 transition-colors"
+                        onClick={() => navigate(`/editProduct/${item._id}`)}
+                      >
+                        <GrEdit size={16} />
+                      </button>
+                      <button
+                        title="Delete"
+                        className="p-1.5 hover:text-red-500 transition-colors"
+                        onClick={() => deleteProductMutation.mutateAsync(item._id)}
+                      >
+                        <RiDeleteBinFill size={18} />
+                      </button>
                     </>
                   )}
                 </div>
@@ -140,14 +143,20 @@ function ProductCard({ details }) {
               <div className="mt-auto">
                 {item.instock > 0 ? (
                   <button
-                    className="add-cart-btn compact w-full"
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[var(--color-primary)] text-black font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-lg shadow-[var(--color-primary)]/10 disabled:opacity-70 disabled:cursor-not-allowed"
+                    disabled={addToCartMutation.isPending}
                     onClick={() => addToCartMutation.mutate(item)}
                   >
-                    <FaShoppingCart /> Add to Cart
+                    {addToCartMutation.isPending ? (
+                      <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <FaShoppingCart />
+                    )}
+                    {addToCartMutation.isPending ? "Adding..." : "Add to Cart"}
                   </button>
                 ) : (
                   <button
-                    className="add-cart-btn compact whatsapp w-full"
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#25d366] text-white font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-lg shadow-green-500/10"
                     onClick={() =>
                       window.open(
                         `https://wa.me/919037009645?text=${encodeURIComponent(
@@ -157,7 +166,7 @@ function ProductCard({ details }) {
                       )
                     }
                   >
-                    <FaWhatsapp /> Enquire
+                    <FaWhatsapp /> Enquire on WhatsApp
                   </button>
                 )}
               </div>

@@ -2,54 +2,87 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-function HomePage1() {
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
-  const image = [
+function HomePage1() {
+  const navigate = useNavigate();
+  const images = [
     "src/assets/home_image2.jpg",
     "src/assets/home_image1.png",
     "src/assets/image15.jpg",
     "src/assets/image6.jpg",
     "src/assets/image3.jpg",
+  ];
 
-
-  ]
   const settings = {
-    dots: true,              // Show navigation dots
-    infinite: true,          // Loop slides
-    speed: 500,              // Transition speed (ms)
-    slidesToShow: 1,         // Show one slide at a time
-    slidesToScroll: 1,       // Scroll one slide at a time
-    autoplay: true,          // Auto slide
-    autoplaySpeed: 2000,     // Delay between slides
-    arrows: true,            // Show prev/next arrows
-    responsive: [
-      {
-        breakpoint: 768,     // Mobile view
-        settings: {
-          arrows: false,     // Hide arrows on mobile
-          dots: true
-        }
-      }
-    ]
+    dots: true,
+    infinite: true,
+    speed: 1000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    arrows: false,
+    fade: true,
+    dotsClass: "slick-dots custom-dots-pos",
+    customPaging: (i) => (
+      <div className="w-3 h-3 bg-white/20 rounded-full hover:bg-[var(--color-primary)] transition-all" />
+    ),
   };
+
   return (
-    <>
-      <div className="hero-slider-container">
-        <Slider {...settings}>
-          {image.map((src, index) => (
-            <div key={index}>
-              <img
-                src={src}
-                alt={`Slide ${index + 1}`}
-              // Styles handled by CSS .hero-slider-container img
-              />
+    <section className="relative w-full h-screen overflow-hidden bg-black">
+      <Slider {...settings} className="h-full">
+        {images.map((src, index) => (
+          <div key={index} className="relative h-screen w-full">
+            <img
+              src={src}
+              alt={`Exquisite Art ${index + 1}`}
+              className="w-full h-full object-cover opacity-60"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/80" />
+
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="text-[var(--color-primary)] font-bold text-xs uppercase tracking-[0.5em] mb-6"
+              >
+                Since 2019
+              </motion.span>
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+                className="text-5xl md:text-8xl font-serif text-white tracking-tighter mb-6 max-w-5xl"
+              >
+                Color your world with <span className="italic">handmade magic</span>
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                className="text-white/60 text-lg md:text-xl font-medium tracking-wide mb-10 max-w-2xl"
+              >
+                Bespoke creations that breathe life into your space. Curated with soul, crafted by hand.
+              </motion.p>
+              <motion.button
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.9 }}
+                onClick={() => navigate("/listProduct")}
+                className="px-10 py-4 bg-[var(--color-primary)] text-black font-black uppercase tracking-[0.2em] rounded-full shadow-2xl shadow-[var(--color-primary)]/20 hover:opacity-90 transition-all active:scale-95"
+              >
+                Explore Gallery
+              </motion.button>
             </div>
-          ))}
-        </Slider>
-      </div>
-
-
-    </>
-  )
+          </div>
+        ))}
+      </Slider>
+    </section>
+  );
 }
-export default HomePage1
+
+export default HomePage1;

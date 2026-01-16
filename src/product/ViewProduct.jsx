@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addToCartAPI,
   deleteProductByIdAPI,
@@ -8,44 +8,57 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBinFill } from "react-icons/ri";
 import Slider from "react-slick";
-import "./AddProduct.css";
 import PageLoader from "../common/PageLoader";
-import { FaShoppingCart, FaWhatsapp } from "react-icons/fa";
+import { FaShoppingCart, FaWhatsapp, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 /* ---------- Delete Confirmation Modal ---------- */
 function ConfirmDeleteModal({ onConfirm, onCancel }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
-      <div className="bg-[#1b1b1b] p-6 rounded-xl w-[90%] max-w-sm text-white">
-        <h3 className="text-lg font-semibold mb-3">
-          Delete Product?
-        </h3>
-        <p className="text-sm text-gray-400 mb-6">
-          This action cannot be undone.
+    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="bg-[#161b26] border border-white/10 p-8 rounded-2xl w-full max-w-sm text-white shadow-2xl"
+      >
+        <h3 className="text-xl font-bold mb-3">Delete Product?</h3>
+        <p className="text-gray-400 mb-8 leading-relaxed">
+          This action will permanently remove this artwork from your gallery. This cannot be undone.
         </p>
 
-        <div className="flex justify-end gap-3">
+        <div className="flex gap-3">
           <button
-            className="px-4 py-2 rounded-md bg-gray-600 hover:bg-gray-500"
+            className="flex-1 py-3 px-4 rounded-xl border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-all"
             onClick={onCancel}
           >
             Cancel
           </button>
           <button
-            className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-500"
+            className="flex-1 py-3 px-4 rounded-xl bg-red-500 text-white font-bold hover:bg-red-600 transition-all shadow-lg shadow-red-500/20"
             onClick={onConfirm}
           >
-            Delete
+            Delete Item
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
 
+const CustomArrow = ({ direction, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`absolute top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 border border-white/10 text-white hover:bg-[var(--color-primary)] hover:text-black transition-all backdrop-blur-md ${direction === "left" ? "left-4" : "right-4"
+      }`}
+  >
+    {direction === "left" ? <FaChevronLeft /> : <FaChevronRight />}
+  </button>
+);
+
 export default function ViewProduct() {
+  const queryClient = useQueryClient();
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
@@ -60,7 +73,10 @@ export default function ViewProduct() {
 
   const deleteProductMutation = useMutation({
     mutationFn: deleteProductByIdAPI,
-    onSuccess: () => navigate("/"),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["products"]);
+      navigate("/");
+    },
   });
 
   const addToCartMutation = useMutation({
@@ -68,230 +84,210 @@ export default function ViewProduct() {
   });
 
   const addToCart = async (item) => {
-    await addToCartMutation.mutateAsync({
-      productId: item._id,
-      name: item.pname,
-      price: item.discount,
-      category: item.category,
-      description: item.description,
-      quantity: 1,
-    });
-    navigate("/cart");
+    try {
+      await addToCartMutation.mutateAsync({
+        ...item,
+        productId: item._id,
+        quantity: 1,
+      });
+      navigate("/cart");
+    } catch (error) {
+      // Error handled by toast in service
+    }
   };
 
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 600,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 5000,
-    arrows: true,
+    nextArrow: <CustomArrow direction="right" />,
+    prevArrow: <CustomArrow direction="left" />,
+    dotsClass: "slick-dots custom-dots-pos",
     responsive: [
       {
         breakpoint: 768,
-        settings: { arrows: false, dots: true },
+        settings: { arrows: false },
       },
     ],
   };
 
   const product = data?.product;
 
+  if (isLoading) return (
+    <div className="min-h-screen bg-[#050505] flex justify-center items-center">
+      <PageLoader />
+    </div>
+  );
+
   return (
     <>
-      {/* DELETE CONFIRMATION MODAL */}
-      {showDeleteModal && (
-        <ConfirmDeleteModal
-          onCancel={() => setShowDeleteModal(false)}
-          onConfirm={() => deleteProductMutation.mutate(id)}
-        />
-      )}
+      <AnimatePresence>
+        {showDeleteModal && (
+          <ConfirmDeleteModal
+            onCancel={() => setShowDeleteModal(false)}
+            onConfirm={() => deleteProductMutation.mutate(id)}
+          />
+        )}
+      </AnimatePresence>
 
-      {isLoading ? (
-        <div className="flex justify-center items-center h-screen">
-          <PageLoader />
-        </div>
-      ) : (
-        <div
-          className="card bg-base-100 shadow-sm m-5"
-          style={{
-            background:
-              "linear-gradient(rgb(32, 31, 31) 0%, rgb(22 22 22) 100%)",
-            color: "#fff",
-            borderRadius: "17px",
-            width: "60%",
-            margin: "auto",
-          }}
+      <div className="min-h-screen bg-[#050505] pt-32 pb-20 px-4 md:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-6xl mx-auto bg-[#0f1219] border border-white/5 rounded-[40px] overflow-hidden shadow-2xl"
         >
-          {/* SLIDER */}
-          <div
-            style={{
-              height: "500px",
-              backgroundColor: "#141414",
-              position: "relative",
-            }}
-          >
-            {/* DISCOUNT BADGE – TOP LEFT */}
-            {product?.discountPercentage > 0 && (
-              <span
-                style={{
-                  position: "absolute",
-                  top: "16px",
-                  left: "16px",
-                  zIndex: 10,
-                  padding: "6px 14px",
-                  borderRadius: "999px",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  background:
-                    "linear-gradient(135deg,#4f46e5,#2563eb)",
-                  color: "#fff",
-                }}
-              >
-                {product.discountPercentage}% OFF
-              </span>
-            )}
-
-            <Slider {...settings}>
-              {/* VIDEO */}
-              {product?.video && (
-                <div>
-                  <div className="flex justify-center items-center h-[500px]">
-                    <video
-                      src={product.video}
-                      controls
-                      autoPlay
-                      muted
-                      loop
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                        borderRadius: "8px",
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* IMAGES */}
-              {product?.images?.map((src, index) => (
-                <div key={index}>
-                  <div className="flex justify-center items-center h-[500px]">
-                    <img
-                      src={src}
-                      alt={`Slide ${index + 1}`}
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                        objectFit: "contain",
-                        borderRadius: "8px",
-                      }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </Slider>
-          </div>
-
-          {/* CONTENT */}
-          <div className="flex flex-col p-6 gap-6">
-            {/* TITLE & PRICE */}
-            <div className="flex justify-between items-start">
-              <h2 className="card-title text-2xl font-semibold">
-                {product?.pname}
-              </h2>
-
-              <div className="text-right">
-                {product?.price && (
-                  <div className="text-sm text-gray-400 line-through">
-                    ₹{product.price}
-                  </div>
-                )}
-                <div className="text-2xl font-bold text-orange-400">
-                  ₹{product?.discount}
-                </div>
-              </div>
-            </div>
-
-            {/* DESCRIPTION */}
-            <p className="text-gray-300 leading-relaxed">
-              {product?.description}
-            </p>
-
-            {/* CATEGORY & ADMIN ACTIONS */}
-            <div className="flex justify-between items-center">
-              <div className="text-sm text-gray-400">
-                Category:{" "}
-                <span className="text-gray-200">
-                  {product?.category}
+          <div className="flex flex-col lg:flex-row">
+            {/* LEFT: SLIDER */}
+            <div className="w-full lg:w-[55%] relative h-[400px] md:h-[600px] bg-black">
+              {/* DISCOUNT BADGE */}
+              {product?.discountPercentage > 0 && (
+                <span className="absolute top-8 left-8 z-30 bg-indigo-600/90 backdrop-blur-md px-5 py-2 text-xs rounded-full font-bold shadow-2xl tracking-widest uppercase">
+                  {product.discountPercentage}% OFF
                 </span>
-              </div>
-
-              {isAdmin && (
-                <div className="flex gap-4 text-lg">
-                  <GrEdit
-                    className="cursor-pointer hover:text-blue-400"
-                    onClick={() =>
-                      navigate(`/editProduct/${id}`)
-                    }
-                  />
-                  <RiDeleteBinFill
-                    className="cursor-pointer hover:text-red-400"
-                    onClick={() => setShowDeleteModal(true)}
-                  />
-                </div>
               )}
-            </div>
 
-            {/* STOCK & CTA */}
-            <div className="flex justify-between items-center">
-              <div>
-                {product?.instock > 0 ? (
-                  <div className="badge badge-success p-2">
-                    In Stock
-                  </div>
-                ) : (
-                  <div className="custom-badge-wrapper">
-                    <span className="custom-badge">
-                      Custom Made on Demand
-                    </span>
-                    <span className="custom-tooltip">
-                      This product will be created based on customer
-                      demand.
-                    </span>
+              <Slider {...settings} className="h-full">
+                {/* VIDEO */}
+                {product?.video && (
+                  <div className="h-full">
+                    <div className="flex justify-center items-center h-[400px] md:h-[600px]">
+                      <video
+                        src={product.video}
+                        controls
+                        autoPlay
+                        muted
+                        loop
+                        className="max-w-full max-h-full object-contain"
+                      />
+                    </div>
                   </div>
                 )}
+
+                {/* IMAGES */}
+                {product?.images?.map((src, index) => (
+                  <div key={index} className="h-full">
+                    <div className="flex justify-center items-center h-[400px] md:h-[600px]">
+                      <img
+                        src={src}
+                        alt={`Slide ${index + 1}`}
+                        className="max-w-full max-h-full object-contain"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </Slider>
+            </div>
+
+            {/* RIGHT: CONTENT */}
+            <div className="w-full lg:w-[45%] p-8 md:p-12 lg:p-16 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                    {product?.category}
+                  </span>
+                  {product?.instock > 0 ? (
+                    <span className="flex items-center gap-1.5 text-green-400 text-[10px] font-bold uppercase tracking-widest">
+                      <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+                      In Stock
+                    </span>
+                  ) : (
+                    <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest">
+                      Custom Order
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex justify-between items-start gap-6 mb-8">
+                  <h1 className="text-3xl md:text-4xl font-serif font-medium text-white tracking-tight leading-tight">
+                    {product?.pname}
+                  </h1>
+
+                  {isAdmin && (
+                    <div className="flex gap-4 pt-2">
+                      <button
+                        onClick={() => navigate(`/editProduct/${id}`)}
+                        className="p-3 bg-white/5 border border-white/5 text-gray-400 hover:text-[var(--color-primary)] rounded-full transition-all"
+                      >
+                        <GrEdit size={20} />
+                      </button>
+                      <button
+                        onClick={() => setShowDeleteModal(true)}
+                        disabled={deleteProductMutation.isPending}
+                        className="p-3 bg-white/5 border border-white/5 text-gray-400 hover:text-red-500 rounded-full transition-all disabled:opacity-50"
+                      >
+                        <RiDeleteBinFill size={20} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mb-10 p-6 bg-white/5 border border-white/5 rounded-3xl inline-block">
+                  {product?.discountPercentage > 0 && (
+                    <p className="text-sm text-gray-500 line-through mb-1">Was ₹{product.price}</p>
+                  )}
+                  <p className="text-4xl font-bold text-white tracking-tighter flex items-baseline gap-2">
+                    ₹{product?.discount}
+                    <span className="text-xs text-gray-500 font-normal tracking-normal uppercase">Indian Rupee</span>
+                  </p>
+                </div>
+
+                <div className="space-y-4 mb-12">
+                  <h3 className="text-xs uppercase font-bold text-gray-500 tracking-[0.2em]">Artist's Description</h3>
+                  <p className="text-gray-400 leading-relaxed italic text-lg opacity-90">
+                    "{product?.description}"
+                  </p>
+                </div>
               </div>
 
-              {product?.instock > 0 ? (
-                <button
-                  className="add-cart-btn compact"
-                  onClick={() => addToCart(product)}
-                >
-                  <FaShoppingCart />
-                  <span>Add</span>
-                </button>
-              ) : (
-                <button
-                  className="add-cart-btn compact whatsapp"
-                  onClick={() =>
-                    window.open(
-                      `https://wa.me/919037009645?text=${encodeURIComponent(
-                        `Hi, I'm interested in this artwork:\n\n${product?.pname}\nPrice: ₹${product?.discount}`
-                      )}`,
-                      "_blank"
-                    )
-                  }
-                >
-                  <FaWhatsapp />
-                  <span>Enquire</span>
-                </button>
-              )}
+              {/* ACTION BUTTONS */}
+              <div className="space-y-4">
+                {product?.instock > 0 ? (
+                  <button
+                    onClick={() => addToCart(product)}
+                    disabled={addToCartMutation.isPending}
+                    className="w-full flex items-center justify-center gap-4 py-5 rounded-2xl bg-[var(--color-primary)] text-black font-extrabold text-base tracking-widest transition-all hover:opacity-90 active:scale-[0.98] shadow-2xl shadow-[var(--color-primary)]/20 uppercase disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {addToCartMutation.isPending ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                        Adding to Collection...
+                      </>
+                    ) : (
+                      <>
+                        <FaShoppingCart size={20} />
+                        Add to Collection
+                      </>
+                    )}
+                  </button>
+                ) : (
+                  <button
+                    onClick={() =>
+                      window.open(
+                        `https://wa.me/919037009645?text=${encodeURIComponent(
+                          `Hi, I'm interested in commissioning this artwork:\n\n${product?.pname}\nReference ID: ${id}`
+                        )}`,
+                        "_blank"
+                      )
+                    }
+                    className="w-full flex items-center justify-center gap-4 py-5 rounded-2xl bg-[#25d366] text-white font-extrabold text-base tracking-widest transition-all hover:opacity-90 active:scale-[0.98] shadow-2xl shadow-green-500/20 uppercase"
+                  >
+                    <FaWhatsapp size={22} />
+                    Enquire on WhatsApp
+                  </button>
+                )}
+
+                <p className="text-center text-[10px] text-gray-600 font-medium uppercase tracking-widest">
+                  Handcrafted with love by Kavya 🎨
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        </motion.div>
+      </div>
     </>
   );
 }

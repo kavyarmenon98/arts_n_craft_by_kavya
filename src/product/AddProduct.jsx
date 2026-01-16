@@ -3,8 +3,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { addProductAPI } from "../services/service";
 import { useMutation } from "@tanstack/react-query";
-import "./AddProduct.css";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-hot-toast';
+import { motion } from "framer-motion";
+import { FiUpload, FiX, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
 
 /* ---------------- CONSTANTS ---------------- */
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -24,18 +26,11 @@ const validationSchema = Yup.object({
   category: Yup.string()
     .required("Please select a Category")
     .notOneOf([""], "Please select a Category"),
-  description: Yup.string(),
-  instock: Yup.number(),
+  description: Yup.string().required("Description is required"),
+  instock: Yup.number().required("Stock count is required"),
   images: Yup.array()
     .min(1, "At least one image is required")
-    .max(MAX_FILES, `You can upload up to ${MAX_FILES} images`)
-    .of(
-      Yup.mixed().test(
-        "fileType",
-        "Only JPEG/PNG/WebP images are allowed",
-        (file) => (file ? ALLOWED_TYPES.includes(file.type) : false)
-      )
-    ),
+    .max(MAX_FILES, `You can upload up to ${MAX_FILES} images`),
 });
 
 /* ---------------- COMPONENT ---------------- */
@@ -62,7 +57,6 @@ function AddProduct() {
     onSubmit: async (values, { resetForm }) => {
       try {
         const formData = new FormData();
-
         formData.append("pname", values.name);
         formData.append("price", values.price);
         formData.append("discount", values.discount || "");
@@ -79,26 +73,22 @@ function AddProduct() {
         }
 
         await addProductMutation.mutateAsync(formData);
-
         resetForm();
         setPreviews([]);
         navigate("/listProduct");
       } catch (error) {
-        alert(error?.response?.data?.message ?? "Product Add Failed");
+        toast.error(error?.response?.data?.message ?? "Product Add Failed");
       }
     },
   });
 
-  /* ---------------- IMAGE PREVIEWS ---------------- */
   useEffect(() => {
     const files = formik.values.images || [];
     const urls = files.map((f) => URL.createObjectURL(f));
     setPreviews(urls);
-
     return () => urls.forEach((u) => URL.revokeObjectURL(u));
   }, [formik.values.images]);
 
-  /* ---------------- HANDLERS ---------------- */
   const onFilesSelected = (e) => {
     const files = Array.from(e.currentTarget.files || []);
     const merged = [...formik.values.images, ...files];
@@ -111,160 +101,177 @@ function AddProduct() {
     formik.setFieldValue("images", next);
   };
 
-  const onVideoSelected = (e) => {
-    const file = e.target.files?.[0];
-    if (file && VIDEO_TYPES.includes(file.type)) {
-      formik.setFieldValue("video", file);
-    }
-  };
-
-  /* ---------------- UI ---------------- */
   return (
-    <div className="ap-container">
-      <form className="ap-form" onSubmit={formik.handleSubmit} noValidate>
-        <h2 className="ap-heading">Add Product</h2>
-
-        {/* NAME */}
-        <div className="ap-field">
-          <label>Product Name</label>
-          <input className="ap-input" {...formik.getFieldProps("name")} />
+    <div className="min-h-screen bg-[#050505] pt-32 pb-20 px-4 md:px-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="mb-12">
+          <h2 className="text-4xl font-serif text-white mb-2 tracking-tight">Expand the Gallery</h2>
+          <p className="text-gray-500">Add a new masterpiece to the Arts & Craft collection.</p>
         </div>
 
-        {/* PRICE */}
-        <div className="ap-field">
-          <label>Price</label>
-          <input
-            type="number"
-            className="ap-input"
-            {...formik.getFieldProps("price")}
-          />
-        </div>
-
-        {/* DISCOUNT */}
-        <div className="ap-field">
-          <label>Discount Price</label>
-          <input
-            type="number"
-            className="ap-input"
-            {...formik.getFieldProps("discount")}
-            placeholder="Optional"
-          />
-          {formik.errors.discount && (
-            <div className="ap-error">{formik.errors.discount}</div>
-          )}
-        </div>
-
-        {/* CATEGORY */}
-        <div className="ap-field">
-          <label>Category</label>
-          <select className="ap-select" {...formik.getFieldProps("category")}>
-            <option value="">Select</option>
-            <option value="Painting">Painting</option>
-            <option value="Craft">Craft Item</option>
-            <option value="Nettipattam">Nettipattam</option>
-            <option value="Resin">Resin Products</option>
-          </select>
-        </div>
-
-        {/* DESCRIPTION */}
-        <div className="ap-field">
-          <label>Description</label>
-          <textarea
-            rows="4"
-            className="ap-input"
-            {...formik.getFieldProps("description")}
-          />
-        </div>
-
-        {/* STOCK */}
-        <div className="ap-field">
-          <label>In Stock</label>
-          <input
-            type="number"
-            className="ap-input"
-            {...formik.getFieldProps("instock")}
-          />
-        </div>
-
-        {/* IMAGES */}
-        <div className="ap-field">
-          <label>Product Images</label>
-          <div className="ap-dropzone">
-            Click or drag images
-            <input
-              type="file"
-              multiple
-              accept={ALLOWED_TYPES.join(",")}
-              className="ap-file"
-              onChange={onFilesSelected}
-            />
-          </div>
-
-          {previews.length > 0 && (
-            <div className="ap-previews">
-              {previews.map((src, i) => (
-                <div className="ap-preview" key={i}>
-                  <img src={src} alt="" />
-                  <button
-                    type="button"
-                    className="ap-remove"
-                    onClick={() => removeImageAt(i)}
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* VIDEO */}
-        <div className="ap-field">
-          <label>Product Video (optional)</label>
-          <input
-            type="file"
-            accept={VIDEO_TYPES.join(",")}
-            className="ap-input"
-            onChange={onVideoSelected}
-          />
-
-          {formik.values.video && (
-            <div className="ap-previews">
-              <div className="ap-preview">
-                <video
-                  controls
-                  src={URL.createObjectURL(formik.values.video)}
-                  className="ap-video-preview"
+        <form onSubmit={formik.handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          {/* LEFT: FORM FIELDS */}
+          <div className="lg:col-span-2 space-y-8">
+            <div className="bg-[#111111] border border-white/5 rounded-3xl p-8 space-y-6">
+              <div>
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Artwork Title</label>
+                <input
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[var(--color-primary)] transition-all"
+                  placeholder="e.g. Mural of Serenity"
+                  {...formik.getFieldProps("name")}
                 />
-                <button
-                  type="button"
-                  className="ap-remove"
-                  onClick={() => formik.setFieldValue("video", null)}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Price (₹)</label>
+                  <input
+                    type="number"
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[var(--color-primary)] transition-all"
+                    placeholder="0.00"
+                    {...formik.getFieldProps("price")}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Discount Price (₹)</label>
+                  <input
+                    type="number"
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[var(--color-primary)] transition-all"
+                    placeholder="Optional"
+                    {...formik.getFieldProps("discount")}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Category</label>
+                <select
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[var(--color-primary)] transition-all appearance-none"
+                  {...formik.getFieldProps("category")}
                 >
-                  ✕
-                </button>
+                  <option value="">Select Category</option>
+                  <option value="Painting">Painting</option>
+                  <option value="FabricPainting">Fabric Painting</option>
+                  <option value="Craft">Craft Item</option>
+                  <option value="Nettipattam">Nettipattam</option>
+                  <option value="Resin">Resin Products</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Stock Count</label>
+                <input
+                  type="number"
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[var(--color-primary)] transition-all"
+                  placeholder="0 for Custom-Only items"
+                  {...formik.getFieldProps("instock")}
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Story/Description</label>
+                <textarea
+                  rows="5"
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[var(--color-primary)] transition-all resize-none"
+                  placeholder="Describe the inspiration behind this piece..."
+                  {...formik.getFieldProps("description")}
+                />
               </div>
             </div>
-          )}
-        </div>
 
-        {/* ACTIONS */}
-        <div className="ap-actions">
-          <button className="ap-btn ap-btn-primary" type="submit">
-            Submit
-          </button>
-          <button
-            type="button"
-            className="ap-btn ap-btn-ghost"
-            onClick={() => {
-              formik.resetForm();
-              setPreviews([]);
-            }}
-          >
-            Reset
-          </button>
-        </div>
-      </form>
+            <div className="flex gap-4 pt-4">
+              <button
+                type="submit"
+                disabled={addProductMutation.isPending}
+                className="flex-1 py-4 bg-[var(--color-primary)] text-black font-extrabold rounded-2xl tracking-widest hover:opacity-90 active:scale-95 transition-all shadow-xl shadow-[var(--color-primary)]/10 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+              >
+                {addProductMutation.isPending ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    CURATING...
+                  </>
+                ) : (
+                  "PUBLISH ARTWORK"
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate("/listProduct")}
+                className="flex-1 py-4 bg-white/5 text-white font-bold rounded-2xl tracking-widest border border-white/10 hover:bg-white/10 transition-all"
+              >
+                DISCARD
+              </button>
+            </div>
+          </div>
+
+          {/* RIGHT: MEDIA UPLOAD */}
+          <div className="space-y-8">
+            <div className="bg-[#111111] border border-white/5 rounded-3xl p-8">
+              <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Gallery Images</label>
+
+              <div className="relative border-2 border-dashed border-white/10 rounded-2xl p-8 text-center group hover:border-[var(--color-primary)]/50 transition-all cursor-pointer">
+                <input
+                  type="file"
+                  multiple
+                  accept={ALLOWED_TYPES.join(",")}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={onFilesSelected}
+                />
+                <FiUpload className="mx-auto text-3xl text-gray-500 mb-4 group-hover:text-[var(--color-primary)] transition-colors" />
+                <p className="text-gray-400 text-sm font-medium">Select up to {MAX_FILES} images</p>
+                <p className="text-gray-600 text-[10px] uppercase mt-2">JPG, PNG, WebP</p>
+              </div>
+
+              {previews.length > 0 && (
+                <div className="grid grid-cols-2 gap-3 mt-6">
+                  {previews.map((src, idx) => (
+                    <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-white/10 group">
+                      <img src={src} className="w-full h-full object-cover" alt="" />
+                      <button
+                        type="button"
+                        onClick={() => removeImageAt(idx)}
+                        className="absolute top-2 right-2 p-1.5 bg-black/60 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <FiX size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="bg-[#111111] border border-white/5 rounded-3xl p-8">
+              <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Process Video (Optional)</label>
+              {!formik.values.video ? (
+                <div className="relative border border-white/10 rounded-2xl p-6 text-center hover:bg-white/5 transition-all cursor-pointer">
+                  <input
+                    type="file"
+                    accept={VIDEO_TYPES.join(",")}
+                    className="absolute inset-0 opacity-0 cursor-pointer"
+                    onChange={(e) => formik.setFieldValue("video", e.target.files[0])}
+                  />
+                  <p className="text-gray-500 text-sm font-medium">Add video link or file</p>
+                </div>
+              ) : (
+                <div className="relative rounded-2xl overflow-hidden border border-white/10">
+                  <video
+                    src={URL.createObjectURL(formik.values.video)}
+                    className="w-full aspect-video object-cover"
+                    controls
+                  />
+                  <button
+                    type="button"
+                    onClick={() => formik.setFieldValue("video", null)}
+                    className="absolute top-2 right-2 p-2 bg-black/60 text-white rounded-full"
+                  >
+                    <FiX size={16} />
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

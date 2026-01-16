@@ -1,107 +1,12 @@
-/* =========================================
-   PREMIUM DARK THEME - DESIGN TOKENS
-   ========================================= */
+@reference "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+/* Global custom utility classes (if needed) */
+@layer utilities {
+  .animate-in {
+    @apply transition-all duration-700 ease-out translate-y-0 opacity-100;
+  }
 
-:root {
-  /* BACKGROUNDS */
-  --bg-page: #050505;
-  /* Deepest black for main background */
-  --bg-card: #0f1219;
-  /* Slightly lighter for cards */
-  --bg-card-hover: #161b26;
-  /* Hover state for cards */
-  --bg-overlay: rgba(5, 5, 5, 0.85);
-
-  /* BRAND COLORS */
-  --color-primary: #ff9f43;
-  /* Warm Orange (Accent) */
-  --color-secondary: #cfa24a;
-  /* Gold */
-  --color-success: #00d26a;
-  --color-danger: #ff5c5c;
-
-  /* TEXT */
-  --text-main: #ffffff;
-  --text-muted: #a1a1aa;
-  --text-dark: #000000;
-
-  /* GLASSMORPHISM */
-  --glass-bg: rgba(20, 25, 34, 0.7);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-
-  /* SPACING & LAYOUT */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --max-width: 1200px;
-
-  /* TYPOGRAPHY */
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-serif: 'Playfair Display', serif;
-}
-
-/* RESET & BASE */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: var(--bg-page);
-  color: var(--text-main);
-  font-family: var(--font-sans);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* SCROLLBAR */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-page);
-}
-
-::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* UTILITIES */
-.container {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 16px;
-}
-
-.premium-btn {
-  background: linear-gradient(135deg, var(--color-primary), #ff6f00);
-  color: var(--text-dark);
-  font-weight: 600;
-  padding: 10px 24px;
-  border-radius: 30px;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.premium-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(255, 159, 67, 0.4);
-}
-
-.glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  border: var(--glass-border);
-  border-radius: var(--radius-md);
+  .text-glow {
+    text-shadow: 0 0 10px rgba(255, 159, 67, 0.4);
+  }
 }
