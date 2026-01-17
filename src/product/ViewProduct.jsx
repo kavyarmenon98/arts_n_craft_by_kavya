@@ -13,6 +13,7 @@ import { FaShoppingCart, FaWhatsapp, FaChevronLeft, FaChevronRight } from "react
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ProductPolicies from "./ProductPolicies";
 
 /* ---------- Delete Confirmation Modal ---------- */
 function ConfirmDeleteModal({ onConfirm, onCancel }) {
@@ -50,7 +51,7 @@ function ConfirmDeleteModal({ onConfirm, onCancel }) {
 const CustomArrow = ({ direction, onClick }) => (
   <button
     onClick={onClick}
-    className={`absolute top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 border border-white/10 text-white hover:bg-[var(--color-primary)] hover:text-black transition-all backdrop-blur-md ${direction === "left" ? "left-4" : "right-4"
+    className={`absolute top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 border border-white/10 text-white hover:bg-[var(--color-primary)] hover:text-white transition-all backdrop-blur-md ${direction === "left" ? "left-4" : "right-4"
       }`}
   >
     {direction === "left" ? <FaChevronLeft /> : <FaChevronRight />}
@@ -103,7 +104,7 @@ export default function ViewProduct() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 3000,
     nextArrow: <CustomArrow direction="right" />,
     prevArrow: <CustomArrow direction="left" />,
     dotsClass: "slick-dots custom-dots-pos",
@@ -134,11 +135,11 @@ export default function ViewProduct() {
         )}
       </AnimatePresence>
 
-      <div className="min-h-screen bg-[#050505] pt-32 pb-20 px-4 md:px-6">
+      <div className="min-h-screen bg-[#050505] pt-24 md:pt-32 pb-20 px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-6xl mx-auto bg-[#0f1219] border border-white/5 rounded-[40px] overflow-hidden shadow-2xl"
+          className="max-w-6xl mx-auto bg-[#0f1219] border border-white/5 rounded-[30px] md:rounded-[40px] overflow-hidden shadow-2xl"
         >
           <div className="flex flex-col lg:flex-row">
             {/* LEFT: SLIDER */}
@@ -195,9 +196,10 @@ export default function ViewProduct() {
                       In Stock
                     </span>
                   ) : (
-                    <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest">
+                    <span className="text-[var(--color-primary)] text-[10px] font-bold uppercase tracking-widest">
                       Custom Order
                     </span>
+
                   )}
                 </div>
 
@@ -240,6 +242,8 @@ export default function ViewProduct() {
                   <p className="text-gray-400 leading-relaxed italic text-lg opacity-90">
                     "{product?.description}"
                   </p>
+
+                  <ProductPolicies category={product?.category} />
                 </div>
               </div>
 
@@ -249,11 +253,11 @@ export default function ViewProduct() {
                   <button
                     onClick={() => addToCart(product)}
                     disabled={addToCartMutation.isPending}
-                    className="w-full flex items-center justify-center gap-4 py-5 rounded-2xl bg-[var(--color-primary)] text-black font-extrabold text-base tracking-widest transition-all hover:opacity-90 active:scale-[0.98] shadow-2xl shadow-[var(--color-primary)]/20 uppercase disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-4 py-5 rounded-2xl bg-[var(--color-primary)] text-white font-extrabold text-base tracking-widest transition-all hover:opacity-90 active:scale-[0.98] shadow-2xl shadow-[var(--color-primary)]/20 uppercase disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {addToCartMutation.isPending ? (
                       <>
-                        <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                         Adding to Collection...
                       </>
                     ) : (

@@ -2,20 +2,22 @@ import WhatsAppButton from "../common/WhatsAppButton"
 import HomePage1 from "./HomePage1"
 import HomePage2 from "./HomePage2"
 import HomePage3 from "./HomePage3"
-import HomePage4 from "./HomePage4"
-import OfferProductPage from "./OfferProductPage"
+import BrandStory from "./BrandStory"
+import BulkGifting from "./BulkGifting"
+import Review from "./Review"
 
-function Home()
-{
+function Home() {
     return (
         <>
-        <WhatsAppButton />
-         <HomePage1/>
-         <HomePage2/>
-         <HomePage3 />
-         <HomePage4 />
+            <WhatsAppButton />
+            <HomePage1 />
+            <HomePage3 />
+            <HomePage2 />
+            <BrandStory />
+            <BulkGifting />
+            <Review />
 
-        
+
         </>
     )
 }

@@ -36,7 +36,7 @@ function ProductCard({ details }) {
           item.instock > 0 ? "In Stock" : "Custom Made";
 
         const stockBadgeColor =
-          item.instock > 0 ? "bg-green-600" : "bg-orange-500";
+          item.instock > 0 ? "bg-green-600" : "bg-[var(--color-secondary)]";
 
         return (
           <div
@@ -122,7 +122,7 @@ function ProductCard({ details }) {
                     <>
                       <button
                         title="Edit"
-                        className="p-1.5 hover:text-yellow-400 transition-colors"
+                        className="p-1.5 hover:text-[var(--color-primary)] transition-colors"
                         onClick={() => navigate(`/editProduct/${item._id}`)}
                       >
                         <GrEdit size={16} />
@@ -143,12 +143,12 @@ function ProductCard({ details }) {
               <div className="mt-auto">
                 {item.instock > 0 ? (
                   <button
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[var(--color-primary)] text-black font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-lg shadow-[var(--color-primary)]/10 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[var(--color-primary)] text-white font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-lg shadow-[var(--color-primary)]/10 disabled:opacity-70 disabled:cursor-not-allowed"
                     disabled={addToCartMutation.isPending}
                     onClick={() => addToCartMutation.mutate(item)}
                   >
                     {addToCartMutation.isPending ? (
-                      <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     ) : (
                       <FaShoppingCart />
                     )}

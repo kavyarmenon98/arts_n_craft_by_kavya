@@ -20,15 +20,15 @@ function HomePage3() {
     },
     {
       title: "Craft Works",
-      imageUrl: ["src/assets/category/craft1.jpg", "src/assets/category/craft2.jpg"],
+      imageUrl: ["src/assets/category/craft2.jpg", "src/assets/category/craft1.jpg"],
       link: "Craft",
     },
   ];
 
   return (
-    <section className="bg-[#050505] py-32 px-4 md:px-6">
+    <section className="bg-[#050505] py-20 md:py-32 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col items-center mb-20 text-center">
+        <div className="flex flex-col items-center mb-12 md:mb-20 text-center">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -41,11 +41,11 @@ function HomePage3() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-serif text-white tracking-tight"
+            className="text-3xl md:text-6xl font-serif text-white tracking-tight"
           >
             Shop by <span className="italic">Category</span>
           </motion.h2>
-          <div className="h-1 w-20 bg-[var(--color-primary)] mt-8 rounded-full" />
+          <div className="h-1 w-20 bg-[var(--color-primary)] mt-6 md:mt-8 rounded-full" />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

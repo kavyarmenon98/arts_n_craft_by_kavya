@@ -13,8 +13,10 @@ import EditProduct from './product/EditProduct';
 import Category from './category/Category';
 import Cart from './category/Cart';
 import OrdersList from './admin/OrdersList';
+import AdminReviews from './admin/AdminReviews';
 import MyOrders from './common/MyOrder';
 import OfferProductPage from './home/OfferProductPage';
+import AboutMe from './home/AboutMe';
 
 function App() {
 
@@ -26,7 +28,7 @@ function App() {
           style: {
             background: '#0f1219',
             color: '#fff',
-            border: '1px solid rgba(255, 159, 67, 0.2)',
+            border: '1px solid rgba(0, 161, 209, 0.2)',
             padding: '16px',
             borderRadius: '16px',
             fontSize: '14px',
@@ -34,10 +36,11 @@ function App() {
           },
           success: {
             iconTheme: {
-              primary: '#ff9f43',
+              primary: '#00a1d1',
               secondary: '#000',
             },
           },
+
           error: {
             iconTheme: {
               primary: '#ff5c5c',
@@ -71,7 +74,7 @@ function App() {
                   <Home />
                 }
               />
-          
+
               <Route path="/listProduct"
                 element={
                   // <ProtectedRoute >
@@ -81,22 +84,20 @@ function App() {
               />
 
               <Route path="/viewProduct/:id" element={<ViewProduct />} />
-              <Route path="/editProduct/:id" element={    <ProtectedRoute role="admin"><EditProduct /></ProtectedRoute>} />
+              <Route path="/editProduct/:id" element={<ProtectedRoute role="admin"><EditProduct /></ProtectedRoute>} />
               <Route path="/category/:id" element={<Category />} />
-              <Route path="/cart" element={     <ProtectedRoute><Cart /></ProtectedRoute>} />
+              <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
 
               <Route path="/order" element={
-                  <ProtectedRoute role="admin"><OrdersList />   </ProtectedRoute>} />
-           
+                <ProtectedRoute role="admin"><OrdersList />   </ProtectedRoute>} />
 
-              <Route path="/myorder" element={    <ProtectedRoute><MyOrders /></ProtectedRoute>} />
+              <Route path="/admin/reviews" element={
+                <ProtectedRoute role="admin"><AdminReviews />   </ProtectedRoute>} />
+
+
+              <Route path="/myorder" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
               <Route path="/offer" element={<OfferProductPage />} />
-
-
-
-
-
-
+              <Route path="/about" element={<AboutMe />} />
 
               <Route path="/not-authorized" element={<h1>🚫 Not Authorized</h1>} />
             </Routes>

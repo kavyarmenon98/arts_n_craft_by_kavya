@@ -47,9 +47,10 @@ export default function ShopByCategory({
           <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
             <h3 className="text-2xl font-serif text-[var(--color-primary)] tracking-widest uppercase mb-4">{title}</h3>
             <p className="text-gray-400 text-xs font-bold uppercase tracking-[0.2em] mb-6">Explore the full collection</p>
-            <div className="px-6 py-2 rounded-full border border-[var(--color-primary)] text-[var(--color-primary)] text-[10px] font-black tracking-[0.3em] uppercase group-hover:bg-[var(--color-primary)] group-hover:text-black transition-all">
+            <div className="px-6 py-2 rounded-full border border-[var(--color-primary)] text-[var(--color-primary)] text-[10px] font-black tracking-[0.3em] uppercase group-hover:bg-[var(--color-primary)] group-hover:text-white transition-all">
               Enter Gallery
             </div>
+
           </div>
         </div>
       </div>

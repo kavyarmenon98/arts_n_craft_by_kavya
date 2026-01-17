@@ -1,10 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getMyOrderAPI, getUserInfoAPI, updateUserInfoAPI } from "../services/service";
-import { FiBox, FiCalendar, FiMapPin, FiEdit2, FiX, FiCheck, FiArrowRight } from "react-icons/fi";
+import { FiBox, FiCalendar, FiMapPin, FiEdit2, FiX, FiCheck, FiArrowRight, FiStar } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import PageLoader from "./PageLoader";
+import ReviewModal from "./ReviewModal";
 
 // Address Modal Component
 function EditAddressModal({ isOpen, onClose, currentAddress, onSave, isLoading }) {
@@ -66,6 +67,7 @@ function EditAddressModal({ isOpen, onClose, currentAddress, onSave, isLoading }
 export default function MyOrders() {
   const queryClient = useQueryClient();
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [selectedReviewItem, setSelectedReviewItem] = useState(null);
 
   // 1. Fetch Orders
   const { data, isLoading } = useQuery({
@@ -144,12 +146,12 @@ export default function MyOrders() {
             <p className="text-sm text-gray-300 leading-relaxed italic line-clamp-2 pr-8">
               {userData?.user?.address || "Please set a shipping destination."}
             </p>
-            <button
+            {/* <button
               onClick={() => setIsAddressModalOpen(true)}
               className="absolute top-6 right-6 p-2 rounded-full bg-white/5 text-gray-400 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 transition-all"
             >
               <FiEdit2 size={16} />
-            </button>
+            </button> */}
           </motion.div>
         </div>
 
@@ -202,9 +204,19 @@ export default function MyOrders() {
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-2xl font-serif text-white mb-2 leading-tight group-hover:text-[var(--color-primary)] transition-colors">
-                          {item.name}
-                        </h3>
+                        <div className="flex justify-between items-start">
+                          <h3 className="text-2xl font-serif text-white mb-2 leading-tight group-hover:text-[var(--color-primary)] transition-colors">
+                            {item.name}
+                          </h3>
+                          {order.status === "Delivered" && (
+                            <button
+                              onClick={() => setSelectedReviewItem(item)}
+                              className="flex items-center gap-2 text-[10px] font-black text-[var(--color-primary)] uppercase tracking-widest bg-[var(--color-primary)]/10 px-4 py-2 rounded-xl hover:bg-[var(--color-primary)] hover:text-black transition-all"
+                            >
+                              <FiStar /> Rate Item
+                            </button>
+                          )}
+                        </div>
                         <div className="flex flex-wrap items-center gap-6 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">
                           <span>Quantity {item.quantity}</span>
                           <span className="w-1 h-1 bg-gray-800 rounded-full" />
@@ -244,6 +256,12 @@ export default function MyOrders() {
             isLoading={updateAddressMutation.isPending}
           />
         </AnimatePresence>
+
+        <ReviewModal
+          isOpen={!!selectedReviewItem}
+          onClose={() => setSelectedReviewItem(null)}
+          preFilledData={selectedReviewItem}
+        />
       </div>
     </div>
   );

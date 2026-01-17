@@ -8,11 +8,10 @@ import { useNavigate } from "react-router-dom";
 function HomePage1() {
   const navigate = useNavigate();
   const images = [
-    "src/assets/home_image2.jpg",
-    "src/assets/home_image1.png",
-    "src/assets/image15.jpg",
-    "src/assets/image6.jpg",
-    "src/assets/image3.jpg",
+    "src/assets/gemini2.png",
+    "src/assets/gemini3.png",
+    "src/assets/gemini4.png",
+
   ];
 
   const settings = {
@@ -22,7 +21,7 @@ function HomePage1() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 3000,
     arrows: false,
     fade: true,
     dotsClass: "slick-dots custom-dots-pos",
@@ -56,7 +55,7 @@ function HomePage1() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
-                className="text-5xl md:text-8xl font-serif text-white tracking-tighter mb-6 max-w-5xl"
+                className="text-4xl md:text-8xl font-serif text-white tracking-tighter mb-6 max-w-5xl"
               >
                 Color your world with <span className="italic">handmade magic</span>
               </motion.h1>
@@ -66,7 +65,7 @@ function HomePage1() {
                 transition={{ delay: 0.8 }}
                 className="text-white/60 text-lg md:text-xl font-medium tracking-wide mb-10 max-w-2xl"
               >
-                Bespoke creations that breathe life into your space. Curated with soul, crafted by hand.
+                Personalized art pieces crafted to reflect your story and style.
               </motion.p>
               <motion.button
                 initial={{ opacity: 0, scale: 0.9 }}

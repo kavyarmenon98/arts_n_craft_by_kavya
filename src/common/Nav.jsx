@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { logoutAction } from "../redux/authSlice";
-import { FiLogOut, FiUserPlus, FiMenu, FiX, FiChevronDown, FiShoppingCart } from "react-icons/fi";
+import { FiLogOut, FiUserPlus, FiMenu, FiX, FiChevronDown, FiShoppingCart, FiInstagram } from "react-icons/fi";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQueryClient } from "@tanstack/react-query";
@@ -42,12 +42,17 @@ function Nav() {
       { name: "Add Products", path: "/addProduct" },
       { name: "List Products", path: "/listProduct" },
       { name: "Orders", path: "/order" },
+      { name: "Reviews", path: "/admin/reviews" },
       { name: "Offers", path: "/offer" },
+      { name: "About", path: "/about" },
+
     ]
     : [
       { name: "Home", path: "/home" },
       { name: "Orders", path: "/myorder" },
       { name: "Offers", path: "/offer" },
+      { name: "About", path: "/about" },
+
     ];
 
   const categories = [
@@ -74,7 +79,7 @@ function Nav() {
           <img
             src="/src/assets/logo3.png"
             alt="Logo"
-            className="h-10 md:h-12 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-[0_0_8px_rgba(255,159,67,0.4)]"
+            className="h-10 md:h-12 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-[0_0_8px_rgba(0,161,209,0.4)]"
           />
         </Link>
 
@@ -136,18 +141,28 @@ function Nav() {
             >
               <FiShoppingCart size={22} />
               {cartItems.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[var(--color-primary)] text-black text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center border-2 border-black">
+                <span className="absolute -top-1 -right-1 bg-[var(--color-primary)] text-white text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center border-2 border-black">
                   {cartItems.length}
                 </span>
               )}
             </Link>
           )}
 
+          <a
+            href="https://www.instagram.com/arts_n_crafts_by_kavya/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 text-gray-400 hover:text-[var(--color-primary)] transition-colors hidden sm:block"
+            title="Follow on Instagram"
+          >
+            <FiInstagram size={22} />
+          </a>
+
           <div className="hidden md:block">
             {user ? (
               <button
                 onClick={handleLogout}
-                className="p-2.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:bg-[var(--color-primary)] hover:text-black transition-all"
+                className="p-2.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:bg-[var(--color-primary)] hover:text-white transition-all"
                 title="Logout"
               >
                 <FiLogOut size={18} />
@@ -155,7 +170,7 @@ function Nav() {
             ) : (
               <Link
                 to="/login"
-                className="px-6 py-2 rounded-full bg-[var(--color-primary)] text-black font-bold text-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+                className="px-6 py-2 rounded-full bg-[var(--color-primary)] text-white font-bold text-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
               >
                 <FiUserPlus size={18} /> Sign In
               </Link>
@@ -211,7 +226,7 @@ function Nav() {
                 </div>
               )}
 
-              <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+              <div className="flex items-center gap-6 pt-4 border-t border-white/5">
                 {user ? (
                   <button
                     onClick={handleLogout}
@@ -228,6 +243,15 @@ function Nav() {
                     <FiUserPlus /> Sign In
                   </Link>
                 )}
+
+                <a
+                  href="https://www.instagram.com/arts_n_crafts_by_kavya/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-[var(--color-primary)] transition-colors"
+                >
+                  <FiInstagram size={24} />
+                </a>
               </div>
             </div>
           </motion.div>

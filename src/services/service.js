@@ -254,3 +254,44 @@ export const updateUserInfoAPI = async (address) => {
     throw error;
   }
 };
+
+export const addReviewAPI = async (reviewData) => {
+  try {
+    const { data } = await apiClient.post(`/rate/add`, reviewData);
+    toast.success(data?.message || 'Review submitted successfully');
+    return data;
+  } catch (error) {
+    toast.error(error.response?.data?.message || 'Failed to submit review');
+    throw error;
+  }
+};
+
+export const getMyReviewsAPI = async () => {
+  try {
+    const { data } = await apiClient.get(`/rate/myreviews`);
+    return data;
+  } catch (error) {
+    console.error("Error fetching my reviews:", error);
+    throw error;
+  }
+};
+
+export const getProductReviewsAPI = async (productId) => {
+  try {
+    const { data } = await apiClient.get(`/rate/productreview/${productId}`);
+    return data;
+  } catch (error) {
+    console.error("Error fetching product reviews:", error);
+    throw error;
+  }
+};
+
+export const getAllReviewsAPI = async () => {
+  try {
+    const { data } = await apiClient.get(`/rate/myreviews`);
+    return data;
+  } catch (error) {
+    console.error("Error fetching all reviews:", error);
+    throw error;
+  }
+};

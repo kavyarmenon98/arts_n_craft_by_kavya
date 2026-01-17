@@ -8,8 +8,8 @@
     --color-bg-overlay: rgba(5, 5, 5, 0.85);
 
     /* BRAND COLORS */
-    --color-primary: #ff9f43;
-    --color-secondary: #cfa24a;
+    --color-primary: #00a1d1;
+    --color-secondary: #0077b6;
     --color-success: #00d26a;
     --color-danger: #ff5c5c;
 
@@ -34,8 +34,8 @@
         --bg-card: #0f1219;
         --bg-card-hover: #161b26;
         --bg-overlay: rgba(5, 5, 5, 0.85);
-        --color-primary-val: #ff9f43;
-        --color-secondary-val: #cfa24a;
+        --color-primary-val: #00a1d1;
+        --color-secondary-val: #0077b6;
         --text-main: #ffffff;
         --text-muted: #a1a1aa;
         --glass-bg: rgba(20, 25, 34, 0.7);
@@ -60,14 +60,15 @@
 
     .premium-btn {
         @apply px-6 py-2.5 rounded-full font-semibold transition-all duration-200 cursor-pointer;
-        background: linear-gradient(135deg, var(--color-primary-val), #ff6f00);
-        color: #000;
+        background: linear-gradient(135deg, var(--color-primary-val), #0077b6);
+        color: #fff;
     }
 
     .premium-btn:hover {
         @apply -translate-y-0.5;
-        box-shadow: 0 4px 20px rgba(255, 159, 67, 0.4);
+        box-shadow: 0 4px 20px rgba(0, 161, 209, 0.4);
     }
+
 }
 
 /* Scrollbar Customization */

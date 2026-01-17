@@ -155,7 +155,12 @@ export default function OrdersList() {
                       <p className="text-[10px] font-black text-gray-600 uppercase tracking-widest mb-1">Contact</p>
                       <p className="text-sm text-[var(--color-primary)] font-bold">{order.phonenumber || order.userId?.phonenumber || "N/A"}</p>
                     </div>
+                    <div className="max-w-[200px]">
+                      <p className="text-[10px] font-black text-gray-600 uppercase tracking-widest mb-1">Address</p>
+                      <p className="text-[10px] text-gray-400 font-medium leading-relaxed italic">{order.userId?.address || "N/A"}</p>
+                    </div>
                   </div>
+
 
                   <div className="text-right">
                     <p className="text-[10px] font-black text-gray-600 uppercase tracking-widest mb-1">Total Revenue</p>

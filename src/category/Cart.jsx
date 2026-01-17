@@ -172,7 +172,7 @@ export default function CartPage() {
           await verifyPaymentAPI(res);
           navigate("/myorder");
         },
-        theme: { color: "#ff9f43" },
+        theme: { color: "#00a1d1" },
       };
 
       new window.Razorpay(options).open();
@@ -336,7 +336,13 @@ export default function CartPage() {
                       <p className="text-sm text-gray-300 line-clamp-2 leading-relaxed italic pr-4 underline decoration-white/20 underline-offset-4">
                         {userData?.user?.address || "Please set your delivery address."}
                       </p>
+                      {userData?.user?.phonenumber && (
+                        <p className="mt-2 text-[10px] font-bold text-[var(--color-primary)] tracking-widest uppercase">
+                          Contact: {userData?.user?.phonenumber}
+                        </p>
+                      )}
                     </div>
+
                     <button
                       onClick={openModal}
                       className="text-[var(--color-primary)] text-xs font-bold hover:underline"
@@ -358,7 +364,7 @@ export default function CartPage() {
               </div>
 
               <button
-                className="w-full py-4 rounded-2xl bg-gradient-to-r from-[var(--color-primary)] to-[#ff8c00] text-black font-extrabold text-lg flex items-center justify-center gap-3 transition-all hover:opacity-90 active:scale-[0.98] shadow-xl shadow-[var(--color-primary)]/20 disabled:opacity-50"
+                className="w-full py-4 rounded-2xl bg-gradient-to-r from-[var(--color-primary)] to-[#0077b6] text-white font-extrabold text-lg flex items-center justify-center gap-3 transition-all hover:opacity-90 active:scale-[0.98] shadow-xl shadow-[var(--color-primary)]/20 disabled:opacity-50"
                 disabled={checkoutLoading || createOrderMutation.isPending || !data?.cart?.length}
                 onClick={handleCheckout}
               >
