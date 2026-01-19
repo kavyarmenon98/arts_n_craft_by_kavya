@@ -3,6 +3,21 @@ import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
+// Import all images properly for production
+import logo2 from "../assets/logo2.png";
+import image2 from "../assets/image2.jpg";
+import image4 from "../assets/image4.jpg";
+import image13 from "../assets/image13.png";
+import home2 from "../assets/home2.jpg";
+import home3 from "../assets/home3.jpg";
+import image8 from "../assets/image8.webp";
+import image9 from "../assets/image9.jpg";
+import image19 from "../assets/image19.jpg";
+import image11 from "../assets/image11.webp";
+import image10 from "../assets/image10.jpg";
+import nettipattam3 from "../assets/nettipattam3.jpg";
+import nettippatam4 from "../assets/nettippatam4.jpg";
+
 function HomePage2() {
   const navigate = useNavigate();
   const settings = {
@@ -23,29 +38,13 @@ function HomePage2() {
       title: "Kerala Mural Painting",
       subtitle: "A Timeless Heritage",
       description: "Step into a world of celestial beauty with Kerala's iconic mural art. Rooted in the 7th century, these masterpieces capture the essence of temple antiquity through vibrant hues and intricate detailing. Heavily influenced by Pallava aesthetics and perfected over generations, each stroke tells a legendary story of divinity and grace, bringing a sacred elegance to any space.",
-      image: [
-        "src/assets/image2.jpg",
-        "src/assets/image4.jpg",
-        "src/assets/image13.png",
-        "src/assets/home2.jpg",
-        "src/assets/home3.jpg",
-      ],
+      image: [image2, image4, image13, home2, home3],
     },
     {
       title: "Traditional Nettipattam",
       subtitle: "The Golden Elephant Caparison",
       description: "Embrace the symbol of prosperity and grand heritage with the Traditional Nettipattam. Meticulously crafted from copper and gold-plated spheres, this 'elephants' forehead ornament' is a testament to Kerala's regal festivities. Whether as a housewarming gift or a statement piece for your living room, it brings the grandeur of the temple festivals right into your modern home.",
-      image: [
-        "src/assets/image8.webp",
-        "src/assets/image9.jpg",
-        "src/assets/image19.jpg",
-        "src/assets/image11.webp",
-        "src/assets/image10.jpg",
-        "src/assets/nettipattam3.jpg",
-        "src/assets/nettippatam4.jpg",
-
-
-      ],
+      image: [image8, image9, image19, image11, image10, nettipattam3, nettippatam4],
     },
   ];
 
@@ -68,7 +67,7 @@ function HomePage2() {
             className="relative"
           >
             <img
-              src="/src/assets/logo2.png"
+              src={logo2}
               alt="Kavya Arts"
               className="w-48 mb-12 drop-shadow-[0_0_40px_rgba(0,161,209,0.3)]"
             />

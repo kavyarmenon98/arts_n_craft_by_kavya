@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { FiMapPin, FiAward, FiStar, FiHeart, FiCode, FiCornerDownRight, FiInstagram, FiMessageCircle } from "react-icons/fi";
 
+// Import profile image properly for production
+import myPic1 from "../assets/myPic1.jpg";
+
 export default function AboutMe() {
     return (
         <div className="min-h-screen bg-black text-white pt-24 pb-16 px-4 md:px-6 overflow-hidden">
@@ -22,7 +25,7 @@ export default function AboutMe() {
                     >
                         <div className="relative z-10 rounded-[40px] overflow-hidden border border-white/10 shadow-2xl">
                             <img
-                                src="/src/assets/myPic1.jpg"
+                                src={myPic1}
                                 alt="Kavya R Menon"
                                 className="w-full aspect-[4/5] object-cover hover:scale-105 transition-transform duration-700"
                             />
