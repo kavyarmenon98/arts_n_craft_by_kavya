@@ -9,6 +9,7 @@ import { loginUserAPI } from "../services/service";
 import { FaEye, FaEyeSlash, FaLock, FaEnvelope } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import logo from "../assets/logo2.png";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -123,7 +124,7 @@ const Login = () => {
               className="inline-block relative mb-6"
             >
               <div className="absolute inset-0 bg-[var(--color-primary)] blur-2xl opacity-20 rounded-full" />
-              <img src="/src/assets/logo2.png" alt="Logo" className="w-28 relative z-10 mx-auto drop-shadow-lg" />
+              <img src={logo} alt="Logo" className="w-28 relative z-10 mx-auto drop-shadow-lg" />
             </motion.div>
             <h2 className="text-3xl font-serif text-white mb-2 tracking-wide">Welcome Back</h2>
             <p className="text-gray-400 text-sm opacity-80">Enter your credentials to access your account</p>
