@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductPolicies from "./ProductPolicies";
+import ProductReviewSection from "./ProductReviewSection";
 
 /* ---------- Delete Confirmation Modal ---------- */
 function ConfirmDeleteModal({ onConfirm, onCancel }) {
@@ -290,6 +291,20 @@ export default function ViewProduct() {
               </div>
             </div>
           </div>
+
+          {/* REVIEWS SECTION - Full Width Below Product Details */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mt-8 max-w-6xl mx-auto"
+          >
+            <div className="bg-[#0f1219] border border-white/5 rounded-[30px] md:rounded-[40px] overflow-hidden shadow-2xl p-8 md:p-12">
+              <div className="max-w-4xl mx-auto">
+                <ProductReviewSection productId={id} />
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </>

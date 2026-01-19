@@ -266,9 +266,9 @@ export const addReviewAPI = async (reviewData) => {
   }
 };
 
-export const getMyReviewsAPI = async () => {
+export const getProductReviewsAPI = async (productId) => {
   try {
-    const { data } = await apiClient.get(`/rate/myreviews`);
+    const { data } = await apiClient.get(`/rate/productreview/${productId}`);
     return data;
   } catch (error) {
     console.error("Error fetching my reviews:", error);
@@ -276,19 +276,11 @@ export const getMyReviewsAPI = async () => {
   }
 };
 
-export const getProductReviewsAPI = async (productId) => {
-  try {
-    const { data } = await apiClient.get(`/rate/productreview/${productId}`);
-    return data;
-  } catch (error) {
-    console.error("Error fetching product reviews:", error);
-    throw error;
-  }
-};
+
 
 export const getAllReviewsAPI = async () => {
   try {
-    const { data } = await apiClient.get(`/rate/myreviews`);
+    const { data } = await apiClient.get(`/rate/allreviews`);
     return data;
   } catch (error) {
     console.error("Error fetching all reviews:", error);

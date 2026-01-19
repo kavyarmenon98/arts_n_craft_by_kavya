@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllReviewsAPI } from "../services/service";
+
 import { FiStar, FiUser, FiPackage, FiMessageCircle, FiCalendar } from "react-icons/fi";
 import { motion } from "framer-motion";
 import PageLoader from "../common/PageLoader";
+import { getAllReviewsAPI } from "../services/service";
 
 export default function AdminReviews() {
     const { data, isLoading } = useQuery({
@@ -27,7 +28,7 @@ export default function AdminReviews() {
                         animate={{ opacity: 1, x: 0 }}
                         className="text-5xl font-serif text-white tracking-tight mb-4"
                     >
-                        Curatorial <span className="italic">Feedback</span>
+                        User <span className="italic">Feedback</span>
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0 }}
@@ -48,7 +49,7 @@ export default function AdminReviews() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {reviews.map((review, idx) => (
                             <motion.div
-                                key={review._id}
+                                key={review?._id}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: idx * 0.05 }}
@@ -61,11 +62,11 @@ export default function AdminReviews() {
                                         </div>
                                         <div>
                                             <h4 className="text-white font-bold leading-tight uppercase tracking-widest text-xs">
-                                                {review.userName || 'Anonymous Artist'}
+                                                {review?.userId?.name || 'Anonymous Artist'}
                                             </h4>
                                             <div className="flex items-center gap-2 text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">
                                                 <FiCalendar size={10} />
-                                                {new Date(review.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium' })}
+                                                {new Date(review?.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium' })}
                                             </div>
                                         </div>
                                     </div>
@@ -74,8 +75,8 @@ export default function AdminReviews() {
                                             <FiStar
                                                 key={i}
                                                 size={14}
-                                                fill={i < review.rating ? "currentColor" : "none"}
-                                                className={i < review.rating ? "drop-shadow-[0_0_5px_rgba(180,150,90,0.3)]" : "text-gray-800"}
+                                                fill={i < review?.rating ? "currentColor" : "none"}
+                                                className={i < review?.rating ? "drop-shadow-[0_0_5px_rgba(180,150,90,0.3)]" : "text-gray-800"}
                                             />
                                         ))}
                                     </div>
@@ -87,22 +88,22 @@ export default function AdminReviews() {
                                         <div className="h-[1px] flex-1 bg-white/5" />
                                     </div>
                                     <p className="text-gray-300 italic leading-relaxed text-sm opacity-90 indent-4">
-                                        "{review.comment}"
+                                        "{review?.comment}"
                                     </p>
                                 </div>
 
                                 <div className="pt-6 border-t border-white/5 flex items-center gap-4">
                                     <div className="w-12 h-16 rounded-lg overflow-hidden border border-white/5 bg-black">
                                         <img
-                                            src={review.productImage || "/placeholder.jpg"}
-                                            alt={review.productName}
+                                            src={review?.productId?.image || "/placeholder.jpg"}
+                                            alt={review?.productId?.pname}
                                             className="w-full h-full object-cover transition-transform group-hover:scale-110"
                                         />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-[10px] text-gray-600 font-black uppercase tracking-widest mb-1">Reviewed Masterpiece</p>
                                         <h5 className="text-white font-serif text-lg truncate leading-tight group-hover:text-[var(--color-primary)] transition-colors">
-                                            {review.productName || 'Unnamed Treasure'}
+                                            {review?.productId?.pname || 'Unnamed Treasure'}
                                         </h5>
                                     </div>
                                 </div>
