@@ -8,9 +8,8 @@ import logo2 from "../assets/logo2.png";
 import image2 from "../assets/image2.jpg";
 import image4 from "../assets/image4.jpg";
 import image13 from "../assets/image13.png";
-import home2 from "../assets/home2.jpg";
-import home3 from "../assets/home3.jpg";
 import image8 from "../assets/image8.webp";
+import image5 from "../assets/image5.jpg";
 import image9 from "../assets/image9.jpg";
 import image19 from "../assets/image19.jpg";
 import image11 from "../assets/image11.webp";
@@ -38,13 +37,13 @@ function HomePage2() {
       title: "Kerala Mural Painting",
       subtitle: "A Timeless Heritage",
       description: "Step into a world of celestial beauty with Kerala's iconic mural art. Rooted in the 7th century, these masterpieces capture the essence of temple antiquity through vibrant hues and intricate detailing. Heavily influenced by Pallava aesthetics and perfected over generations, each stroke tells a legendary story of divinity and grace, bringing a sacred elegance to any space.",
-      image: [image2, image4, image13, home2, home3],
+      image: [image2, image4, image13],
     },
     {
       title: "Traditional Nettipattam",
       subtitle: "The Golden Elephant Caparison",
       description: "Embrace the symbol of prosperity and grand heritage with the Traditional Nettipattam. Meticulously crafted from copper and gold-plated spheres, this 'elephants' forehead ornament' is a testament to Kerala's regal festivities. Whether as a housewarming gift or a statement piece for your living room, it brings the grandeur of the temple festivals right into your modern home.",
-      image: [image8, image9, image19, image11, image10, nettipattam3, nettippatam4],
+      image: [image5, image8, image9, image19, image11, image10, nettipattam3, nettippatam4],
     },
   ];
 
@@ -106,10 +105,10 @@ function HomePage2() {
             >
               <div className={`flex flex-col ${idx % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"} items-center`}>
                 {/* Image side */}
-                <div className={`w-full lg:w-1/2 h-80 ${item.title.includes("Mural") ? "lg:h-[650px]" : "lg:h-[500px]"} overflow-hidden relative bg-neutral-900/30`}>
+                <div className={`w-full lg:w-1/2 h-80 lg:h-[500px] overflow-hidden relative bg-neutral-900/30`}>
                   <Slider {...settings} className="h-full">
                     {item.image.map((src, index) => (
-                      <div key={index} className={`${item.title.includes("Mural") ? "h-[650px]" : "h-[500px]"} outline-none relative flex items-center justify-center`}>
+                      <div key={index} className="h-[500px] outline-none relative flex items-center justify-center">
                         <img
                           src={src}
                           alt={item.title}
@@ -141,16 +140,18 @@ function HomePage2() {
                     {item.description}
                   </p>
 
-                  <motion.button
-                    onClick={() => navigate("/listProduct")}
-                    whileHover={{ x: idx % 2 === 0 ? 10 : -10 }}
-                    className={`flex items-center gap-4 text-white hover:text-[var(--color-primary)] transition-all group/btn ${idx % 2 === 0 ? "" : "flex-row-reverse"}`}
-                  >
-                    <span className="text-xs font-black uppercase tracking-[0.3em]">Explore Heritage</span>
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 group-hover/btn:border-[var(--color-primary)] group-hover/btn:bg-[var(--color-primary)] group-hover/btn:text-black transition-all">
-                      <FiArrowRight className={`text-xl ${idx % 2 === 0 ? "" : "rotate-180"}`} />
-                    </div>
-                  </motion.button>
+                  <div className="flex flex-col sm:flex-row gap-4 mt-6">
+                    <motion.button
+                      onClick={() => navigate("/listProduct")}
+                      whileHover={{ x: idx % 2 === 0 ? 10 : -10 }}
+                      className={`flex items-center gap-4 text-white hover:text-[var(--color-primary)] transition-all group/btn ${idx % 2 === 0 ? "" : "flex-row-reverse"}`}
+                    >
+                      <span className="text-xs font-black uppercase tracking-[0.3em]">Explore Heritage</span>
+                      <div className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 group-hover/btn:border-[var(--color-primary)] group-hover/btn:bg-[var(--color-primary)] group-hover/btn:text-black transition-all">
+                        <FiArrowRight className={`text-xl ${idx % 2 === 0 ? "" : "rotate-180"}`} />
+                      </div>
+                    </motion.button>
+                  </div>
                 </div>
               </div>
             </motion.div>

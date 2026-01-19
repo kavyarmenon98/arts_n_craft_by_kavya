@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
-import { FiMapPin, FiAward, FiStar, FiHeart, FiCode, FiCornerDownRight, FiInstagram, FiMessageCircle } from "react-icons/fi";
+import { FiMapPin, FiAward, FiStar, FiHeart, FiCode, FiCornerDownRight, FiInstagram, FiMessageCircle, FiEdit3 } from "react-icons/fi";
 
 // Import profile image properly for production
 import myPic1 from "../assets/myPic1.jpg";
+// Import India Book of Records images
+import me1 from "../assets/me1.jpg";
+import me2 from "../assets/me3.jpg";
 
 export default function AboutMe() {
     return (
@@ -121,6 +124,100 @@ export default function AboutMe() {
                         </p>
                     </motion.div>
                 </div>
+
+                {/* India Book of Records Achievement - Compact & Clean Design */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="mb-20"
+                >
+                    {/* Header */}
+                    <div className="text-center mb-12">
+                        <div className="inline-flex items-center gap-3 mb-4">
+                            <FiAward className="text-4xl text-[var(--color-primary)]" />
+                            <span className="text-[var(--color-primary)] font-bold text-xs uppercase tracking-[0.6em]">Achievement</span>
+                        </div>
+                        <h2 className="text-3xl md:text-6xl font-serif text-white mb-4 tracking-tight">
+                            India Book of <span className="italic text-[var(--color-primary)]">Records</span>
+                        </h2>
+                        <div className="h-1 w-24 bg-[var(--color-primary)] mx-auto rounded-full" />
+                    </div>
+
+                    {/* Content Card */}
+                    <div className="bg-gradient-to-br from-[#0f1219] to-black border border-[var(--color-primary)]/20 rounded-[40px] p-8 md:p-12 shadow-2xl">
+                        <div className="flex flex-col lg:flex-row gap-8 items-start">
+
+                            {/* Left Side - Certificate Image (Larger, More Focused) */}
+                            <div className="w-full lg:w-1/2">
+                                <motion.div
+                                    whileHover={{ scale: 1.03 }}
+                                    className="relative rounded-3xl overflow-hidden border-2 border-[var(--color-primary)]/30 shadow-2xl group"
+                                >
+                                    <img
+                                        src={me2}
+                                        alt="India Book of Records Certificate - Kavya R Menon"
+                                        className="w-full h-[405px] md:h-[450px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+
+                                    {/* Badge on Certificate */}
+                                    <div className="absolute top-6 left-6 px-4 py-2 bg-[var(--color-primary)]/90 backdrop-blur-md border border-white/30 rounded-xl shadow-xl">
+                                        <div className="flex items-center gap-2">
+                                            <FiStar className="text-white" />
+                                            <span className="text-white text-xs font-bold uppercase tracking-wide">Record Holder</span>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </div>
+
+                            {/* Right Side - Info & Small Drawing */}
+                            <div className="w-full lg:w-1/2 space-y-6">
+                                {/* Title */}
+                                <div>
+                                    <h3 className="text-3xl md:text-4xl font-serif text-white mb-4 leading-tight">
+                                        <span className="text-[var(--color-primary)] font-bold">10 Cricket Players</span> Portraits in <span className="text-[var(--color-primary)] font-bold">12 Hours</span>
+                                    </h3>
+                                    <p className="text-gray-400 text-base md:text-lg leading-relaxed">
+                                        Achieved a remarkable feat by creating detailed <span className="text-white font-semibold">pencil drawings</span> of 10 cricket players' portraits within just 12 hours, earning official recognition in the <span className="text-[var(--color-primary)] font-semibold">India Book of Records</span>.
+                                    </p>
+                                </div>
+
+                                {/* Drawing Thumbnail - Smaller */}
+                                <motion.div
+                                    whileHover={{ scale: 1.05 }}
+                                    className="relative rounded-2xl overflow-hidden border border-white/10 shadow-lg group cursor-pointer"
+                                >
+                                    <img
+                                        src={me1}
+                                        alt="Cricket Players Pencil Drawings"
+                                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                                  
+                                </motion.div>
+
+                                {/* Stats Grid - Compact */}
+                                <div className="grid grid-cols-3 gap-3">
+                                    <div className="bg-black/40 border border-white/10 rounded-xl p-4 text-center hover:border-[var(--color-primary)]/30 transition-all">
+                                        <div className="text-3xl font-black text-[var(--color-primary)] mb-1">10</div>
+                                        <div className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">Portraits</div>
+                                    </div>
+                                    <div className="bg-black/40 border border-white/10 rounded-xl p-4 text-center hover:border-[var(--color-primary)]/30 transition-all">
+                                        <div className="text-3xl font-black text-[var(--color-primary)] mb-1">12</div>
+                                        <div className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">Hours</div>
+                                    </div>
+                                    <div className="bg-black/40 border border-white/10 rounded-xl p-4 text-center hover:border-[var(--color-primary)]/30 transition-all">
+                                        <div className="flex items-center justify-center h-8 mb-1">
+                                            <FiEdit3 className="text-2xl text-[var(--color-primary)]" />
+                                        </div>
+                                        <div className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">Pencil</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
 
                 {/* Expertise Table/Grid - More compact */}
                 <div className="mb-20">

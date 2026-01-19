@@ -88,34 +88,29 @@ export default function BrandStory() {
                                 ))}
                             </div>
 
+                            {/* Razorpay Trusted Badge - Improved Position */}
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
-                                className="mt-10 p-1 flex flex-col items-center"
+                                className="mt-8 p-6 rounded-3xl bg-gradient-to-br from-[var(--color-primary)]/10 to-transparent border border-[var(--color-primary)]/20"
                             >
-                                <div className="flex flex-col items-center text-center">
-                                    <div className="relative mb-4 text-center flex flex-col items-center">
-                                        <div className="w-20 h-24 bg-[var(--color-primary)] rounded-b-full rounded-t-lg relative flex items-center justify-center shadow-[0_0_40px_rgba(0,161,209,0.3)] border-4 border-white/20">
-                                            <div className="absolute top-0 left-0 w-full h-[30%] bg-[var(--color-primary)] rounded-t-lg" />
-                                            {/* Shield shape approximation */}
-                                            <div className="bg-white rounded-lg p-2 z-10">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                            </div>
-
-                                        </div>
+                                <div className="flex items-center gap-4">
+                                    <div className="w-16 h-16 bg-[var(--color-primary)] rounded-2xl flex items-center justify-center shadow-lg shadow-[var(--color-primary)]/30">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                        </svg>
                                     </div>
-
-                                    <div>
-                                        <span className="text-white font-serif text-xl block leading-tight">Razorpay Trusted</span>
-                                        <span className="text-[var(--color-primary)] text-[10px] font-bold uppercase tracking-[0.3em] font-sans">Business</span>
+                                    <div className="flex-1">
+                                        <span className="text-white font-serif text-lg block leading-tight font-bold">Razorpay Trusted</span>
+                                        <span className="text-[var(--color-primary)] text-xs font-bold uppercase tracking-wider">Secure Business Partner</span>
                                     </div>
                                 </div>
                             </motion.div>
 
-
                             {/* Additional Perks */}
-                            <div className="mt-12 flex items-center gap-4">
+                            <div className="mt-8 flex items-center gap-4">
                                 <div className="flex -space-x-3">
                                     <div className="w-10 h-10 rounded-full bg-black border border-white/10 flex items-center justify-center text-[var(--color-primary)] shadow-xl"><FiGift size={16} /></div>
                                     <div className="w-10 h-10 rounded-full bg-black border border-white/10 flex items-center justify-center text-[var(--color-primary)] shadow-xl"><FiGlobe size={16} /></div>
