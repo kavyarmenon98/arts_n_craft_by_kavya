@@ -71,7 +71,7 @@ function Nav() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-[1000] transition-all duration-300 border-b ${scrolled
+      className={`fixed top-0 left-0 w-full z-[9999] transition-all duration-300 border-b ${scrolled
         ? "bg-black/80 backdrop-blur-xl border-white/10 py-3"
         : "bg-transparent border-transparent py-5"
         }`}
