@@ -108,7 +108,7 @@ function HomePage2() {
                 <div className={`w-full lg:w-1/2 h-80 lg:h-[500px] overflow-hidden relative bg-neutral-900/30`}>
                   <Slider {...settings} className="h-full">
                     {item.image.map((src, index) => (
-                      <div key={index} className="h-[500px] outline-none relative flex items-center justify-center">
+                      <div key={index} className="h-full outline-none relative flex items-center justify-center">
                         <img
                           src={src}
                           alt={item.title}

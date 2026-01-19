@@ -36,19 +36,19 @@ function ProductCard({ details }) {
           item.instock > 0 ? "In Stock" : "Custom Made";
 
         const stockBadgeColor =
-          item.instock > 0 ? "bg-green-600" : "bg-[var(--color-secondary)]";
+          item.instock > 0 ? "bg-green-600" : "bg-purple-600";
 
         return (
           <div
             key={item._id}
             className="w-full bg-[#121212] border border-white/5 text-white rounded-2xl shadow-xl flex flex-col group transition-all duration-300 hover:border-white/10 hover:shadow-2xl overflow-hidden"
           >
-            {/* IMAGE */}
+            {/* IMAGE - Edge to Edge */}
             <div
-              className="relative w-full aspect-square p-4 md:p-6 cursor-pointer overflow-hidden"
+              className="relative w-full aspect-square cursor-pointer overflow-hidden group-hover:opacity-95 transition-opacity"
               onClick={() => navigate(`/viewProduct/${item._id}`)}
             >
-              <div className="w-full h-full rounded-xl overflow-hidden shadow-inner">
+              <div className="w-full h-full overflow-hidden">
                 <ImageSlider
                   image={item.images}
                   styleForImage={{
@@ -75,7 +75,7 @@ function ProductCard({ details }) {
             </div>
 
             {/* CONTENT */}
-            <div className="flex flex-col flex-1 px-5 pb-5 gap-4">
+            <div className="flex flex-col flex-1 p-5 gap-4">
               {/* TITLE + PRICE */}
               <div className="flex justify-between items-start gap-4">
                 <h3 className="font-semibold text-base md:text-lg line-clamp-2 leading-tight flex-1">
