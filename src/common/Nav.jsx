@@ -6,6 +6,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQueryClient } from "@tanstack/react-query";
 
+// Import logo properly for production
+import logo3 from "../assets/logo3.png";
+
 function Nav() {
   const { user } = useSelector((state) => state.auth);
   const cartItems = useSelector((state) => state.cart?.items || []);
@@ -77,7 +80,7 @@ function Nav() {
         {/* LOGO */}
         <Link to="/home" className="flex-shrink-0" onClick={closeAllMenus}>
           <img
-            src="/src/assets/logo3.png"
+            src={logo3}
             alt="Logo"
             className="h-10 md:h-12 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-[0_0_8px_rgba(0,161,209,0.4)]"
           />

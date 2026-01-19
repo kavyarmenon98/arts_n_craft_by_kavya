@@ -5,14 +5,14 @@ import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
+// Import images properly for production
+import gemini2 from "../assets/gemini2.png";
+import gemini3 from "../assets/gemini3.png";
+import gemini4 from "../assets/gemini4.png";
+
 function HomePage1() {
   const navigate = useNavigate();
-  const images = [
-    "src/assets/gemini2.png",
-    "src/assets/gemini3.png",
-    "src/assets/gemini4.png",
-
-  ];
+  const images = [gemini2, gemini3, gemini4];
 
   const settings = {
     dots: true,

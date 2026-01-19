@@ -1,26 +1,36 @@
 import ShopByCategory from "../product/ShopByCategory";
 import { motion } from "framer-motion";
 
+// Import category images properly for production
+import resin1 from "../assets/category/resin1.jpg";
+import resin2 from "../assets/category/resin2.jpg";
+import mural1 from "../assets/category/mural1.jpg";
+import image14 from "../assets/image14.jpg";
+import image8 from "../assets/image8.webp";
+import image9 from "../assets/image9.jpg";
+import craft2 from "../assets/category/craft2.jpg";
+import craft1 from "../assets/category/craft1.jpg";
+
 function HomePage3() {
   const categories = [
     {
       title: "Resin Product",
-      imageUrl: ["src/assets/category/resin1.jpg", "src/assets/category/resin2.jpg"],
+      imageUrl: [resin1, resin2],
       link: "Resin",
     },
     {
       title: "Mural Paints",
-      imageUrl: ["src/assets/category/mural1.jpg", "src/assets/image14.jpg"],
+      imageUrl: [mural1, image14],
       link: "Painting",
     },
     {
       title: "Nettippattam",
-      imageUrl: ["src/assets/image8.webp", "src/assets/image9.jpg"],
+      imageUrl: [image8, image9],
       link: "Nettipattam",
     },
     {
       title: "Craft Works",
-      imageUrl: ["src/assets/category/craft2.jpg", "src/assets/category/craft1.jpg"],
+      imageUrl: [craft2, craft1],
       link: "Craft",
     },
   ];
