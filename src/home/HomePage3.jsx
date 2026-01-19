@@ -1,5 +1,5 @@
 import ShopByCategory from "../product/ShopByCategory";
-import "./home.css";
+import { motion } from "framer-motion";
 
 function HomePage3() {
   const categories = [
@@ -20,29 +20,51 @@ function HomePage3() {
     },
     {
       title: "Craft Works",
-      imageUrl: ["src/assets/category/craft1.jpg", "src/assets/category/craft2.jpg"],
+      imageUrl: ["src/assets/category/craft2.jpg", "src/assets/category/craft1.jpg"],
       link: "Craft",
     },
   ];
 
   return (
-    <section className="category-section">
-      <h2 className="section-title">
-        Shop by <span>Category</span>
-      </h2>
-      <p className="subtitle text-center mb-10">
-        Explore our curated collections
-      </p>
+    <section className="bg-[#050505] py-20 md:py-32 px-4 md:px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col items-center mb-12 md:mb-20 text-center">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-[var(--color-primary)] font-bold text-xs uppercase tracking-[0.4em] mb-4"
+          >
+            Curated Collections
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-6xl font-serif text-white tracking-tight"
+          >
+            Shop by <span className="italic">Category</span>
+          </motion.h2>
+          <div className="h-1 w-20 bg-[var(--color-primary)] mt-6 md:mt-8 rounded-full" />
+        </div>
 
-      <div className="category-grid">
-        {categories.map((c) => (
-          <ShopByCategory
-            key={c.title}
-            title={c.title}
-            imageUrl={c.imageUrl}
-            link={c.link}
-          />
-        ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {categories.map((c, idx) => (
+            <motion.div
+              key={c.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+            >
+              <ShopByCategory
+                title={c.title}
+                imageUrl={c.imageUrl}
+                link={c.link}
+              />
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

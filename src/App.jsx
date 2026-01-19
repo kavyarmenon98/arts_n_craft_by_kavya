@@ -1,8 +1,8 @@
-
 import './App.css'
 import Home from './home/Home'
 import Nav from './common/Nav'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";  
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from 'react-hot-toast';
 import ProtectedRoute from './common/ProtectedRoute';
 import Login from './common/Login';
 import AddProduct from './product/AddProduct';
@@ -13,77 +13,98 @@ import EditProduct from './product/EditProduct';
 import Category from './category/Category';
 import Cart from './category/Cart';
 import OrdersList from './admin/OrdersList';
+import AdminReviews from './admin/AdminReviews';
 import MyOrders from './common/MyOrder';
 import OfferProductPage from './home/OfferProductPage';
+import AboutMe from './home/AboutMe';
 
-function App() { 
+function App() {
 
   return (
     <>
-    <div style={{backgroundColor: 'black',color: '#fff'}}>
-  <Router>
-      <Nav />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: '#0f1219',
+            color: '#fff',
+            border: '1px solid rgba(0, 161, 209, 0.2)',
+            padding: '16px',
+            borderRadius: '16px',
+            fontSize: '14px',
+            fontWeight: '500',
+          },
+          success: {
+            iconTheme: {
+              primary: '#00a1d1',
+              secondary: '#000',
+            },
+          },
 
-        <Route path="/register" element={<Register />} />
+          error: {
+            iconTheme: {
+              primary: '#ff5c5c',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
+      <div className="bg-black text-white min-h-screen">
+        <Router>
+          <Nav />
+          <main className="pt-20">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Home />} />
 
-        <Route path="/addProduct" element={<AddProduct />} />
- 
+              <Route path="/register" element={<Register />} />
 
-        {/* Protected for all logged-in users */}
-        {/* <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        /> */}
+              <Route path="/addProduct" element={
+                <ProtectedRoute role="admin">
+                  <AddProduct />
+                </ProtectedRoute>
 
-        {/* Only Admins */}
-        <Route
-          path="/home"
-          element={ 
-              <Home />
-          }
-        />
-        <Route
-          path="/addProduct"
-          element={
-            // <ProtectedRoute >
-              <AddProduct />
-            // </ProtectedRoute>
-          }
-        />
-        <Route path="/listProduct"
-          element={
-            // <ProtectedRoute >
-              <ProductList />
-            // </ProtectedRoute>
-          }
-        /> 
-
-        <Route path="/viewProduct/:id" element={<ViewProduct />} />
-        <Route path="/editProduct/:id" element={<EditProduct />} />
-        <Route path="/category/:id" element={<Category />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/order" element={<OrdersList />} />
-        <Route path="/myorder" element={<MyOrders />} />
-        <Route path="/offer" element={<OfferProductPage />} />
+              } />
 
 
+              {/* Only Admins */}
+              <Route
+                path="/home"
+                element={
+                  <Home />
+                }
+              />
+
+              <Route path="/listProduct"
+                element={
+                  // <ProtectedRoute >
+                  <ProductList />
+                  // </ProtectedRoute>
+                }
+              />
+
+              <Route path="/viewProduct/:id" element={<ViewProduct />} />
+              <Route path="/editProduct/:id" element={<ProtectedRoute role="admin"><EditProduct /></ProtectedRoute>} />
+              <Route path="/category/:id" element={<Category />} />
+              <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+
+              <Route path="/order" element={
+                <ProtectedRoute role="admin"><OrdersList />   </ProtectedRoute>} />
+
+              <Route path="/admin/reviews" element={
+                <ProtectedRoute role="admin"><AdminReviews />   </ProtectedRoute>} />
 
 
+              <Route path="/myorder" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
+              <Route path="/offer" element={<OfferProductPage />} />
+              <Route path="/about" element={<AboutMe />} />
 
+              <Route path="/not-authorized" element={<h1>🚫 Not Authorized</h1>} />
+            </Routes>
+          </main>
+        </Router>
+      </div>
 
-
-        <Route path="/not-authorized" element={<h1>🚫 Not Authorized</h1>} />
-      </Routes>
-    </Router>
-    </div>
-    
     </>
   )
 }
