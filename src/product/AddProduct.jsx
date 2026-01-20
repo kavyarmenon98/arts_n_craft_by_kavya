@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { addProductAPI } from "../services/service";
-import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from 'react-hot-toast';
 import { motion } from "framer-motion";
 import { FiUpload, FiX, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
@@ -36,10 +36,15 @@ const validationSchema = Yup.object({
 /* ---------------- COMPONENT ---------------- */
 function AddProduct() {
   const [previews, setPreviews] = useState([]);
+  const [videoPreview, setVideoPreview] = useState(null);
   const navigate = useNavigate();
 
+  const queryClient = useQueryClient();
   const addProductMutation = useMutation({
     mutationFn: addProductAPI,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["products"]);
+    },
   });
 
   const formik = useFormik({
@@ -78,8 +83,7 @@ function AddProduct() {
         navigate("/listProduct");
       } catch (error) {
         console.error("Add Product Error:", error);
-        // The toast is already handled in addProductAPI, 
-        // but we can add a fallback here if needed or just log it.
+        toast.error(error?.response?.data?.message ?? "Product Add Failed");
       }
     },
   });
@@ -90,6 +94,16 @@ function AddProduct() {
     setPreviews(urls);
     return () => urls.forEach((u) => URL.revokeObjectURL(u));
   }, [formik.values.images]);
+
+  useEffect(() => {
+    if (formik.values.video) {
+      const url = URL.createObjectURL(formik.values.video);
+      setVideoPreview(url);
+      return () => URL.revokeObjectURL(url);
+    } else {
+      setVideoPreview(null);
+    }
+  }, [formik.values.video]);
 
   const onFilesSelected = (e) => {
     const files = Array.from(e.currentTarget.files || []).filter((f) => ALLOWED_TYPES.includes(f.type));
@@ -198,30 +212,6 @@ function AddProduct() {
                 )}
               </div>
             </div>
-
-            <div className="flex gap-4 pt-4">
-              <button
-                type="submit"
-                disabled={addProductMutation.isPending}
-                className="flex-1 py-4 bg-[var(--color-primary)] text-black font-extrabold rounded-2xl tracking-widest hover:opacity-90 active:scale-95 transition-all shadow-xl shadow-[var(--color-primary)]/10 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-              >
-                {addProductMutation.isPending ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                    CURATING...
-                  </>
-                ) : (
-                  "PUBLISH ARTWORK"
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate("/listProduct")}
-                className="flex-1 py-4 bg-white/5 text-white font-bold rounded-2xl tracking-widest border border-white/10 hover:bg-white/10 transition-all"
-              >
-                DISCARD
-              </button>
-            </div>
           </div>
 
           {/* RIGHT: MEDIA UPLOAD */}
@@ -278,7 +268,7 @@ function AddProduct() {
               ) : (
                 <div className="relative rounded-2xl overflow-hidden border border-white/10">
                   <video
-                    src={URL.createObjectURL(formik.values.video)}
+                    src={videoPreview}
                     className="w-full aspect-video object-cover"
                     controls
                   />
@@ -293,9 +283,36 @@ function AddProduct() {
               )}
             </div>
           </div>
-        </form>
-      </div>
-    </div>
+
+          {/* BUTTONS: ALWAYS AT THE BOTTOM */}
+          <div className="lg:col-span-3">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <button
+                type="submit"
+                disabled={addProductMutation.isPending}
+                className="flex-1 py-4 bg-[var(--color-primary)] text-black font-extrabold rounded-2xl tracking-widest hover:opacity-90 active:scale-95 transition-all shadow-xl shadow-[var(--color-primary)]/10 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+              >
+                {addProductMutation.isPending ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    CURATING...
+                  </>
+                ) : (
+                  "PUBLISH ARTWORK"
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate("/listProduct")}
+                className="flex-1 py-4 bg-white/5 text-white font-bold rounded-2xl tracking-widest border border-white/10 hover:bg-white/10 transition-all"
+              >
+                DISCARD
+              </button>
+            </div>
+          </div>
+        </form >
+      </div >
+    </div >
   );
 }
 

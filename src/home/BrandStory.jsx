@@ -110,12 +110,12 @@ export default function BrandStory() {
                             </motion.div>
 
                             {/* Additional Perks */}
-                            <div className="mt-8 flex items-center gap-4">
-                                <div className="flex -space-x-3">
+                            <div className="mt-8 flex items-center gap-4 flex-wrap">
+                                <div className="flex -space-x-3 shrink-0">
                                     <div className="w-10 h-10 rounded-full bg-black border border-white/10 flex items-center justify-center text-[var(--color-primary)] shadow-xl"><FiGift size={16} /></div>
                                     <div className="w-10 h-10 rounded-full bg-black border border-white/10 flex items-center justify-center text-[var(--color-primary)] shadow-xl"><FiGlobe size={16} /></div>
                                 </div>
-                                <div className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500 max-w-[120px]">
+                                <div className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500 max-w-[150px] sm:max-w-none">
                                     Premium Packaging & Global Standards
                                 </div>
                             </div>

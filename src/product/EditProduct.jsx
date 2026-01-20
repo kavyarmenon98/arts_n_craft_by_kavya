@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { editProductAPI, getProductByIdAPI } from "../services/service";
 import { motion } from "framer-motion";
@@ -36,6 +36,7 @@ function EditProduct() {
 
   const [visibleImages, setVisibleImages] = useState([]);
   const [existingVideo, setExistingVideo] = useState(null);
+  const [newVideoPreview, setNewVideoPreview] = useState(null);
   const deletedImagesRef = useRef([]);
   const deletedVideoRef = useRef(false);
 
@@ -46,9 +47,14 @@ function EditProduct() {
     }
   }, [data]);
 
+  const queryClient = useQueryClient();
   const editProductMutation = useMutation({
     mutationFn: editProductAPI,
-    onSuccess: () => navigate("/listProduct"),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["products"]);
+      queryClient.invalidateQueries(["product", id]);
+      navigate("/listProduct");
+    },
   });
 
   const formik = useFormik({
@@ -84,9 +90,20 @@ function EditProduct() {
         await editProductMutation.mutateAsync({ id, formData });
       } catch (error) {
         console.error("Edit Product Error:", error);
+        toast.error(error?.response?.data?.message ?? "Product Update Failed");
       }
     },
   });
+
+  useEffect(() => {
+    if (formik.values.video) {
+      const url = URL.createObjectURL(formik.values.video);
+      setNewVideoPreview(url);
+      return () => URL.revokeObjectURL(url);
+    } else {
+      setNewVideoPreview(null);
+    }
+  }, [formik.values.video]);
 
   const newImagePreviews = useMemo(() => {
     return formik.values.images.map((file) => URL.createObjectURL(file));
@@ -269,9 +286,23 @@ function EditProduct() {
                   </button>
                 </div>
               ) : (
-                <div className="relative border border-white/10 rounded-2xl p-6 text-center hover:bg-white/5 transition-all cursor-pointer">
-                  <input type="file" accept={VIDEO_TYPES.join(",")} className="absolute inset-0 opacity-0 cursor-pointer" onChange={(e) => formik.setFieldValue("video", e.target.files[0])} />
-                  <p className="text-gray-500 text-sm font-medium">{formik.values.video ? formik.values.video.name : "Replace Process Video"}</p>
+                <div className="space-y-4">
+                  <div className="relative border border-white/10 rounded-2xl p-6 text-center hover:bg-white/5 transition-all cursor-pointer">
+                    <input type="file" accept={VIDEO_TYPES.join(",")} className="absolute inset-0 opacity-0 cursor-pointer" onChange={(e) => formik.setFieldValue("video", e.target.files[0])} />
+                    <p className="text-gray-500 text-sm font-medium">{formik.values.video ? formik.values.video.name : "Replace Process Video"}</p>
+                  </div>
+                  {newVideoPreview && (
+                    <div className="relative rounded-2xl overflow-hidden border border-[var(--color-primary)]/30">
+                      <video src={newVideoPreview} controls className="w-full aspect-video object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => formik.setFieldValue("video", null)}
+                        className="absolute top-2 right-2 p-2 bg-black text-white rounded-full shadow-lg"
+                      >
+                        <FiX />
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

@@ -15,6 +15,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductPolicies from "./ProductPolicies";
 import ProductReviewSection from "./ProductReviewSection";
+import { toast } from 'react-hot-toast';
 
 /* ---------- Delete Confirmation Modal ---------- */
 function ConfirmDeleteModal({ onConfirm, onCancel }) {
@@ -79,10 +80,16 @@ export default function ViewProduct() {
       queryClient.invalidateQueries(["products"]);
       navigate("/");
     },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || "Failed to remove item");
+    }
   });
 
   const addToCartMutation = useMutation({
     mutationFn: addToCartAPI,
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || "Failed to add to collection");
+    }
   });
 
   const addToCart = async (item) => {
@@ -233,7 +240,7 @@ export default function ViewProduct() {
                     <p className="text-sm text-gray-500 line-through mb-1">Was ₹{product.price}</p>
                   )}
                   <p className="text-4xl font-bold text-white tracking-tighter flex items-baseline gap-2">
-                    ₹{product?.discount}
+                    ₹{product?.discountPercentage > 0 ? product?.discount : product?.price}
                     <span className="text-xs text-gray-500 font-normal tracking-normal uppercase">Indian Rupee</span>
                   </p>
                 </div>

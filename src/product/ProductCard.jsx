@@ -3,21 +3,35 @@ import { RiDeleteBinFill } from "react-icons/ri";
 import { FaEye, FaShoppingCart, FaWhatsapp } from "react-icons/fa";
 import ImageSlider from "../home/ImageSlider";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addToCartAPI, deleteProductByIdAPI } from "../services/service";
 import { useSelector } from "react-redux";
+import { toast } from 'react-hot-toast';
 
 function ProductCard({ details }) {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const isAdmin = user?.role === "admin";
 
+  const queryClient = useQueryClient();
   const deleteProductMutation = useMutation({
     mutationFn: deleteProductByIdAPI,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["products"]);
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || "Failed to delete masterpiece");
+    }
   });
 
   const addToCartMutation = useMutation({
     mutationFn: addToCartAPI,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cart"]);
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || "Failed to add to cart");
+    }
   });
 
   const truncate = (text, len = 90) =>

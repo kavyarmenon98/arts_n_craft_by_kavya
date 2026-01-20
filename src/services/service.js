@@ -71,7 +71,7 @@ export const addProductAPI = async (productData) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    toast.success(data?.message);
+    toast.success(data?.message || 'Product created successfully');
     return data;
   } catch (error) {
     toast.error(error.response?.data?.message || 'Failed to add product');
@@ -107,7 +107,7 @@ export const editProductAPI = async ({ id, formData }) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    toast.success(data?.message);
+    toast.success(data?.message || 'Product updated successfully');
     return data;
   } catch (error) {
     toast.error(error.response?.data?.message || 'Failed to update product');
@@ -135,7 +135,7 @@ export const addToCartAPI = async (productData) => {
     };
 
     const { data } = await apiClient.post(`/cart/addcart`, payload);
-    toast.success(data?.message);
+    toast.success(data?.message || 'Added to cart');
     return data;
   } catch (error) {
     toast.error(error.response?.data?.message || 'Failed to add to cart');
@@ -148,7 +148,7 @@ export const updateCartQtyAPI = async ({ id, action }) => {
     const { data } = await apiClient.put(`/cart/update/${id}`, {
       action: action,
     });
-    toast.success(data?.message);
+    toast.success(data?.message || 'Quantity updated');
     return data;
   } catch (error) {
     toast.error(error.response?.data?.message || 'Failed to update quantity');
@@ -191,7 +191,7 @@ export const createOrderAPI = async (productData) => {
 export const verifyPaymentAPI = async (productData) => {
   try {
     const { data } = await apiClient.post(`/payment/verify`, productData);
-    toast.success(data?.message);
+    toast.success(data?.message || 'Payment verified');
     return data;
   } catch (error) {
     toast.error(error.response?.data?.message || 'Payment verification failed');
@@ -224,7 +224,7 @@ export const changeOrderStatusAPI = async ({ id, status }) => {
     const { data } = await apiClient.put(`/admin/update-status/${id}`, {
       status: status,
     });
-    toast.success(data?.message);
+    toast.success(data?.message || 'Status updated');
     return data;
   } catch (error) {
     toast.error(error.response?.data?.message || 'Failed to change status');
@@ -247,7 +247,7 @@ export const updateUserInfoAPI = async (address) => {
     const { data } = await apiClient.put(`/users/update-address/`, {
       address: address,
     });
-    toast.success(data?.message);
+    toast.success(data?.message || 'Address updated');
     return data;
   } catch (error) {
     toast.error(error.response?.data?.message || 'Failed to update address');
