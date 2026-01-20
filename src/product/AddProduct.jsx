@@ -71,13 +71,15 @@ function AddProduct() {
         if (values.video) {
           formData.append("video", values.video);
         }
-
+        console.log(values);
         await addProductMutation.mutateAsync(formData);
         resetForm();
         setPreviews([]);
         navigate("/listProduct");
       } catch (error) {
-        toast.error(error?.response?.data?.message ?? "Product Add Failed");
+        console.error("Add Product Error:", error);
+        // The toast is already handled in addProductAPI, 
+        // but we can add a fallback here if needed or just log it.
       }
     },
   });
@@ -90,7 +92,7 @@ function AddProduct() {
   }, [formik.values.images]);
 
   const onFilesSelected = (e) => {
-    const files = Array.from(e.currentTarget.files || []);
+    const files = Array.from(e.currentTarget.files || []).filter((f) => ALLOWED_TYPES.includes(f.type));
     const merged = [...formik.values.images, ...files];
     formik.setFieldValue("images", merged.slice(0, MAX_FILES));
   };
@@ -120,6 +122,9 @@ function AddProduct() {
                   placeholder="e.g. Mural of Serenity"
                   {...formik.getFieldProps("name")}
                 />
+                {formik.touched.name && formik.errors.name && (
+                  <p className="text-red-500 text-xs mt-1">{formik.errors.name}</p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -131,6 +136,9 @@ function AddProduct() {
                     placeholder="0.00"
                     {...formik.getFieldProps("price")}
                   />
+                  {formik.touched.price && formik.errors.price && (
+                    <p className="text-red-500 text-xs mt-1">{formik.errors.price}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Discount Price (₹)</label>
@@ -140,6 +148,9 @@ function AddProduct() {
                     placeholder="Optional"
                     {...formik.getFieldProps("discount")}
                   />
+                  {formik.touched.discount && formik.errors.discount && (
+                    <p className="text-red-500 text-xs mt-1">{formik.errors.discount}</p>
+                  )}
                 </div>
               </div>
 
@@ -156,6 +167,9 @@ function AddProduct() {
                   <option value="Nettipattam">Nettipattam</option>
                   <option value="Resin">Resin Products</option>
                 </select>
+                {formik.touched.category && formik.errors.category && (
+                  <p className="text-red-500 text-xs mt-1">{formik.errors.category}</p>
+                )}
               </div>
 
               <div>
@@ -166,6 +180,9 @@ function AddProduct() {
                   placeholder="0 for Custom-Only items"
                   {...formik.getFieldProps("instock")}
                 />
+                {formik.touched.instock && formik.errors.instock && (
+                  <p className="text-red-500 text-xs mt-1">{formik.errors.instock}</p>
+                )}
               </div>
 
               <div>
@@ -176,6 +193,9 @@ function AddProduct() {
                   placeholder="Describe the inspiration behind this piece..."
                   {...formik.getFieldProps("description")}
                 />
+                {formik.touched.description && formik.errors.description && (
+                  <p className="text-red-500 text-xs mt-1">{formik.errors.description}</p>
+                )}
               </div>
             </div>
 
@@ -221,6 +241,9 @@ function AddProduct() {
                 <p className="text-gray-400 text-sm font-medium">Select up to {MAX_FILES} images</p>
                 <p className="text-gray-600 text-[10px] uppercase mt-2">JPG, PNG, WebP</p>
               </div>
+              {formik.touched.images && formik.errors.images && (
+                <p className="text-red-500 text-xs mt-2 text-center">{formik.errors.images}</p>
+              )}
 
               {previews.length > 0 && (
                 <div className="grid grid-cols-2 gap-3 mt-6">

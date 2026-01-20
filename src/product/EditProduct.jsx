@@ -80,7 +80,11 @@ function EditProduct() {
       if (deletedVideoRef.current) formData.append("deleteVideo", "true");
       if (values.video) formData.append("video", values.video);
 
-      await editProductMutation.mutateAsync({ id, formData });
+      try {
+        await editProductMutation.mutateAsync({ id, formData });
+      } catch (error) {
+        console.error("Edit Product Error:", error);
+      }
     },
   });
 
@@ -124,16 +128,25 @@ function EditProduct() {
               <div>
                 <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Product Name</label>
                 <input className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[var(--color-primary)] transition-all" {...formik.getFieldProps("pname")} />
+                {formik.touched.pname && formik.errors.pname && (
+                  <p className="text-red-500 text-xs mt-1">{formik.errors.pname}</p>
+                )}
               </div>
 
               <div className="grid grid-cols-2 gap-6">
                 <div>
                   <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Base Price (₹)</label>
                   <input type="number" className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[var(--color-primary)] transition-all" {...formik.getFieldProps("price")} />
+                  {formik.touched.price && formik.errors.price && (
+                    <p className="text-red-500 text-xs mt-1">{formik.errors.price}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Discount Price (₹)</label>
                   <input type="number" className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[var(--color-primary)] transition-all" {...formik.getFieldProps("discount")} />
+                  {formik.touched.discount && formik.errors.discount && (
+                    <p className="text-red-500 text-xs mt-1">{formik.errors.discount}</p>
+                  )}
                 </div>
               </div>
 
@@ -141,22 +154,32 @@ function EditProduct() {
                 <div>
                   <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Category</label>
                   <select className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[var(--color-primary)] transition-all appearance-none" {...formik.getFieldProps("category")}>
+                    <option value="">Select Category</option>
                     <option value="Painting">Painting</option>
                     <option value="FabricPainting">Fabric Painting</option>
                     <option value="Craft">Craft Item</option>
                     <option value="Nettipattam">Nettipattam</option>
                     <option value="Resin">Resin Products</option>
                   </select>
+                  {formik.touched.category && formik.errors.category && (
+                    <p className="text-red-500 text-xs mt-1">{formik.errors.category}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Inventory Count</label>
                   <input type="number" className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[var(--color-primary)] transition-all" {...formik.getFieldProps("instock")} />
+                  {formik.touched.instock && formik.errors.instock && (
+                    <p className="text-red-500 text-xs mt-1">{formik.errors.instock}</p>
+                  )}
                 </div>
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Description</label>
                 <textarea rows="6" className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[var(--color-primary)] transition-all resize-none italic" {...formik.getFieldProps("description")} />
+                {formik.touched.description && formik.errors.description && (
+                  <p className="text-red-500 text-xs mt-1">{formik.errors.description}</p>
+                )}
               </div>
             </div>
 
