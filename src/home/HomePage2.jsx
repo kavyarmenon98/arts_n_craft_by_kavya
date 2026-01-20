@@ -80,7 +80,7 @@ function HomePage2() {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="text-2xl md:text-4xl font-serif text-white/90 leading-relaxed max-w-5xl italic font-light"
           >
-            "Enchanting you since 2019. Discover the refined and exclusive collection by Kavya Arts & Craft. Expertly curated products bring <span className="text-[var(--color-primary)] not-italic">grandeur</span> to your space, ensuring uniqueness and elegance."
+            "Enchanting you since 2019. Discover the refined and exclusive collection by <span className="text-[var(--color-primary)] not-italic">Kavya Arts & Craft</span> . Here art is thoughtfully created with emotion, patience, and precision, offering rare, elegant creations that transform spaces into experiences."
           </motion.p>
 
           <motion.div
@@ -112,7 +112,7 @@ function HomePage2() {
                         <img
                           src={src}
                           alt={item.title}
-                          className={`w-full h-full ${item.title.includes("Nettipattam") ? "object-contain p-4" : "object-cover"} transform scale-100 group-hover:scale-105 transition-transform duration-[4s]`}
+                          className={`w-full h-full ${item.title.includes("Nettipattam") ? "object-contain p-8 lg:p-14" : "object-cover"} transform scale-100 group-hover:scale-105 transition-transform duration-[4s]`}
                         />
                         <div className={`absolute inset-0 bg-gradient-to-${idx % 2 === 0 ? "r" : "l"} from-black/40 to-transparent lg:block hidden`} />
                       </div>

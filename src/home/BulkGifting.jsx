@@ -14,7 +14,7 @@ export default function BulkGifting() {
                 >
                     <div className="flex flex-col lg:flex-row items-center">
                         {/* Image side */}
-                        <div className="w-full lg:w-1/2 h-80 lg:h-[600px] overflow-hidden">
+                        <div className="w-full lg:w-1/2 h-80 lg:h-[600px] overflow-hidden relative">
                             <img
                                 src={giftImage}
                                 alt="Gifting with Love"

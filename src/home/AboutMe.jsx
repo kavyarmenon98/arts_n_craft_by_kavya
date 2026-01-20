@@ -11,7 +11,7 @@ export default function AboutMe() {
     return (
         <div className="min-h-screen bg-black text-white pt-24 pb-16 px-4 md:px-6 overflow-hidden">
             {/* Background elements */}
-            <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden select-none">
                 <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[var(--color-primary)]/5 blur-[120px] rounded-full" />
                 <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[var(--color-primary)]/5 blur-[120px] rounded-full" />
             </div>
@@ -161,13 +161,7 @@ export default function AboutMe() {
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
 
-                                    {/* Badge on Certificate */}
-                                    <div className="absolute top-6 left-6 px-4 py-2 bg-[var(--color-primary)]/90 backdrop-blur-md border border-white/30 rounded-xl shadow-xl">
-                                        <div className="flex items-center gap-2">
-                                            <FiStar className="text-white" />
-                                            <span className="text-white text-xs font-bold uppercase tracking-wide">Record Holder</span>
-                                        </div>
-                                    </div>
+
                                 </motion.div>
                             </div>
 
@@ -194,7 +188,7 @@ export default function AboutMe() {
                                         className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                                  
+
                                 </motion.div>
 
                                 {/* Stats Grid - Compact */}
@@ -261,7 +255,7 @@ export default function AboutMe() {
                     className="text-center max-w-2xl mx-auto border-t border-white/5 pt-16"
                 >
                     <p className="text-xl font-serif text-white/80 leading-relaxed mb-10 italic">
-                        "Each piece is carefully handcrafted to tell a story — your story. Whether you're looking for a meaningful gift, a traditional art form, or a personalized creation, I'm happy to bring your ideas to life."
+                        "Each piece is carefully handcrafted to tell a story. Whether you're looking for a meaningful gift, a traditional art form, or a personalized creation, I'm happy to bring your ideas to life."
                     </p>
                     <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/20">
                         <FiMapPin className="text-[var(--color-primary)] text-sm" />

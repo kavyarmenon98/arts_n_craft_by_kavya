@@ -48,6 +48,9 @@ function App() {
             },
           },
         }}
+        containerStyle={{
+          zIndex: 100000,
+        }}
       />
       <div className="bg-black text-white min-h-screen">
         <Router>
