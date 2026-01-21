@@ -60,7 +60,7 @@ export default function BrandStory() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-3xl md:text-7xl font-serif text-white tracking-tighter"
+                        className="text-4xl md:text-7xl font-serif text-white tracking-tighter"
                     >
                         Why Trust Us !!!
                     </motion.h2>
@@ -79,11 +79,11 @@ export default function BrandStory() {
                             </p>
 
                             {/* Metrics inside the commitment box */}
-                            <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-1 gap-8 mb-12">
+                            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 xl:grid-cols-1 gap-4 md:gap-8 mb-12">
                                 {metrics.map((m, i) => (
-                                    <div key={i} className="flex items-center gap-4 group p-4 rounded-3xl bg-black/20 border border-white/5 hover:border-[var(--color-primary)]/30 transition-all">
-                                        <div className="text-3xl font-serif font-black text-white italic group-hover:text-[var(--color-primary)] transition-colors">{m.value}</div>
-                                        <div className="text-[10px] uppercase font-black tracking-widest text-gray-500 border-l border-white/10 pl-4">{m.label}</div>
+                                    <div key={i} className="flex items-center gap-3 md:gap-4 group p-4 rounded-3xl bg-black/20 border border-white/5 hover:border-[var(--color-primary)]/30 transition-all">
+                                        <div className="text-2xl md:text-3xl font-serif font-black text-white italic group-hover:text-[var(--color-primary)] transition-colors">{m.value}</div>
+                                        <div className="text-[9px] md:text-[10px] uppercase font-black tracking-widest text-gray-500 border-l border-white/10 pl-3 md:pl-4">{m.label}</div>
                                     </div>
                                 ))}
                             </div>
@@ -93,18 +93,18 @@ export default function BrandStory() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
-                                className="p-8 rounded-[40px] bg-gradient-to-br from-[var(--color-primary)]/10 via-black/40 to-black/20 border border-[var(--color-primary)]/20 shadow-xl"
+                                className="p-6 md:p-8 rounded-[30px] md:rounded-[40px] bg-gradient-to-br from-[var(--color-primary)]/10 via-black/40 to-black/20 border border-[var(--color-primary)]/20 shadow-xl"
                             >
-                                <div className="flex items-center gap-6">
-                                    <div className="w-20 h-20 bg-[var(--color-primary)] rounded-[20px] flex items-center justify-center shadow-xl shadow-[var(--color-primary)]/20 rotate-3 group-hover:rotate-0 transition-transform">
-                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <div className="flex items-center gap-4 md:gap-6">
+                                    <div className="w-14 h-14 md:w-20 md:h-20 bg-[var(--color-primary)] rounded-[15px] md:rounded-[20px] flex items-center justify-center shadow-xl shadow-[var(--color-primary)]/20 rotate-3 group-hover:rotate-0 transition-transform flex-shrink-0">
+                                        <svg width="28" height="28" className="md:w-10 md:h-10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                                         </svg>
                                     </div>
                                     <div>
-                                        <span className="text-white font-serif text-xl block leading-tight font-bold mb-1">Razorpay Trusted</span>
-                                        <span className="text-[var(--color-primary)] text-xs font-black uppercase tracking-widest opacity-80">Secure Business Partner</span>
+                                        <span className="text-white font-serif text-lg md:text-xl block leading-tight font-bold mb-1">Razorpay Trusted</span>
+                                        <span className="text-[var(--color-primary)] text-[9px] md:text-xs font-black uppercase tracking-widest opacity-80">Secure Partner</span>
                                     </div>
                                 </div>
                             </motion.div>
@@ -119,17 +119,17 @@ export default function BrandStory() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: idx * 0.1 }}
-                                    className="flex flex-col md:flex-row gap-8 p-10 rounded-[40px] bg-black/40 border border-white/5 hover:border-[var(--color-primary)]/20 hover:shadow-2xl transition-all group overflow-hidden relative"
+                                    className="flex flex-col md:flex-row gap-6 md:gap-8 p-8 md:p-10 rounded-[30px] md:rounded-[40px] bg-black/40 border border-white/5 hover:border-[var(--color-primary)]/20 hover:shadow-2xl transition-all group overflow-hidden relative"
                                 >
-                                    <div className="absolute -bottom-8 -right-8 text-white/[0.02] text-9xl font-serif pointer-events-none group-hover:text-[var(--color-primary)]/[0.05] transition-colors">
+                                    <div className="absolute -bottom-8 -right-8 text-white/[0.02] text-7xl md:text-9xl font-serif pointer-events-none group-hover:text-[var(--color-primary)]/[0.05] transition-colors">
                                         {idx + 1}
                                     </div>
-                                    <div className="w-16 h-16 rounded-3xl bg-[var(--color-primary)]/5 flex items-center justify-center text-[var(--color-primary)] text-3xl flex-shrink-0 group-hover:scale-110 group-hover:bg-[var(--color-primary)]/10 transition-all border border-white/5">
+                                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl md:rounded-3xl bg-[var(--color-primary)]/5 flex items-center justify-center text-[var(--color-primary)] text-2xl md:text-3xl flex-shrink-0 group-hover:scale-110 group-hover:bg-[var(--color-primary)]/10 transition-all border border-white/5">
                                         {pledge.icon}
                                     </div>
                                     <div className="flex-1 relative z-10">
-                                        <h4 className="text-2xl font-serif text-white mb-4 group-hover:text-[var(--color-primary)] transition-colors tracking-tight">{pledge.title}</h4>
-                                        <p className="text-gray-400 text-sm md:text-base leading-relaxed font-medium opacity-70 group-hover:opacity-100 transition-opacity whitespace-pre-line">
+                                        <h4 className="text-xl md:text-2xl font-serif text-white mb-3 md:mb-4 group-hover:text-[var(--color-primary)] transition-colors tracking-tight">{pledge.title}</h4>
+                                        <p className="text-gray-400 text-xs md:text-base leading-relaxed font-medium opacity-70 group-hover:opacity-100 transition-opacity whitespace-pre-line">
                                             {pledge.description}
                                         </p>
                                     </div>

@@ -48,7 +48,7 @@ function HomePage2() {
   ];
 
   return (
-    <section className="bg-black py-8 md:py-12 px-4 md:px-6 relative overflow-hidden">
+    <section className="bg-black py-4 md:py-12 px-4 md:px-6 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[var(--color-primary)]/5 blur-[120px] rounded-full" />
@@ -104,14 +104,14 @@ function HomePage2() {
               className="relative rounded-[40px] overflow-hidden bg-[#0f1219] border border-white/5 group flex flex-col h-full"
             >
               {/* Image side - Optimized for Artworks */}
-              <div className="w-full h-[500px] md:h-[600px] overflow-hidden relative bg-neutral-900/40">
+              <div className="w-full h-[380px] md:h-[500px] overflow-hidden relative bg-neutral-900/40">
                 <Slider {...settings} className="h-full">
                   {item.image.map((src, index) => (
                     <div key={index} className="h-full outline-none relative flex items-center justify-center">
                       <img
                         src={src}
                         alt={item.title}
-                        className={`w-auto h-full max-w-[95%] ${item.title.includes("Nettipattam") ? "object-contain p-4 md:p-6" : "object-cover w-full"} transition-all duration-[4s] drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]`}
+                        className={`w-auto h-full max-w-[85%] ${item.title.includes("Nettipattam") ? "object-contain p-4 md:p-6" : "object-cover w-full"} transition-all duration-[4s] drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]`}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                     </div>

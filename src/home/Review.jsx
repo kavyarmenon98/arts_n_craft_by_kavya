@@ -76,7 +76,7 @@ export default function Review() {
         dots: true,
         infinite: true,
         speed: 800,
-        slidesToShow: 3,
+        slidesToShow: 1, // Start with 1 slide for mobile
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 3000,
@@ -87,14 +87,13 @@ export default function Review() {
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 2,
+                    slidesToShow: 3, // Wide screens get 3
                 }
             },
             {
                 breakpoint: 768,
                 settings: {
-                    slidesToShow: 1,
-                    centerMode: false,
+                    slidesToShow: 2, // Tablets get 2
                 }
             }
         ]
@@ -134,7 +133,7 @@ export default function Review() {
                     />
                 </div>
 
-                <div className="review-slider-container">
+                <div className="review-slider-container w-full overflow-hidden">
                     <Slider {...settings}>
                         {reviews.map((review, idx) => (
                             <div key={idx} className="px-4 py-8">
