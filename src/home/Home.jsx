@@ -12,10 +12,11 @@ function Home() {
             <WhatsAppButton />
             <HomePage1 />
             <HomePage3 />
-            <HomePage2 />
-            <BrandStory />
             <BulkGifting />
+            <HomePage2 />
             <Review />
+            <BrandStory />
+
 
 
         </>
