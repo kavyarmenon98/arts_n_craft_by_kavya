@@ -39,12 +39,12 @@ const metrics = [
 
 export default function BrandStory() {
     return (
-        <section className="bg-black py-12 md:py-16 px-4 md:px-6 relative overflow-hidden">
+        <section className="bg-black py-8 md:py-12 px-4 md:px-6 relative overflow-hidden">
             {/* Background Aesthetic */}
             <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[var(--color-primary)]/5 blur-[150px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[var(--color-primary)]/5 blur-[120px] rounded-full pointer-events-none" />
 
-            <div className="max-w-6xl mx-auto relative z-10">
+            <div className="max-w-7xl mx-auto relative z-10">
                 {/* Header */}
                 <div className="text-center mb-16 md:mb-24">
                     <motion.span
