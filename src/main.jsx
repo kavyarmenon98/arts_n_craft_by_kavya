@@ -10,8 +10,8 @@ import store from './redux/store.js';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // Cache data for 5 minutes before considering it stale
-      staleTime: 5 * 60 * 1000,
+      // Data is always considered stale to ensure fresh data on navigation
+      staleTime: 0,
       // Keep unused data in cache for 10 minutes
       cacheTime: 10 * 60 * 1000,
       // Retry failed requests 2 times
@@ -19,9 +19,9 @@ const queryClient = new QueryClient({
       // Retry delay increases exponentially
       retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
       // Refetch on window focus for fresh data
-      refetchOnWindowFocus: false,
-      // Don't refetch on mount if data is fresh
-      refetchOnMount: false,
+      refetchOnWindowFocus: true,
+      // Refetch on mount to ensure fresh data
+      refetchOnMount: true,
       // Refetch on reconnect
       refetchOnReconnect: true,
     },
@@ -34,12 +34,12 @@ const queryClient = new QueryClient({
 
 createRoot(document.getElementById('root')).render(
 
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <StrictMode >
-          <App />
-        </StrictMode>
-      </Provider>
-    </QueryClientProvider>
+  <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+      <StrictMode >
+        <App />
+      </StrictMode>
+    </Provider>
+  </QueryClientProvider>
 
 )

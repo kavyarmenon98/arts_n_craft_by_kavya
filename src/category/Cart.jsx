@@ -155,6 +155,11 @@ export default function CartPage() {
   };
 
   const handleCheckout = async () => {
+    if (!userData?.user?.address) {
+      toast.error("Please add a delivery address before checkout");
+      openModal();
+      return;
+    }
     try {
       setCheckoutLoading(true);
       const { order } = await createOrderMutation.mutateAsync({
@@ -169,15 +174,34 @@ export default function CartPage() {
         name: "Arts & Craft By Kavya",
         order_id: order.id,
         handler: async (res) => {
-          await verifyPaymentAPI(res);
-          navigate("/myorder");
+          try {
+            await verifyPaymentAPI(res);
+
+            // Construct and send WhatsApp order summary to business account
+            const orderDetails = data.cart.map(item => `- ${item.name} (Qty: ${item.quantity}, Price: ₹${item.price})`).join('\n');
+            const total = calculateTotal();
+            const whatsappMsg = `Hi Kavya, I've just placed an order!\n\n🛍️ *Order Details:*\n${orderDetails}\n\n💰 *Total Amount:* ₹${total}\n📍 *Shipping Address:* ${userData?.user?.address}\n\nPlease check the admin panel for details.`;
+
+            const whatsappUrl = `https://wa.me/919037009645?text=${encodeURIComponent(whatsappMsg)}`;
+
+            // Attempt to open WhatsApp
+            window.open(whatsappUrl, '_blank');
+
+            toast.success("Order placed successfully!");
+            navigate("/myorder");
+            queryClient.invalidateQueries(["cart"]);
+          } catch (error) {
+            console.error("Payment verification failed", error);
+            toast.error("Payment verification failed");
+          }
         },
         theme: { color: "#00a1d1" },
       };
 
       new window.Razorpay(options).open();
-    } catch {
-      toast.error("Checkout failed");
+    } catch (error) {
+      console.error("Checkout Error:", error);
+      toast.error(error?.message || "Checkout failed");
     } finally {
       setCheckoutLoading(false);
     }
@@ -353,7 +377,7 @@ export default function CartPage() {
 
                   <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl text-xs text-gray-400">
                     <FiTruck className="text-green-400 flex-shrink-0" />
-                    <span>Estimated delivery in 5-7 business days</span>
+                    <span>Estimated delivery in 10-15 business days</span>
                   </div>
                 </div>
               </div>

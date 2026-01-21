@@ -59,16 +59,17 @@ function ProductCard({ details }) {
           >
             {/* IMAGE - Edge to Edge */}
             <div
-              className="relative w-full aspect-square cursor-pointer overflow-hidden group-hover:opacity-95 transition-opacity"
+              className="relative w-full aspect-square cursor-pointer overflow-hidden group-hover:opacity-95 transition-opacity bg-neutral-900/40"
               onClick={() => navigate(`/viewProduct/${item._id}`)}
             >
-              <div className="w-full h-full overflow-hidden">
+              <div className="w-full h-full overflow-hidden flex items-center justify-center p-2">
                 <ImageSlider
                   image={item.images}
                   styleForImage={{
                     width: "100%",
                     height: "100%",
-                    objectFit: "cover",
+                    objectFit: (item.category === "Nettipattam" || item.category === "Craft") ? "contain" : "cover",
+                    borderRadius: "12px",
                   }}
                 />
               </div>
