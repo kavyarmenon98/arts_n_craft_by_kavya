@@ -39,12 +39,12 @@ const metrics = [
 
 export default function BrandStory() {
     return (
-        <section className="bg-black py-20 md:py-32 px-4 md:px-6 relative overflow-hidden">
+        <section className="bg-black py-12 md:py-16 px-4 md:px-6 relative overflow-hidden">
             {/* Background Aesthetic */}
             <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[var(--color-primary)]/5 blur-[150px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[var(--color-primary)]/5 blur-[120px] rounded-full pointer-events-none" />
 
-            <div className="max-w-7xl mx-auto relative z-10">
+            <div className="max-w-6xl mx-auto relative z-10">
                 {/* Header */}
                 <div className="text-center mb-16 md:mb-24">
                     <motion.span
@@ -67,62 +67,51 @@ export default function BrandStory() {
                 </div>
 
                 {/* Main Content Area */}
-                <div className="bg-[#0f1219] border border-white/5 rounded-[40px] md:rounded-[60px] p-6 md:p-20 shadow-2xl relative overflow-hidden">
+                <div className="bg-[#0f1219] border border-white/5 rounded-[40px] md:rounded-[60px] p-6 md:p-12 lg:p-20 shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--color-primary)]/5 blur-[100px] pointer-events-none" />
 
-                    <div className="flex flex-col lg:flex-row gap-16 items-start">
+                    <div className="flex flex-col xl:flex-row gap-16 items-start">
                         {/* Summary Column */}
-                        <div className="lg:w-1/3 sticky top-32">
-                            <h3 className="text-3xl font-serif text-white mb-6">Our Artisanal <span className="italic text-[var(--color-primary)]">Commitments</span></h3>
-                            <p className="text-gray-500 text-sm leading-relaxed font-medium mb-12">
+                        <div className="xl:w-1/3 w-full sticky top-32">
+                            <h3 className="text-4xl font-serif text-white mb-8 border-b border-white/5 pb-6">Our Artisanal <span className="italic text-[var(--color-primary)]">Commitments</span></h3>
+                            <p className="text-gray-400 text-base leading-relaxed font-medium mb-12 opacity-80">
                                 Beyond aesthetics, we pledge absolute quality and transparency in every brushstroke and pour. Our work mirrors our heritage and passion.
                             </p>
 
                             {/* Metrics inside the commitment box */}
-                            <div className="grid grid-cols-1 gap-8">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-1 gap-8 mb-12">
                                 {metrics.map((m, i) => (
-                                    <div key={i} className="flex items-center gap-4 group">
+                                    <div key={i} className="flex items-center gap-4 group p-4 rounded-3xl bg-black/20 border border-white/5 hover:border-[var(--color-primary)]/30 transition-all">
                                         <div className="text-3xl font-serif font-black text-white italic group-hover:text-[var(--color-primary)] transition-colors">{m.value}</div>
-                                        <div className="text-[10px] uppercase font-black tracking-widest text-gray-600 border-l border-white/10 pl-4">{m.label}</div>
+                                        <div className="text-[10px] uppercase font-black tracking-widest text-gray-500 border-l border-white/10 pl-4">{m.label}</div>
                                     </div>
                                 ))}
                             </div>
 
-                            {/* Razorpay Trusted Badge - Improved Position */}
+                            {/* Razorpay Trusted Badge */}
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
-                                className="mt-8 p-6 rounded-3xl bg-gradient-to-br from-[var(--color-primary)]/10 to-transparent border border-[var(--color-primary)]/20"
+                                className="p-8 rounded-[40px] bg-gradient-to-br from-[var(--color-primary)]/10 via-black/40 to-black/20 border border-[var(--color-primary)]/20 shadow-xl"
                             >
-                                <div className="flex items-center gap-4">
-                                    <div className="w-16 h-16 bg-[var(--color-primary)] rounded-2xl flex items-center justify-center shadow-lg shadow-[var(--color-primary)]/30">
-                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <div className="flex items-center gap-6">
+                                    <div className="w-20 h-20 bg-[var(--color-primary)] rounded-[20px] flex items-center justify-center shadow-xl shadow-[var(--color-primary)]/20 rotate-3 group-hover:rotate-0 transition-transform">
+                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                                         </svg>
                                     </div>
-                                    <div className="flex-1">
-                                        <span className="text-white font-serif text-lg block leading-tight font-bold">Razorpay Trusted</span>
-                                        <span className="text-[var(--color-primary)] text-xs font-bold uppercase tracking-wider">Secure Business Partner</span>
+                                    <div>
+                                        <span className="text-white font-serif text-xl block leading-tight font-bold mb-1">Razorpay Trusted</span>
+                                        <span className="text-[var(--color-primary)] text-xs font-black uppercase tracking-widest opacity-80">Secure Business Partner</span>
                                     </div>
                                 </div>
                             </motion.div>
-
-                            {/* Additional Perks */}
-                            <div className="mt-8 flex items-center gap-4 flex-wrap">
-                                <div className="flex -space-x-3 shrink-0">
-                                    <div className="w-10 h-10 rounded-full bg-black border border-white/10 flex items-center justify-center text-[var(--color-primary)] shadow-xl"><FiGift size={16} /></div>
-                                    <div className="w-10 h-10 rounded-full bg-black border border-white/10 flex items-center justify-center text-[var(--color-primary)] shadow-xl"><FiGlobe size={16} /></div>
-                                </div>
-                                <div className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500 max-w-[150px] sm:max-w-none">
-                                    Premium Packaging & Global Standards
-                                </div>
-                            </div>
                         </div>
 
                         {/* Detailed Features Column */}
-                        <div className="lg:w-2/3 grid grid-cols-1 gap-6">
+                        <div className="xl:w-2/3 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-1 gap-8">
                             {artisanalPledges.map((pledge, idx) => (
                                 <motion.div
                                     key={idx}
@@ -130,14 +119,17 @@ export default function BrandStory() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: idx * 0.1 }}
-                                    className="flex flex-col md:flex-row gap-8 p-8 rounded-[40px] bg-black/40 border border-white/5 hover:border-[var(--color-primary)]/20 transition-all group"
+                                    className="flex flex-col md:flex-row gap-8 p-10 rounded-[40px] bg-black/40 border border-white/5 hover:border-[var(--color-primary)]/20 hover:shadow-2xl transition-all group overflow-hidden relative"
                                 >
-                                    <div className="w-16 h-16 rounded-3xl bg-[var(--color-primary)]/5 flex items-center justify-center text-[var(--color-primary)] text-3xl flex-shrink-0 group-hover:scale-110 transition-transform border border-white/5">
+                                    <div className="absolute -bottom-8 -right-8 text-white/[0.02] text-9xl font-serif pointer-events-none group-hover:text-[var(--color-primary)]/[0.05] transition-colors">
+                                        {idx + 1}
+                                    </div>
+                                    <div className="w-16 h-16 rounded-3xl bg-[var(--color-primary)]/5 flex items-center justify-center text-[var(--color-primary)] text-3xl flex-shrink-0 group-hover:scale-110 group-hover:bg-[var(--color-primary)]/10 transition-all border border-white/5">
                                         {pledge.icon}
                                     </div>
-                                    <div className="flex-1">
-                                        <h4 className="text-2xl font-serif text-white mb-3 group-hover:text-[var(--color-primary)] transition-colors line-height-tight">{pledge.title}</h4>
-                                        <p className="text-gray-400 text-sm leading-relaxed font-medium opacity-80 group-hover:opacity-100 transition-opacity whitespace-pre-line">
+                                    <div className="flex-1 relative z-10">
+                                        <h4 className="text-2xl font-serif text-white mb-4 group-hover:text-[var(--color-primary)] transition-colors tracking-tight">{pledge.title}</h4>
+                                        <p className="text-gray-400 text-sm md:text-base leading-relaxed font-medium opacity-70 group-hover:opacity-100 transition-opacity whitespace-pre-line">
                                             {pledge.description}
                                         </p>
                                     </div>
