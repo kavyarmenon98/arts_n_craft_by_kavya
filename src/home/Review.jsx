@@ -91,16 +91,17 @@ export default function Review() {
                 }
             },
             {
-                breakpoint: 640,
+                breakpoint: 768,
                 settings: {
                     slidesToShow: 1,
+                    centerMode: false,
                 }
             }
         ]
     };
 
     return (
-        <section className="bg-[#050505] py-12 md:py-20 px-4 md:px-6 relative overflow-hidden">
+        <section className="bg-black py-8 md:py-16 px-4 md:px-6 relative overflow-hidden">
             {/* Background Decorations */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-primary)]/5 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
@@ -139,7 +140,7 @@ export default function Review() {
                             <div key={idx} className="px-4 py-8">
                                 <motion.div
                                     whileHover={{ y: -10 }}
-                                    className="bg-[#0f1219] rounded-[40px] border border-white/5 h-full flex flex-col relative overflow-hidden group shadow-2xl transition-all duration-500 hover:border-[var(--color-primary)]/30 p-8"
+                                    className="bg-[#0f1219] rounded-[40px] border border-white/5 h-full flex flex-col relative overflow-hidden group shadow-2xl transition-all duration-500 hover:border-[var(--color-primary)]/30 p-6 md:p-8"
                                 >
                                     {/* Product Image - Attractive & Simple Frame */}
                                     <div className="w-20 h-20 rounded-2xl overflow-hidden border border-white/10 shadow-xl mb-6 shrink-0 bg-black/40">
@@ -207,7 +208,7 @@ export default function Review() {
 
             <style jsx="true">{`
                 .custom-dots {
-                    bottom: -50px !important;
+                    bottom: -30px !important;
                 }
                 .custom-dots li button:before {
                     color: white !important;
@@ -218,12 +219,9 @@ export default function Review() {
                     color: var(--color-primary) !important;
                     opacity: 1 !important;
                 }
-                .review-slider-container .slick-list {
-                    overflow: visible;
-                }
-                @media (max-width: 640px) {
+                @media (min-width: 1024px) {
                     .review-slider-container .slick-list {
-                        overflow: hidden;
+                        overflow: visible;
                     }
                 }
             `}</style>

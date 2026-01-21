@@ -36,7 +36,7 @@ function HomePage3() {
   ];
 
   return (
-    <section className="bg-[#050505] py-12 md:py-16 px-4 md:px-6">
+    <section className="bg-[#050505] py-8 md:py-12 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col items-center mb-12 md:mb-20 text-center">
           <motion.span

@@ -48,7 +48,7 @@ function HomePage2() {
   ];
 
   return (
-    <section className="bg-black py-12 md:py-20 px-4 md:px-6 relative overflow-hidden">
+    <section className="bg-black py-8 md:py-12 px-4 md:px-6 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[var(--color-primary)]/5 blur-[120px] rounded-full" />
@@ -57,7 +57,7 @@ function HomePage2() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Intro Section */}
-        <div className="flex flex-col items-center text-center mb-20 md:mb-40">
+        <div className="flex flex-col items-center text-center mb-16 md:mb-32">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -93,7 +93,7 @@ function HomePage2() {
         </div>
 
         {/* Featured Stories - Side by Side Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-16 md:mt-24">
           {data.map((item, idx) => (
             <motion.div
               key={idx}
@@ -103,17 +103,17 @@ function HomePage2() {
               transition={{ duration: 0.8, delay: idx * 0.2 }}
               className="relative rounded-[40px] overflow-hidden bg-[#0f1219] border border-white/5 group flex flex-col h-full"
             >
-              {/* Image side - Tall enough for Artworks */}
-              <div className="w-full h-[550px] md:h-[500px] overflow-hidden relative bg-neutral-900/40">
+              {/* Image side - Optimized for Artworks */}
+              <div className="w-full h-[500px] md:h-[600px] overflow-hidden relative bg-neutral-900/40">
                 <Slider {...settings} className="h-full">
                   {item.image.map((src, index) => (
                     <div key={index} className="h-full outline-none relative flex items-center justify-center">
                       <img
                         src={src}
                         alt={item.title}
-                        className={`w-auto h-full max-w-full ${item.title.includes("Nettipattam") ? "object-contain p-9 md:p-10" : "object-cover w-full"} transition-all duration-[4s] drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]`}
+                        className={`w-auto h-full max-w-[95%] ${item.title.includes("Nettipattam") ? "object-contain p-4 md:p-6" : "object-cover w-full"} transition-all duration-[4s] drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]`}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                     </div>
                   ))}
                 </Slider>
@@ -126,15 +126,15 @@ function HomePage2() {
                 </div>
               </div>
 
-              {/* Content side */}
-              <div className="p-8 md:p-12 flex flex-col flex-1">
-                <span className="text-[var(--color-primary)] font-bold text-[10px] uppercase tracking-[0.4em] mb-4 block">
+              {/* Content side - Reduced padding to fix gap */}
+              <div className="p-6 md:p-10 flex flex-col flex-1">
+                <span className="text-[var(--color-primary)] font-bold text-[10px] uppercase tracking-[0.4em] mb-3 block">
                   {item.subtitle}
                 </span>
-                <h3 className="text-3xl font-serif text-white mb-6 tracking-tight leading-tight group-hover:text-[var(--color-primary)] transition-colors duration-500">
+                <h3 className="text-3xl font-serif text-white mb-3 tracking-tight leading-tight group-hover:text-[var(--color-primary)] transition-colors duration-500">
                   {item.title}
                 </h3>
-                <p className="text-gray-400 text-sm md:text-base leading-relaxed font-light mb-10 border-l-2 border-[var(--color-primary)]/20 pl-6 italic opacity-80 flex-1">
+                <p className="text-gray-400 text-sm md:text-base leading-relaxed font-light mb-6 border-l-2 border-[var(--color-primary)]/20 pl-6 italic opacity-80 flex-1">
                   {item.description}
                 </p>
 
