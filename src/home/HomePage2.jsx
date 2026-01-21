@@ -119,8 +119,8 @@ function HomePage2() {
                 </Slider>
 
                 {/* Floating Label */}
-                <div className="absolute top-6 left-6 z-20">
-                  <span className="px-4 py-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-full text-[var(--color-primary)] text-[10px] uppercase tracking-[0.3em] font-bold">
+                <div className="absolute top-4 left-4 md:top-6 md:left-6 z-20">
+                  <span className="px-3 py-1 md:px-4 md:py-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-full text-[var(--color-primary)] text-[8px] md:text-[10px] uppercase tracking-[0.3em] font-bold">
                     Featured Collection
                   </span>
                 </div>
