@@ -88,13 +88,17 @@ export default function Review() {
                 breakpoint: 1024,
                 settings: {
                     slidesToShow: 2,
+                    slidesToScroll: 1,
                 }
             },
             {
                 breakpoint: 768,
                 settings: {
                     slidesToShow: 1,
+                    slidesToScroll: 1,
                     centerMode: false,
+                    infinite: true,
+                    dots: true
                 }
             }
         ]
@@ -134,7 +138,7 @@ export default function Review() {
                     />
                 </div>
 
-                <div className="review-slider-container">
+                <div className="review-slider-container w-full overflow-hidden">
                     <Slider {...settings}>
                         {reviews.map((review, idx) => (
                             <div key={idx} className="px-4 py-8">
