@@ -71,8 +71,8 @@ export default function BrandStory() {
                     <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--color-primary)]/5 blur-[100px] pointer-events-none" />
 
                     <div className="flex flex-col xl:flex-row gap-16 items-start">
-                        {/* Summary Column */}
-                        <div className="xl:w-1/3 w-full sticky top-32">
+                        {/* Summary Column - Sticky only on Desktop */}
+                        <div className="xl:w-1/3 w-full xl:sticky xl:top-32">
                             <h3 className="text-4xl font-serif text-white mb-8 border-b border-white/5 pb-6">Our Artisanal <span className="italic text-[var(--color-primary)]">Commitments</span></h3>
                             <p className="text-gray-400 text-base leading-relaxed font-medium mb-12 opacity-80">
                                 Beyond aesthetics, we pledge absolute quality and transparency in every brushstroke and pour. Our work mirrors our heritage and passion.

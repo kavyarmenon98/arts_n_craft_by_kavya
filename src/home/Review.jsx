@@ -76,7 +76,7 @@ export default function Review() {
         dots: true,
         infinite: true,
         speed: 800,
-        slidesToShow: 1, // Start with 1 slide for mobile
+        slidesToShow: 3, // Desktop default
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 3000,
@@ -87,13 +87,13 @@ export default function Review() {
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 3, // Wide screens get 3
+                    slidesToShow: 2, // Tablets
                 }
             },
             {
                 breakpoint: 768,
                 settings: {
-                    slidesToShow: 2, // Tablets get 2
+                    slidesToShow: 1, // Mobile
                 }
             }
         ]
@@ -105,7 +105,7 @@ export default function Review() {
             <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-primary)]/5 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
 
-            <div className="max-w-7xl mx-auto relative z-10">
+            <div className="max-w-5xl mx-auto relative z-10">
                 <div className="flex flex-col items-center text-center mb-16 md:mb-24">
                     <motion.span
                         initial={{ opacity: 0, y: 10 }}
