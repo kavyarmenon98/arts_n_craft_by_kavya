@@ -1,14 +1,9 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FiStar } from "react-icons/fi";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReviewModal from "../common/ReviewModal";
 import { useQuery } from "@tanstack/react-query";
 import { getMyOrderAPI } from "../services/service";
-import Slider from "react-slick";
-
-// To make slick-carousel work, ensure you've imported its CSS in index.css or here
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
 
 const reviews = [
     {
@@ -63,6 +58,8 @@ const reviews = [
 
 export default function Review() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
     const { data: orderData } = useQuery({
         queryKey: ["orders"],
@@ -72,30 +69,28 @@ export default function Review() {
 
     const deliveredOrders = orderData?.orders?.filter(order => order.status === "Delivered") || [];
 
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 800,
-        slidesToShow: 3, // Default for desktop
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 3000,
-        arrows: false,
-        pauseOnHover: true,
-        adaptiveHeight: false,
-        dotsClass: "slick-dots custom-dots",
-        responsive: [
-            {
-                breakpoint: 1024, // Matches 0px to 1024px
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    centerMode: true,
-                    centerPadding: "20px"
-                }
-            }
-        ]
-    };
+    // Handle Resize
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const itemsPerPage = isMobile ? 1 : 3;
+
+    // Auto-play timer
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentIndex((prev) => {
+                const next = prev + itemsPerPage;
+                return next >= reviews.length ? 0 : next;
+            });
+        }, 3000);
+
+        return () => clearInterval(timer);
+    }, [itemsPerPage]);
+
+    const visibleReviews = reviews.slice(currentIndex, currentIndex + itemsPerPage);
 
     return (
         <section className="bg-black py-12 md:py-20 px-4 md:px-6 relative overflow-hidden mb-8 md:mb-0">
@@ -131,15 +126,23 @@ export default function Review() {
                     />
                 </div>
 
-                <div className="review-slider-container w-full">
-                    <Slider {...settings}>
-                        {reviews.map((review, idx) => (
-                            <div key={idx} className="px-2 md:px-4 py-8 h-full">
+                <div className="relative min-h-[500px]">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={currentIndex}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            transition={{ duration: 0.5 }}
+                            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                        >
+                            {visibleReviews.map((review, idx) => (
                                 <motion.div
+                                    key={idx}
                                     whileHover={{ y: -10 }}
-                                    className="bg-[#0f1219] rounded-[40px] border border-white/5 h-full flex flex-col relative overflow-hidden group shadow-2xl transition-all duration-500 hover:border-[var(--color-primary)]/30 p-6 md:p-8"
+                                    className="bg-[#0f1219] rounded-[40px] border border-white/5 h-[500px] flex flex-col relative overflow-hidden group shadow-2xl transition-all duration-500 hover:border-[var(--color-primary)]/30 p-6 md:p-8"
                                 >
-                                    {/* Product Image - Attractive & Simple Frame */}
+                                    {/* Product Image */}
                                     <div className="w-20 h-20 rounded-2xl overflow-hidden border border-white/10 shadow-xl mb-6 shrink-0 bg-black/40">
                                         <img src={review.productImage} alt="product" className="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" />
                                     </div>
@@ -171,12 +174,25 @@ export default function Review() {
                                         </div>
                                     </div>
 
-                                    {/* Decorative subtle pulse */}
                                     <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-[var(--color-primary)]/5 blur-3xl rounded-full group-hover:bg-[var(--color-primary)]/10 transition-colors" />
                                 </motion.div>
-                            </div>
+                            ))}
+                        </motion.div>
+                    </AnimatePresence>
+
+                    {/* Dots indicator */}
+                    <div className="flex justify-center gap-2 mt-12">
+                        {Array.from({ length: Math.ceil(reviews.length / itemsPerPage) }).map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => setCurrentIndex(i * itemsPerPage)}
+                                className={`w-2 h-2 rounded-full transition-all duration-300 ${Math.floor(currentIndex / itemsPerPage) === i
+                                        ? "bg-[var(--color-primary)] w-8"
+                                        : "bg-white/20 hover:bg-white/40"
+                                    }`}
+                            />
                         ))}
-                    </Slider>
+                    </div>
                 </div>
 
                 <div className="mt-20 flex flex-col items-center">
@@ -202,48 +218,6 @@ export default function Review() {
                     deliveredItems={deliveredOrders}
                 />
             </div>
-
-            <style jsx="true">{`
-                .custom-dots {
-                    bottom: -30px !important;
-                }
-                .custom-dots li button:before {
-                    color: white !important;
-                    font-size: 8px !important;
-                    opacity: 0.2 !important;
-                }
-                .custom-dots li.slick-active button:before {
-                    color: var(--color-primary) !important;
-                    opacity: 1 !important;
-                }
-                .review-slider-container .slick-track {
-                    display: flex !important;
-                    gap: 0;
-                }
-                .review-slider-container .slick-slide {
-                    height: inherit !important;
-                    display: flex !important;
-                    justify-content: center;
-                }
-                .review-slider-container .slick-slide > div {
-                    height: 100%;
-                    width: 100%;
-                }
-                .review-slider-container .slick-list {
-                    overflow: hidden !important;
-                    padding: 20px 0 !important;
-                }
-                @media (max-width: 768px) {
-                    .review-slider-container .slick-list {
-                        overflow: hidden !important;
-                        padding: 10px 0 !important;
-                    }
-                    .review-slider-container .px-2 {
-                        padding-left: 10px !important;
-                        padding-right: 10px !important;
-                    }
-                }
-            `}</style>
         </section>
     );
 }

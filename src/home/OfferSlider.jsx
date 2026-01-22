@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllProductAPI } from "../services/service";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import Slider from "react-slick";
+import { motion, AnimatePresence } from "framer-motion";
 import { FiArrowRight, FiTag } from "react-icons/fi";
+import { useState, useEffect } from "react";
 
 export default function OfferSlider() {
     const navigate = useNavigate();
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
     const { data, isLoading } = useQuery({
         queryKey: ["products"],
@@ -16,31 +18,32 @@ export default function OfferSlider() {
     const offerProducts =
         data?.readproduct?.filter((product) => product.discountPercentage > 30) || [];
 
+    // Handle Resize
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const itemsPerPage = isMobile ? 1 : 3;
+
+    // Auto-play timer
+    useEffect(() => {
+        if (offerProducts.length === 0) return;
+
+        const timer = setInterval(() => {
+            setCurrentIndex((prev) => {
+                const next = prev + itemsPerPage;
+                return next >= offerProducts.length ? 0 : next;
+            });
+        }, 3000);
+
+        return () => clearInterval(timer);
+    }, [offerProducts.length, itemsPerPage]);
+
     if (isLoading || offerProducts.length === 0) return null;
 
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 800,
-        slidesToShow: 3, // Default for desktop
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 4000,
-        arrows: false,
-        pauseOnHover: true,
-        dotsClass: "slick-dots custom-dots",
-        responsive: [
-            {
-                breakpoint: 1024, // Matches 0px to 1024px
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    centerMode: true,
-                    centerPadding: "20px"
-                }
-            }
-        ]
-    };
+    const visibleProducts = offerProducts.slice(currentIndex, currentIndex + itemsPerPage);
 
     return (
         <section className="bg-black py-12 md:py-20 px-4 md:px-6 relative overflow-hidden mb-8 md:mb-0">
@@ -63,13 +66,21 @@ export default function OfferSlider() {
                     </motion.button>
                 </div>
 
-                <div className="offer-slider-container">
-                    <Slider {...settings}>
-                        {offerProducts.map((product) => (
-                            <div key={product._id} className="px-3 py-6">
+                <div className="relative min-h-[520px]">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={currentIndex}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            transition={{ duration: 0.5 }}
+                            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                        >
+                            {visibleProducts.map((product) => (
                                 <motion.div
+                                    key={product._id}
                                     whileHover={{ y: -10 }}
-                                    className="group relative bg-[#0f1219]/60 backdrop-blur-md border border-white/5 rounded-[40px] overflow-hidden hover:border-[var(--color-primary)]/20 transition-all duration-500 cursor-pointer shadow-2xl min-h-[480px] md:h-[500px] flex flex-col"
+                                    className="group relative bg-[#0f1219]/60 backdrop-blur-md border border-white/5 rounded-[40px] overflow-hidden hover:border-[var(--color-primary)]/20 transition-all duration-500 cursor-pointer shadow-2xl h-[520px] flex flex-col"
                                     onClick={() => navigate(`/viewProduct/${product._id}`)}
                                 >
                                     {/* Image */}
@@ -107,49 +118,25 @@ export default function OfferSlider() {
                                         </div>
                                     </div>
                                 </motion.div>
-                            </div>
+                            ))}
+                        </motion.div>
+                    </AnimatePresence>
+
+                    {/* Dots indicator */}
+                    <div className="flex justify-center gap-2 mt-12">
+                        {Array.from({ length: Math.ceil(offerProducts.length / itemsPerPage) }).map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => setCurrentIndex(i * itemsPerPage)}
+                                className={`w-2 h-2 rounded-full transition-all duration-300 ${Math.floor(currentIndex / itemsPerPage) === i
+                                        ? "bg-[var(--color-primary)] w-8"
+                                        : "bg-white/20 hover:bg-white/40"
+                                    }`}
+                            />
                         ))}
-                    </Slider>
+                    </div>
                 </div>
             </div>
-
-            <style jsx="true">{`
-                .offer-slider-container .slick-dots.custom-dots {
-                    bottom: -40px;
-                }
-                .offer-slider-container .slick-track {
-                    display: flex !important;
-                }
-                .offer-slider-container .slick-slide {
-                    height: inherit !important;
-                    display: flex !important;
-                    justify-content: center;
-                }
-                .offer-slider-container .slick-slide > div {
-                    height: 100%;
-                    width: 100%;
-                }
-                .offer-slider-container .slick-list {
-                    overflow: hidden !important;
-                    padding: 20px 0;
-                }
-                @media (max-width: 1024px) {
-                    .offer-slider-container .slick-list {
-                         overflow: hidden !important;
-                         padding: 20px 40px;
-                    }
-                }
-                @media (max-width: 768px) {
-                    .offer-slider-container .slick-list {
-                        overflow: hidden !important;
-                        padding: 10px 0;
-                    }
-                    .offer-slider-container .px-3 {
-                        padding-left: 10px !important;
-                        padding-right: 10px !important;
-                    }
-                }
-            `}</style>
         </section>
     );
 }
