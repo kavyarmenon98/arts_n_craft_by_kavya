@@ -34,7 +34,7 @@ function HomePage2() {
 
   const data = [
     {
-      title: "Kerala Mural Painting",
+      title: "Kerala Mural Paintings",
       subtitle: "A Timeless Heritage",
       description: "Step into a world of celestial beauty with Kerala's iconic mural art. Rooted in the 7th century, these masterpieces capture the essence of temple antiquity through vibrant hues and intricate detailing. Heavily influenced by Pallava aesthetics and perfected over generations, each stroke tells a legendary story of divinity and grace, bringing a sacred elegance to any space.",
       image: [image2, image4, image13],

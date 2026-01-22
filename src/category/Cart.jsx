@@ -200,12 +200,21 @@ export default function CartPage() {
 
     try {
       setCheckoutLoading(true);
-      setProcessingMessage("Initiating Secure Checkout...");
+      setProcessingMessage("Preparing Your Order...");
 
       const { order } = await createOrderMutation.mutateAsync({
         cartItems: data.cart,
         userId: user.id,
       });
+
+      // Prepare order summary
+      const orderDetails = data.cart.map(item => `- ${item.name} (Qty: ${item.quantity}, Price: ₹${item.price})`).join('\n');
+      const total = calculateTotal();
+      const whatsappMsg = `Hi Kavya, I'm placing an order! 👋\n\n🆔 *Order ID:* ${order.id}\n\n🛍️ *Order Details:*\n${orderDetails}\n\n💰 *Total Amount:* ₹${total}\n📍 *Shipping Address:* ${userData?.user?.address}\n\nPlease check the admin panel for details.`;
+      const whatsappUrl = `https://wa.me/919037009645?text=${encodeURIComponent(whatsappMsg)}`;
+
+      // Open WhatsApp immediately after order creation (intent notification)
+      window.open(whatsappUrl, '_blank');
 
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
@@ -219,29 +228,13 @@ export default function CartPage() {
             setProcessingMessage("Verifying Payment...");
             await verifyPaymentAPI(res);
 
-            setProcessingMessage("Confirming Order...");
-
-            // Construct and send WhatsApp order summary to business account
-            const orderDetails = data.cart.map(item => `- ${item.name} (Qty: ${item.quantity}, Price: ₹${item.price})`).join('\n');
-            const total = calculateTotal();
-            const whatsappMsg = `Hi Kavya, I've just placed an order! 🎉\n\n🆔 *Order ID:* ${order.id}\n\n🛍️ *Order Details:*\n${orderDetails}\n\n💰 *Total Amount:* ₹${total}\n📍 *Shipping Address:* ${userData?.user?.address}\n\nPlease check the admin panel for details.`;
-
-            const whatsappUrl = `https://wa.me/919037009645?text=${encodeURIComponent(whatsappMsg)}`;
-
-            setProcessingMessage("Redirecting to WhatsApp to Notify Artist...");
-
-            // Short delay to show the message
-            setTimeout(() => {
-              window.open(whatsappUrl, '_blank');
-              toast.success("Order placed successfully!");
-              navigate("/myorder");
-              queryClient.invalidateQueries(["cart"]);
-              setProcessingMessage(null);
-            }, 1500);
-
+            toast.success("Payment Received! Order confirmed.");
+            navigate("/myorder");
+            queryClient.invalidateQueries(["cart"]);
+            setProcessingMessage(null);
           } catch (error) {
             console.error("Payment verification failed", error);
-            toast.error("Payment verification failed");
+            toast.error("Payment verification failed. Please contact the artist.");
             setProcessingMessage(null);
           }
         },
@@ -251,12 +244,11 @@ export default function CartPage() {
             setProcessingMessage(null);
           }
         },
-        theme: { color: "#D4AF37" }, // Gold color for premium feel
+        theme: { color: "#D4AF37" },
       };
 
       const razorpay = new window.Razorpay(options);
       razorpay.open();
-
     } catch (error) {
       console.error("Checkout Error:", error);
       toast.error(error?.message || "Checkout failed");

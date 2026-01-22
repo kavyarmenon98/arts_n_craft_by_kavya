@@ -234,7 +234,7 @@ export default function AboutMe() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {[
                             { title: "Nettipattam", desc: "Golden elephant caparisons." },
-                            { title: "Mural Painting", desc: "Vibrant traditional temple art." },
+                            { title: "Mural Paintings", desc: "Vibrant traditional temple art." },
                             { title: "Resin Art", desc: "Jewellery & keepsake preservation." },
                             { title: "Fusion Art", desc: "Blending Mural & Nettipattam styles." },
                             { title: "Fabric Painting", desc: "Custom art on sarees & wearables." },

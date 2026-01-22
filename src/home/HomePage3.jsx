@@ -19,12 +19,12 @@ function HomePage3() {
       link: "Resin",
     },
     {
-      title: "Mural Paints",
+      title: "Mural Paintings",
       imageUrl: [mural1, image14],
       link: "Painting",
     },
     {
-      title: "Nettippattam",
+      title: "Nettipattam",
       imageUrl: [image8, image9],
       link: "Nettipattam",
     },
