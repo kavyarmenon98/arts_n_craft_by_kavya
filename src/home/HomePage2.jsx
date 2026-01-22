@@ -56,44 +56,10 @@ function HomePage2() {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Intro Section */}
-        <div className="flex flex-col items-center text-center mb-16 md:mb-32">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative"
-          >
-            <img
-              src={logo2}
-              alt="Kavya Arts"
-              className="w-48 mb-12 drop-shadow-[0_0_40px_rgba(0,161,209,0.3)]"
-            />
-            <div className="absolute inset-0 bg-[var(--color-primary)]/10 blur-3xl rounded-full scale-150 -z-10" />
-          </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-2xl md:text-4xl font-serif text-white/90 leading-relaxed max-w-5xl italic font-light"
-          >
-            "Enchanting you since 2019. Discover the refined and exclusive collection by <span className="text-[var(--color-primary)] not-italic">Kavya Arts & Craft</span> . Here art is thoughtfully created with emotion, patience, and precision, offering rare, elegant creations that transform spaces into experiences."
-          </motion.p>
-
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: 120 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5, duration: 1 }}
-            className="h-[1px] bg-[var(--color-primary)] mt-16 opacity-60"
-          />
-        </div>
 
         {/* Featured Stories - Side by Side Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-16 md:mt-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12 md:mt-16">
           {data.map((item, idx) => (
             <motion.div
               key={idx}
@@ -101,40 +67,40 @@ function HomePage2() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: idx * 0.2 }}
-              className="relative rounded-[40px] overflow-hidden bg-[#0f1219] border border-white/5 group flex flex-col h-full"
+              className="relative rounded-[32px] overflow-hidden bg-[#0f1219] border border-white/5 group flex flex-col h-full shadow-lg"
             >
               {/* Image side - Optimized for Artworks */}
-              <div className="w-full h-[380px] md:h-[500px] overflow-hidden relative bg-neutral-900/40">
+              <div className="w-full h-[420px] md:h-[520px] overflow-hidden relative bg-neutral-900/40 p-4">
                 <Slider {...settings} className="h-full">
                   {item.image.map((src, index) => (
                     <div key={index} className="h-full outline-none relative flex items-center justify-center">
                       <img
                         src={src}
                         alt={item.title}
-                        className={`w-auto h-full max-w-[85%] ${item.title.includes("Nettipattam") ? "object-contain p-4 md:p-6" : "object-cover w-full"} transition-all duration-[4s] drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]`}
+                        className="w-auto h-full max-w-full object-contain transition-all duration-700 drop-shadow-[0_10px_30px_rgba(0,0,0,0.4)] rounded-xl"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
                     </div>
                   ))}
                 </Slider>
 
                 {/* Floating Label */}
                 <div className="absolute top-4 left-4 md:top-6 md:left-6 z-20">
-                  <span className="px-3 py-1 md:px-4 md:py-1.5 bg-black/40 backdrop-blur-md border border-white/10 rounded-full text-[var(--color-primary)] text-[8px] md:text-[10px] uppercase tracking-[0.3em] font-bold">
-                    Featured Collection
+                  <span className="px-3 py-1 md:px-4 md:py-1 bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-[var(--color-primary)] text-[10px] uppercase tracking-widest font-bold">
+                    Featured
                   </span>
                 </div>
               </div>
 
-              {/* Content side - Reduced padding to fix gap */}
-              <div className="p-6 md:p-10 flex flex-col flex-1">
-                <span className="text-[var(--color-primary)] font-bold text-[10px] uppercase tracking-[0.4em] mb-3 block">
+              {/* Content side - Enhanced typography and spacing */}
+              <div className="p-6 md:p-8 flex flex-col flex-1">
+                <span className="text-[var(--color-primary)] font-bold text-[10px] uppercase tracking-[0.4em] mb-2 block">
                   {item.subtitle}
                 </span>
-                <h3 className="text-3xl font-serif text-white mb-3 tracking-tight leading-tight group-hover:text-[var(--color-primary)] transition-colors duration-500">
+                <h3 className="text-2xl md:text-3xl font-serif text-white mb-3 tracking-tight leading-tight group-hover:text-[var(--color-primary)] transition-colors duration-500">
                   {item.title}
                 </h3>
-                <p className="text-gray-400 text-sm md:text-base leading-relaxed font-light mb-6 border-l-2 border-[var(--color-primary)]/20 pl-6 italic opacity-80 flex-1">
+                <p className="text-gray-400 text-sm leading-relaxed font-light mb-6 border-l-2 border-[var(--color-primary)]/20 pl-5 italic opacity-80 flex-1 line-clamp-4">
                   {item.description}
                 </p>
 
@@ -145,8 +111,8 @@ function HomePage2() {
                     className="flex items-center gap-4 text-white hover:text-[var(--color-primary)] transition-all group/btn"
                   >
                     <span className="text-[10px] font-black uppercase tracking-[0.3em]">Explore Collection</span>
-                    <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 group-hover/btn:border-[var(--color-primary)] group-hover/btn:bg-[var(--color-primary)] group-hover/btn:text-black transition-all">
-                      <FiArrowRight className="text-lg" />
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full border border-white/10 group-hover/btn:border-[var(--color-primary)] group-hover/btn:bg-[var(--color-primary)] group-hover/btn:text-black transition-all">
+                      <FiArrowRight className="text-sm" />
                     </div>
                   </motion.button>
                 </div>

@@ -207,14 +207,7 @@ export default function CartPage() {
         userId: user.id,
       });
 
-      // Prepare order summary
-      const orderDetails = data.cart.map(item => `- ${item.name} (Qty: ${item.quantity}, Price: ₹${item.price})`).join('\n');
-      const total = calculateTotal();
-      const whatsappMsg = `Hi Kavya, I'm placing an order! 👋\n\n🆔 *Order ID:* ${order.id}\n\n🛍️ *Order Details:*\n${orderDetails}\n\n💰 *Total Amount:* ₹${total}\n📍 *Shipping Address:* ${userData?.user?.address}\n\nPlease check the admin panel for details.`;
-      const whatsappUrl = `https://wa.me/919037009645?text=${encodeURIComponent(whatsappMsg)}`;
 
-      // Open WhatsApp immediately after order creation (intent notification)
-      window.open(whatsappUrl, '_blank');
 
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
@@ -225,10 +218,19 @@ export default function CartPage() {
         order_id: order.id,
         handler: async (res) => {
           try {
-            setProcessingMessage("Verifying Payment...");
+            setProcessingMessage("Verifying Payment and Notifying Artist...");
             await verifyPaymentAPI(res);
 
-            toast.success("Payment Received! Order confirmed.");
+            // Construct WhatsApp message after verification
+            const orderDetails = data.cart.map(item => `- ${item.name} (Qty: ${item.quantity}, Price: ₹${item.price})`).join('\n');
+            const total = calculateTotal();
+            const whatsappMsg = `Hi Kavya, I've just placed an order! 🎉\n\n🆔 *Order ID:* ${order.id}\n\n🛍️ *Order Details:*\n${orderDetails}\n\n💰 *Total Amount:* ₹${total}\n📍 *Shipping Address:* ${userData?.user?.address}\n\nPlease check the admin panel for details.`;
+            const whatsappUrl = `https://wa.me/919037009645?text=${encodeURIComponent(whatsappMsg)}`;
+
+            // Attempt to open WhatsApp
+            window.open(whatsappUrl, '_blank');
+
+            toast.success("Order confirmed! Artist notified.");
             navigate("/myorder");
             queryClient.invalidateQueries(["cart"]);
             setProcessingMessage(null);

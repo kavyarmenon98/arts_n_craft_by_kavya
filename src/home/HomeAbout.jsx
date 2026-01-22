@@ -1,12 +1,49 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import myPic1 from "../assets/me4.jpg";
+import logo2 from "../assets/logo2.png";
 
 export default function HomeAbout() {
     const navigate = useNavigate();
 
     return (
+
         <section className="bg-black py-12 md:py-20 px-4 md:px-6 relative overflow-hidden mb-8 md:mb-0">
+            {/* Intro Section */}
+            <div className="flex flex-col items-center text-center mb-16 md:mb-32">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                    className="relative"
+                >
+                    <img
+                        src={logo2}
+                        alt="Kavya Arts"
+                        className="w-48 mb-12 drop-shadow-[0_0_40px_rgba(0,161,209,0.3)]"
+                    />
+                    <div className="absolute inset-0 bg-[var(--color-primary)]/10 blur-3xl rounded-full scale-150 -z-10" />
+                </motion.div>
+
+                <motion.p
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2, duration: 0.8 }}
+                    className="text-2xl md:text-4xl font-serif text-white/90 leading-relaxed max-w-5xl italic font-light"
+                >
+                    "Enchanting you since 2019. Discover the refined and exclusive collection by <span className="text-[var(--color-primary)] not-italic">Kavya Arts & Craft</span> . Here art is thoughtfully created with emotion, patience, and precision, offering rare, elegant creations that transform spaces into experiences."
+                </motion.p>
+
+                <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: 120 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5, duration: 1 }}
+                    className="h-[1px] bg-[var(--color-primary)] mt-16 opacity-60"
+                />
+            </div>
             <div className="max-w-6xl mx-auto">
                 <div className="relative rounded-[40px] md:rounded-[60px] overflow-hidden bg-[#0f1219] border border-white/5 shadow-2xl">
                     <div className="flex flex-col lg:flex-row items-stretch min-h-[500px] md:min-h-[600px]">
