@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useRef } from "react";
 
 /**
  * OptimizedImage Component
- * Provides lazy loading, blur-up effect, and error handling for images
+ * Uses native lazy loading with a blur-up effect/placeholder
  */
 function OptimizedImage({
     src,
@@ -10,49 +11,42 @@ function OptimizedImage({
     className = "",
     style = {},
     placeholderColor = "#1a1a1a",
-    priority = false,
+    priority = false, // If true, eager load
     onLoad,
     onError
 }) {
-    const [imageSrc, setImageSrc] = useState(null);
-    const [imageLoading, setImageLoading] = useState(true);
-    const [imageError, setImageError] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [hasError, setHasError] = useState(false);
+    const containerRef = useRef(null);
 
-    useEffect(() => {
-        if (!src) {
-            setImageError(true);
-            setImageLoading(false);
-            return;
-        }
+    // We can use framer-motion's useInView or just rely on native loading="lazy"
+    // Native is better for performance usually.
 
-        // Reset states when src changes
-        setImageLoading(true);
-        setImageError(false);
+    const handleLoad = (e) => {
+        setIsLoaded(true);
+        if (onLoad) onLoad(e);
+    };
 
-        const img = new Image();
+    const handleError = (e) => {
+        setHasError(true);
+        setIsLoaded(true); // Stop loading animation
+        if (onError) onError(e);
+    };
 
-        img.onload = () => {
-            setImageSrc(src);
-            setImageLoading(false);
-            onLoad?.();
-        };
+    if (!src) {
+        return (
+            <div
+                className={`flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 ${className}`}
+                style={style}
+            >
+                <div className="text-center p-4">
+                    <p className="text-xs text-gray-500">No Image</p>
+                </div>
+            </div>
+        );
+    }
 
-        img.onerror = () => {
-            setImageError(true);
-            setImageLoading(false);
-            onError?.();
-        };
-
-        // Start loading the image
-        img.src = src;
-
-        return () => {
-            img.onload = null;
-            img.onerror = null;
-        };
-    }, [src, onLoad, onError]);
-
-    if (imageError) {
+    if (hasError) {
         return (
             <div
                 className={`flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 ${className}`}
@@ -79,11 +73,11 @@ function OptimizedImage({
     }
 
     return (
-        <div className={`relative overflow-hidden ${className}`} style={style}>
-            {/* Placeholder while loading */}
-            {imageLoading && (
+        <div ref={containerRef} className={`relative overflow-hidden ${className}`} style={style}>
+            {/* Placeholder / Loader */}
+            {!isLoaded && (
                 <div
-                    className="absolute inset-0 animate-pulse"
+                    className="absolute inset-0 z-10 animate-pulse"
                     style={{ backgroundColor: placeholderColor }}
                 >
                     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent" />
@@ -95,17 +89,16 @@ function OptimizedImage({
             )}
 
             {/* Actual image */}
-            {imageSrc && (
-                <img
-                    src={imageSrc}
-                    alt={alt}
-                    className={`w-full h-full transition-opacity duration-500 ${imageLoading ? "opacity-0" : "opacity-100"
-                        }`}
-                    style={style}
-                    loading={priority ? "eager" : "lazy"}
-                    decoding="async"
-                />
-            )}
+            <img
+                src={src}
+                alt={alt}
+                className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+                style={style}
+                loading={priority ? "eager" : "lazy"}
+                decoding="async"
+                onLoad={handleLoad}
+                onError={handleError}
+            />
         </div>
     );
 }
