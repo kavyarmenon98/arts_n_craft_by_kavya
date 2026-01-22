@@ -22,7 +22,7 @@ export default function OfferSlider() {
         dots: true,
         infinite: true,
         speed: 800,
-        slidesToShow: 3,
+        slidesToShow: 3, // Default for desktop
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 4000,
@@ -31,35 +31,12 @@ export default function OfferSlider() {
         dotsClass: "slick-dots custom-dots",
         responsive: [
             {
-                breakpoint: 1280,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                }
-            },
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                }
-            },
-            {
-                breakpoint: 768,
+                breakpoint: 1024, // Matches 0px to 1024px
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     centerMode: true,
-                    centerPadding: "20px",
-                }
-            },
-            {
-                breakpoint: 640,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    centerMode: false,
-                    padding: "10px"
+                    centerPadding: "20px"
                 }
             }
         ]
@@ -153,13 +130,13 @@ export default function OfferSlider() {
                     width: 100%;
                 }
                 .offer-slider-container .slick-list {
-                    overflow: visible !important;
+                    overflow: hidden !important;
                     padding: 20px 0;
                 }
                 @media (max-width: 1024px) {
                     .offer-slider-container .slick-list {
                          overflow: hidden !important;
-                         padding: 20px 0;
+                         padding: 20px 40px;
                     }
                 }
                 @media (max-width: 768px) {
@@ -168,8 +145,8 @@ export default function OfferSlider() {
                         padding: 10px 0;
                     }
                     .offer-slider-container .px-3 {
-                        padding-left: 8px !important;
-                        padding-right: 8px !important;
+                        padding-left: 10px !important;
+                        padding-right: 10px !important;
                     }
                 }
             `}</style>

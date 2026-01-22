@@ -76,7 +76,7 @@ export default function Review() {
         dots: true,
         infinite: true,
         speed: 800,
-        slidesToShow: 3,
+        slidesToShow: 3, // Default for desktop
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 3000,
@@ -86,22 +86,12 @@ export default function Review() {
         dotsClass: "slick-dots custom-dots",
         responsive: [
             {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                }
-            },
-            {
-                breakpoint: 768,
+                breakpoint: 1024, // Matches 0px to 1024px
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     centerMode: true,
-                    centerPadding: "20px",
-                    infinite: true,
-                    dots: true,
-                    adaptiveHeight: false
+                    centerPadding: "20px"
                 }
             }
         ]
@@ -130,7 +120,7 @@ export default function Review() {
                         transition={{ delay: 0.1 }}
                         className="text-4xl md:text-6xl font-serif text-white tracking-tight"
                     >
-                        What Our Customers Says <span className="italic text-[var(--color-primary)]">About Us</span>
+                        What Our Customers <span className="italic text-[var(--color-primary)]">Say About Us</span>
                     </motion.h2>
                     <motion.div
                         initial={{ width: 0 }}
@@ -240,7 +230,7 @@ export default function Review() {
                     width: 100%;
                 }
                 .review-slider-container .slick-list {
-                    overflow: visible !important;
+                    overflow: hidden !important;
                     padding: 20px 0 !important;
                 }
                 @media (max-width: 768px) {
@@ -249,8 +239,8 @@ export default function Review() {
                         padding: 10px 0 !important;
                     }
                     .review-slider-container .px-2 {
-                        padding-left: 8px !important;
-                        padding-right: 8px !important;
+                        padding-left: 10px !important;
+                        padding-right: 10px !important;
                     }
                 }
             `}</style>
