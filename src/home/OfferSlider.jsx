@@ -20,7 +20,7 @@ export default function OfferSlider() {
 
     const settings = {
         dots: true,
-        infinite: offerProducts.length > 3,
+        infinite: true,
         speed: 800,
         slidesToShow: 3,
         slidesToScroll: 1,
@@ -30,6 +30,13 @@ export default function OfferSlider() {
         pauseOnHover: true,
         dotsClass: "slick-dots custom-dots",
         responsive: [
+            {
+                breakpoint: 1280,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                }
+            },
             {
                 breakpoint: 1024,
                 settings: {
@@ -44,6 +51,15 @@ export default function OfferSlider() {
                     slidesToScroll: 1,
                     centerMode: true,
                     centerPadding: "20px",
+                }
+            },
+            {
+                breakpoint: 640,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    centerMode: false,
+                    padding: "10px"
                 }
             }
         ]
@@ -139,6 +155,12 @@ export default function OfferSlider() {
                 .offer-slider-container .slick-list {
                     overflow: visible !important;
                     padding: 20px 0;
+                }
+                @media (max-width: 1024px) {
+                    .offer-slider-container .slick-list {
+                         overflow: hidden !important;
+                         padding: 20px 0;
+                    }
                 }
                 @media (max-width: 768px) {
                     .offer-slider-container .slick-list {
