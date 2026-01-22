@@ -48,7 +48,7 @@ function HomePage2() {
   ];
 
   return (
-    <section className="bg-black py-4 md:py-12 px-4 md:px-6 relative overflow-hidden">
+    <section className="bg-black py-12 md:py-20 px-4 md:px-6 relative overflow-hidden mb-8 md:mb-0">
       {/* Decorative background elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[var(--color-primary)]/5 blur-[120px] rounded-full" />

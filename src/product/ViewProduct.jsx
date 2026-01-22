@@ -93,6 +93,10 @@ export default function ViewProduct() {
   });
 
   const addToCart = async (item) => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
     try {
       await addToCartMutation.mutateAsync({
         ...item,

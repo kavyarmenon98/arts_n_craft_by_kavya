@@ -160,7 +160,13 @@ function ProductCard({ details }) {
                   <button
                     className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[var(--color-primary)] text-white font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-lg shadow-[var(--color-primary)]/10 disabled:opacity-70 disabled:cursor-not-allowed"
                     disabled={addToCartMutation.isPending}
-                    onClick={() => addToCartMutation.mutate(item)}
+                    onClick={() => {
+                      if (!user) {
+                        navigate("/login");
+                        return;
+                      }
+                      addToCartMutation.mutate(item);
+                    }}
                   >
                     {addToCartMutation.isPending ? (
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
