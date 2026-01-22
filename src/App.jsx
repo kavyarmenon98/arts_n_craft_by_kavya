@@ -17,6 +17,7 @@ import AdminReviews from './admin/AdminReviews';
 import MyOrders from './common/MyOrder';
 import OfferProductPage from './home/OfferProductPage';
 import AboutMe from './home/AboutMe';
+import MobileFooter from './common/MobileFooter';
 
 function App() {
 
@@ -55,7 +56,8 @@ function App() {
       <div className="bg-black text-white min-h-screen">
         <Router>
           <Nav />
-          <main className="pt-20">
+          <MobileFooter />
+          <main className="pt-20 pb-28 md:pb-0">
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Home />} />

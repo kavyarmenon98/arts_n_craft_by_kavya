@@ -5,6 +5,8 @@ import HomePage3 from "./HomePage3"
 import BrandStory from "./BrandStory"
 import BulkGifting from "./BulkGifting"
 import Review from "./Review"
+import HomeAbout from "./HomeAbout"
+import OfferSlider from "./OfferSlider"
 
 function Home() {
     return (
@@ -12,7 +14,10 @@ function Home() {
             <WhatsAppButton />
             <HomePage1 />
             <HomePage3 />
+            <HomeAbout />
             <BulkGifting />
+            <OfferSlider />
+
             <HomePage2 />
             <Review />
             <BrandStory />

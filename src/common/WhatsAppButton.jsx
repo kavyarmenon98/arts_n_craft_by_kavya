@@ -31,7 +31,7 @@ const WhatsAppButton = ({
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
-      className={`fixed bottom-8 z-[9999] w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-shadow hover:shadow-green-500/20 group ${position === "right" ? "right-8" : "left-8"
+      className={`fixed z-[9999] w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all hover:shadow-green-500/20 group bottom-24 md:bottom-8 ${position === "right" ? "right-5 md:right-8" : "left-5 md:left-8"
         } ${showOnMobileOnly ? "hidden md:hidden lg:hidden flex" : "flex"}`}
       style={{ backgroundColor: themeColor }}
       onClick={handleClick}

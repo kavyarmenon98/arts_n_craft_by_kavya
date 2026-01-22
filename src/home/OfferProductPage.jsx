@@ -22,7 +22,7 @@ export default function OfferProductPage() {
   }
 
   const offerProducts =
-    data?.readproduct?.filter((product) => product.discountPercentage > 15) || [];
+    data?.readproduct?.filter((product) => product.discountPercentage > 25) || [];
 
   if (offerProducts.length === 0) {
     return (
@@ -51,18 +51,18 @@ export default function OfferProductPage() {
           <div className="h-1 w-20 bg-[var(--color-primary)] mt-6 rounded-full" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {offerProducts.map((product, idx) => (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
               key={product._id}
-              className="group relative bg-[#0f1219] border border-white/5 rounded-3xl overflow-hidden hover:border-white/10 transition-all duration-500 cursor-pointer shadow-2xl"
+              className="group relative bg-[#0f1219]/80 backdrop-blur-md border border-white/5 rounded-3xl overflow-hidden hover:border-[var(--color-primary)]/30 transition-all duration-500 cursor-pointer shadow-2xl"
               onClick={() => navigate(`/viewProduct/${product._id}`)}
             >
               {/* Image */}
-              <div className="aspect-[4/5] overflow-hidden">
+              <div className="aspect-[4/5] sm:aspect-[3/4] overflow-hidden relative">
                 <img
                   src={product.images?.[0] || product.image}
                   alt={product.pname}

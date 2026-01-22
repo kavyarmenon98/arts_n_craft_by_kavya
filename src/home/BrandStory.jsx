@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FiUsers, FiStar, FiTruck, FiBox, FiGlobe, FiAward, FiGift, FiEdit3, FiSun, FiCheckCircle, FiInfo } from "react-icons/fi";
+import { FiUsers, FiStar, FiTruck, FiBox, FiGlobe, FiAward, FiGift, FiEdit3, FiSun, FiCheckCircle, FiInfo, FiInstagram, FiFacebook, FiMessageCircle } from "react-icons/fi";
 
 const artisanalPledges = [
     {
@@ -10,13 +10,8 @@ const artisanalPledges = [
     },
     {
         icon: <FiEdit3 />,
-        title: "100% Hand-Painted",
-        description: "Every masterpiece is created with precision and care—no machines, no printing, just pure artisanal soul.",
-    },
-    {
-        icon: <FiSun />,
-        title: "Fade-Resistant Colors",
-        description: "We use high-grade, durable pigments that maintain their vibrancy for decades, resisting the test of time.",
+        title: "100% Hand-Painted & Fade-Resistant Colors",
+        description: "Every masterpiece is created with precision and care—no machines, no printing, just pure artisanal soul.We use high-grade, durable pigments that maintain their vibrancy for decades",
     },
     {
         icon: <FiInfo />,
@@ -39,7 +34,7 @@ const metrics = [
 
 export default function BrandStory() {
     return (
-        <section className="bg-black py-8 md:py-12 px-4 md:px-6 relative overflow-hidden">
+        <section className="bg-black py-12 md:py-20 px-4 md:px-6 relative overflow-hidden">
             {/* Background Aesthetic */}
             <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[var(--color-primary)]/5 blur-[150px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[var(--color-primary)]/5 blur-[120px] rounded-full pointer-events-none" />
@@ -139,7 +134,39 @@ export default function BrandStory() {
                     </div>
                 </div>
 
-                <div className="text-center mt-16 pt-10 border-t border-white/5">
+                <div className="flex flex-col items-center mt-16 pt-10 border-t border-white/5 gap-8">
+                    <div className="flex flex-col items-center gap-6">
+                        <h4 className="text-white font-serif text-2xl">Follow us:</h4>
+                        <div className="flex gap-4">
+                            <a
+                                href="https://www.facebook.com/kavyarmenon.kavyarmenon/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-[#1877F2] hover:border-[#1877F2] transition-all duration-300 shadow-lg"
+                                title="Facebook"
+                            >
+                                <FiFacebook size={18} />
+                            </a>
+                            <a
+                                href="https://www.instagram.com/arts_n_crafts_by_kavya/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] hover:border-transparent transition-all duration-300 shadow-lg"
+                                title="Instagram"
+                            >
+                                <FiInstagram size={18} />
+                            </a>
+                            <a
+                                href="https://wa.me/919037009645"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-[#25D366] hover:border-[#25D366] transition-all duration-300 shadow-lg"
+                                title="WhatsApp"
+                            >
+                                <FiMessageCircle size={18} />
+                            </a>
+                        </div>
+                    </div>
                     <p className="text-gray-600 text-[10px] font-black uppercase tracking-[0.5em]">
                         Arts & Crafts By Kavya ⋅ Focused on Artisanal Excellence
                     </p>

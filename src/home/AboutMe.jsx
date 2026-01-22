@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FiMapPin, FiAward, FiStar, FiHeart, FiCode, FiCornerDownRight, FiInstagram, FiMessageCircle, FiEdit3 } from "react-icons/fi";
+import { FiMapPin, FiAward, FiStar, FiHeart, FiCode, FiCornerDownRight, FiInstagram, FiMessageCircle, FiEdit3, FiFacebook } from "react-icons/fi";
 
 // Import profile image properly for production
 import myPic1 from "../assets/myPic1.jpg";
@@ -69,25 +69,36 @@ export default function AboutMe() {
                                 </div>
                             </div>
 
-                            <div className="flex flex-wrap gap-4 pt-6">
-                                <a
-                                    href="https://www.instagram.com/arts_n_crafts_by_kavya/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white text-[11px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-pink-500/10 active:scale-95 group"
-                                >
-                                    <FiInstagram size={18} className="group-hover:rotate-12 transition-transform" />
-                                    Instagram
-                                </a>
-                                <a
-                                    href="https://wa.me/919037009645"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-[#25D366] text-white text-[11px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-green-500/10 active:scale-95 group"
-                                >
-                                    <FiMessageCircle size={18} className="group-hover:rotate-12 transition-transform" />
-                                    WhatsApp
-                                </a>
+                            <div className="flex flex-col items-center gap-6">
+                                <div className="flex gap-4">
+                                    <a
+                                        href="https://www.facebook.com/kavyarmenon.kavyarmenon/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-[#1877F2] hover:border-[#1877F2] transition-all duration-300 shadow-lg"
+                                        title="Facebook"
+                                    >
+                                        <FiFacebook size={18} />
+                                    </a>
+                                    <a
+                                        href="https://www.instagram.com/arts_n_crafts_by_kavya/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] hover:border-transparent transition-all duration-300 shadow-lg"
+                                        title="Instagram"
+                                    >
+                                        <FiInstagram size={18} />
+                                    </a>
+                                    <a
+                                        href="https://wa.me/919037009645"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-[#25D366] hover:border-[#25D366] transition-all duration-300 shadow-lg"
+                                        title="WhatsApp"
+                                    >
+                                        <FiMessageCircle size={18} />
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
