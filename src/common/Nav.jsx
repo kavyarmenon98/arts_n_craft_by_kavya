@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useQueryClient } from "@tanstack/react-query";
 
 // Import logo properly for production
-import logo3 from "../assets/logo3.png";
+import logo3 from "../assets/logo/main_logo.jpeg";
 
 function Nav() {
   const { user } = useSelector((state) => state.auth);
@@ -82,7 +82,7 @@ function Nav() {
           <img
             src={logo3}
             alt="Logo"
-            className="h-10 md:h-12 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-[0_0_8px_rgba(0,161,209,0.4)]"
+            className="h-9 md:h-14 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-[0_0_8px_rgba(0,161,209,0.4)]"
           />
         </Link>
 
