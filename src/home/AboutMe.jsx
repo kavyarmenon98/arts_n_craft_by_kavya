@@ -6,6 +6,7 @@ import myPic1 from "../assets/myPic1.jpg";
 // Import India Book of Records images
 import me1 from "../assets/me1.jpg";
 import me2 from "../assets/me3.jpg";
+import logo2 from "../assets/logo/main_logo.jpeg";
 
 export default function AboutMe() {
     return (
@@ -259,6 +260,7 @@ export default function AboutMe() {
                 </div>
 
                 {/* Closing - Perfectly aligned */}
+          
                 <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
@@ -268,11 +270,29 @@ export default function AboutMe() {
                     <p className="text-xl font-serif text-white/80 leading-relaxed mb-10 italic">
                         "Each piece is carefully handcrafted to tell a story. Whether you're looking for a meaningful gift, a traditional art form, or a personalized creation, I'm happy to bring your ideas to life."
                     </p>
-                    <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/20">
+                 
+                </motion.div>
+                  <div className="flex flex-col items-center text-center mb-5 md:mb-20">
+
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                    className="relative"
+                >
+                    <img
+                        src={logo2}
+                        alt="Kavya Arts"
+                        className="w-80 mb-5 drop-shadow-[0_0_40px_rgba(0,161,209,0.3)]"
+                    />
+                    <div className="absolute inset-0 bg-[var(--color-primary)]/10 blur-3xl rounded-full scale-150 -z-10" />
+                </motion.div>
+                   <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/20">
                         <FiMapPin className="text-[var(--color-primary)] text-sm" />
                         <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-primary)]">Edappal, Malappuram - Kerala</span>
                     </div>
-                </motion.div>
+            </div>
             </div>
         </div>
     );

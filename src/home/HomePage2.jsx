@@ -1,7 +1,7 @@
-import Slider from "react-slick";
 import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import ProductImageGallery from "../common/ProductImageGallery";
 
 // Import all images properly for production
 import logo2 from "../assets/logo2.png";
@@ -19,18 +19,6 @@ import nettippatam4 from "../assets/nettippatam5.jpg";
 
 function HomePage2() {
   const navigate = useNavigate();
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 1200,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    arrows: false,
-    fade: true,
-    dotsClass: "slick-dots custom-dots-bottom",
-  };
 
   const data = [
     {
@@ -38,12 +26,14 @@ function HomePage2() {
       subtitle: "A Timeless Heritage",
       description: "Step into a world of celestial beauty with Kerala's iconic mural art. Rooted in the 7th century, these masterpieces capture the essence of temple antiquity through vibrant hues and intricate detailing. Heavily influenced by Pallava aesthetics and perfected over generations, each stroke tells a legendary story of divinity and grace, bringing a sacred elegance to any space.",
       image: [image2, image4, image13],
+      category: "Painting"
     },
     {
       title: "Traditional Nettipattam",
       subtitle: "The Golden Elephant Caparison",
       description: "Embrace the symbol of prosperity and grand heritage with the Traditional Nettipattam. Meticulously crafted from copper and gold-plated spheres, this 'elephants' forehead ornament' is a testament to Kerala's regal festivities. Whether as a housewarming gift or a statement piece for your living room, it brings the grandeur of the temple festivals right into your modern home.",
       image: [image5, nettipattam3],
+      category: "Nettipattam"
     },
   ];
 
@@ -56,8 +46,6 @@ function HomePage2() {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-
-
         {/* Featured Stories - Side by Side Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12 md:mt-16">
           {data.map((item, idx) => (
@@ -71,36 +59,29 @@ function HomePage2() {
             >
               {/* Image side - Optimized for Artworks */}
               <div className="w-full h-[420px] md:h-[520px] overflow-hidden relative bg-neutral-900/40 p-4">
-                <Slider {...settings} className="h-full">
-                  {item.image.map((src, index) => (
-                    <div key={index} className="h-full outline-none relative flex items-center justify-center">
-                      <img
-                        src={src}
-                        alt={item.title}
-                        className="w-auto h-full max-w-full object-contain transition-all duration-700 drop-shadow-[0_10px_30px_rgba(0,0,0,0.4)] rounded-xl"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
-                    </div>
-                  ))}
-                </Slider>
+                <ProductImageGallery
+                  images={item.image}
+                  category={item.category}
+                  styleForImage={{ borderRadius: '16px' }}
+                />
 
                 {/* Floating Label */}
-                <div className="absolute top-4 left-4 md:top-6 md:left-6 z-20">
-                  <span className="px-3 py-1 md:px-4 md:py-1 bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-[var(--color-primary)] text-[10px] uppercase tracking-widest font-bold">
-                    Featured
+                <div className="absolute top-6 left-6 z-30">
+                  <span className="px-4 py-1.5 bg-black/60 backdrop-blur-md border border-white/10 rounded-full text-[var(--color-primary)] text-[10px] uppercase tracking-widest font-bold shadow-xl">
+                    Featured Collection
                   </span>
                 </div>
               </div>
 
               {/* Content side - Enhanced typography and spacing */}
-              <div className="p-6 md:p-8 flex flex-col flex-1">
-                <span className="text-[var(--color-primary)] font-bold text-[10px] uppercase tracking-[0.4em] mb-2 block">
+              <div className="p-6 md:p-10 flex flex-col flex-1">
+                <span className="text-[var(--color-primary)] font-bold text-[10px] uppercase tracking-[0.4em] mb-3 block">
                   {item.subtitle}
                 </span>
-                <h3 className="text-2xl md:text-3xl font-serif text-white mb-3 tracking-tight leading-tight group-hover:text-[var(--color-primary)] transition-colors duration-500">
+                <h3 className="text-3xl md:text-4xl font-serif text-white mb-4 tracking-tight leading-tight group-hover:text-[var(--color-primary)] transition-colors duration-500">
                   {item.title}
                 </h3>
-                <p className="text-gray-400 text-sm leading-relaxed font-light mb-6 border-l-2 border-[var(--color-primary)]/20 pl-5 italic opacity-80 flex-1 line-clamp-4">
+                <p className="text-gray-400 text-sm md:text-base leading-relaxed font-light mb-8 border-l-2 border-[var(--color-primary)]/20 pl-6 italic opacity-80 flex-1 line-clamp-5">
                   {item.description}
                 </p>
 
@@ -108,11 +89,11 @@ function HomePage2() {
                   <motion.button
                     onClick={() => navigate("/listProduct")}
                     whileHover={{ x: 10 }}
-                    className="flex items-center gap-4 text-white hover:text-[var(--color-primary)] transition-all group/btn"
+                    className="flex items-center gap-5 text-white hover:text-[var(--color-primary)] transition-all group/btn"
                   >
-                    <span className="text-[10px] font-black uppercase tracking-[0.3em]">Explore Collection</span>
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full border border-white/10 group-hover/btn:border-[var(--color-primary)] group-hover/btn:bg-[var(--color-primary)] group-hover/btn:text-black transition-all">
-                      <FiArrowRight className="text-sm" />
+                    <span className="text-[11px] font-black uppercase tracking-[0.3em]">Explore Full Collection</span>
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 group-hover/btn:border-[var(--color-primary)] group-hover/btn:bg-[var(--color-primary)] group-hover/btn:text-black transition-all shadow-lg">
+                      <FiArrowRight className="text-lg" />
                     </div>
                   </motion.button>
                 </div>
@@ -121,21 +102,6 @@ function HomePage2() {
           ))}
         </div>
       </div>
-
-      <style jsx="true">{`
-        .custom-dots-bottom {
-          bottom: 25px !important;
-        }
-        .custom-dots-bottom li button:before {
-          color: white !important;
-          font-size: 6px !important;
-          opacity: 0.3 !important;
-        }
-        .custom-dots-bottom li.slick-active button:before {
-          color: var(--color-primary) !important;
-          opacity: 1 !important;
-        }
-      `}</style>
     </section>
   );
 }

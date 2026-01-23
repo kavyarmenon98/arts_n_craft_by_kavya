@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useRef } from "react";
+import { motion } from "framer-motion";
+import loaderIcon from "../assets/logo/icon_black2.png";
 
 /**
  * OptimizedImage Component
@@ -10,7 +12,7 @@ function OptimizedImage({
     alt,
     className = "",
     style = {},
-    placeholderColor = "#1a1a1a",
+    placeholderColor = "#0f1219",
     priority = false, // If true, eager load
     onLoad,
     onError
@@ -18,9 +20,6 @@ function OptimizedImage({
     const [isLoaded, setIsLoaded] = useState(false);
     const [hasError, setHasError] = useState(false);
     const containerRef = useRef(null);
-
-    // We can use framer-motion's useInView or just rely on native loading="lazy"
-    // Native is better for performance usually.
 
     const handleLoad = (e) => {
         setIsLoaded(true);
@@ -77,14 +76,27 @@ function OptimizedImage({
             {/* Placeholder / Loader */}
             {!isLoaded && (
                 <div
-                    className="absolute inset-0 z-10 animate-pulse"
+                    className="absolute inset-0 z-10 flex items-center justify-center"
                     style={{ backgroundColor: placeholderColor }}
                 >
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent" />
-                    {/* Loading spinner */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
-                    </div>
+                    <motion.div
+                        animate={{
+                            scale: [0.8, 1, 0.8],
+                            opacity: [0.3, 0.6, 0.3]
+                        }}
+                        transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                        className="w-8 h-8"
+                    >
+                        <img
+                            src={loaderIcon}
+                            alt="Loading"
+                            className="w-full h-full object-contain grayscale opacity-50"
+                        />
+                    </motion.div>
                 </div>
             )}
 

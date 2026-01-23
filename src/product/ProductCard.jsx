@@ -1,7 +1,7 @@
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { FaEye, FaShoppingCart, FaWhatsapp } from "react-icons/fa";
-import ImageSlider from "../home/ImageSlider";
+import ProductImageGallery from "../common/ProductImageGallery";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addToCartAPI, deleteProductByIdAPI } from "../services/service";
@@ -63,12 +63,10 @@ function ProductCard({ details }) {
               onClick={() => navigate(`/viewProduct/${item._id}`)}
             >
               <div className="w-full h-full overflow-hidden flex items-center justify-center p-2">
-                <ImageSlider
-                  image={item.images}
+                <ProductImageGallery
+                  images={item.images}
+                  category={item.category}
                   styleForImage={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: (item.category === "Nettipattam" || item.category === "Craft") ? "contain" : "cover",
                     borderRadius: "12px",
                   }}
                 />

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import myPic1 from "../assets/me4.jpg";
-import logo2 from "../assets/logo2.png";
+import logo2 from "../assets/logo/main_logo.jpeg";
 
 export default function HomeAbout() {
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function HomeAbout() {
                     <img
                         src={logo2}
                         alt="Kavya Arts"
-                        className="w-48 mb-12 drop-shadow-[0_0_40px_rgba(0,161,209,0.3)]"
+                        className="w-100 mb-8 drop-shadow-[0_0_40px_rgba(0,161,209,0.3)]"
                     />
                     <div className="absolute inset-0 bg-[var(--color-primary)]/10 blur-3xl rounded-full scale-150 -z-10" />
                 </motion.div>

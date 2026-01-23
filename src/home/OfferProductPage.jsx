@@ -13,13 +13,7 @@ export default function OfferProductPage() {
     queryFn: getAllProductAPI,
   });
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-[#050505] flex justify-center items-center">
-        <PageLoader />
-      </div>
-    );
-  }
+  if (isLoading) return <PageLoader />;
 
   const offerProducts =
     data?.readproduct?.filter((product) => product.discountPercentage > 25) || [];

@@ -14,11 +14,7 @@ export default function Category() {
     enabled: !!id,
   });
 
-  if (isLoading) return (
-    <div className="min-h-screen bg-[#050505] flex justify-center items-center">
-      <PageLoader />
-    </div>
-  );
+  if (isLoading) return <PageLoader />;
 
   return (
     <div className="min-h-screen bg-[#050505] pt-32 pb-20 px-4 md:px-6">

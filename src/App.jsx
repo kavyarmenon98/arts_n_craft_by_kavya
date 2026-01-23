@@ -18,6 +18,7 @@ import MyOrders from './common/MyOrder';
 import OfferProductPage from './home/OfferProductPage';
 import AboutMe from './home/AboutMe';
 import MobileFooter from './common/MobileFooter';
+import InitialSplashScreen from './common/InitialSplashScreen';
 
 function App() {
 
@@ -54,60 +55,62 @@ function App() {
         }}
       />
       <div className="bg-black text-white min-h-screen">
-        <Router>
-          <Nav />
-          <MobileFooter />
-          <main className="pt-20 pb-28 md:pb-0">
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Home />} />
+        <InitialSplashScreen>
+          <Router>
+            <Nav />
+            <MobileFooter />
+            <main className="pt-20 pb-28 md:pb-0">
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Home />} />
 
-              <Route path="/register" element={<Register />} />
+                <Route path="/register" element={<Register />} />
 
-              <Route path="/addProduct" element={
-                <ProtectedRoute role="admin">
-                  <AddProduct />
-                </ProtectedRoute>
+                <Route path="/addProduct" element={
+                  <ProtectedRoute role="admin">
+                    <AddProduct />
+                  </ProtectedRoute>
 
-              } />
-
-
-              {/* Only Admins */}
-              <Route
-                path="/home"
-                element={
-                  <Home />
-                }
-              />
-
-              <Route path="/listProduct"
-                element={
-                  // <ProtectedRoute >
-                  <ProductList />
-                  // </ProtectedRoute>
-                }
-              />
-
-              <Route path="/viewProduct/:id" element={<ViewProduct />} />
-              <Route path="/editProduct/:id" element={<ProtectedRoute role="admin"><EditProduct /></ProtectedRoute>} />
-              <Route path="/category/:id" element={<Category />} />
-              <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
-
-              <Route path="/order" element={
-                <ProtectedRoute role="admin"><OrdersList />   </ProtectedRoute>} />
-
-              <Route path="/admin/reviews" element={
-                <ProtectedRoute role="admin"><AdminReviews />   </ProtectedRoute>} />
+                } />
 
 
-              <Route path="/myorder" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
-              <Route path="/offer" element={<OfferProductPage />} />
-              <Route path="/about" element={<AboutMe />} />
+                {/* Only Admins */}
+                <Route
+                  path="/home"
+                  element={
+                    <Home />
+                  }
+                />
 
-              <Route path="/not-authorized" element={<h1>🚫 Not Authorized</h1>} />
-            </Routes>
-          </main>
-        </Router>
+                <Route path="/listProduct"
+                  element={
+                    // <ProtectedRoute >
+                    <ProductList />
+                    // </ProtectedRoute>
+                  }
+                />
+
+                <Route path="/viewProduct/:id" element={<ViewProduct />} />
+                <Route path="/editProduct/:id" element={<ProtectedRoute role="admin"><EditProduct /></ProtectedRoute>} />
+                <Route path="/category/:id" element={<Category />} />
+                <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+
+                <Route path="/order" element={
+                  <ProtectedRoute role="admin"><OrdersList />   </ProtectedRoute>} />
+
+                <Route path="/admin/reviews" element={
+                  <ProtectedRoute role="admin"><AdminReviews />   </ProtectedRoute>} />
+
+
+                <Route path="/myorder" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
+                <Route path="/offer" element={<OfferProductPage />} />
+                <Route path="/about" element={<AboutMe />} />
+
+                <Route path="/not-authorized" element={<h1>🚫 Not Authorized</h1>} />
+              </Routes>
+            </main>
+          </Router>
+        </InitialSplashScreen>
       </div>
 
     </>

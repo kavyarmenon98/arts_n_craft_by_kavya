@@ -130,11 +130,7 @@ export default function ViewProduct() {
 
   const product = data?.product;
 
-  if (isLoading) return (
-    <div className="min-h-screen bg-[#050505] flex justify-center items-center">
-      <PageLoader />
-    </div>
-  );
+  if (isLoading) return <PageLoader />;
 
   return (
     <>
