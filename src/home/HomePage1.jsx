@@ -67,15 +67,7 @@ function HomePage1() {
               >
                 Personalized art pieces crafted to reflect your story and style.
               </motion.p>
-              <motion.button
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.9 }}
-                onClick={() => navigate("/listProduct")}
-                className="px-10 py-4 bg-[var(--color-primary)] text-black font-black uppercase tracking-[0.2em] rounded-full shadow-2xl shadow-[var(--color-primary)]/20 hover:opacity-90 transition-all active:scale-95"
-              >
-                Explore Gallery
-              </motion.button>
+             
             </div>
           </div>
         ))}
